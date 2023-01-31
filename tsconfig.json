@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "module": "es2022",
+    "moduleResolution": "node",
+    "target": "es2022",
+    "allowJs": true
+  },
+  "files": ["src/index.ts"],
+  "include": ["src"]
+}
