@@ -1,10 +1,9 @@
+export default class Home {
+  home: HTMLElement;
 
-export default class Home{
-  main: HTMLElement;
-
-  constructor(){
-    this.main = document.createElement('section');
-    this.main.classList.add('home')
+  constructor() {
+    this.home = document.createElement('section');
+    const input = document.createElement('input');
 
   }
 }
