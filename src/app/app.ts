@@ -1,15 +1,15 @@
-import Home from "./pages/home/home";
+import StartPage from "./pages/startPage/startPage";
 
 export default class App{
-  home:Home;
   body:HTMLElement;
+  startPage: StartPage;
   constructor(){
-    this.home = new Home();
     this.body = document.body;
-    this.body.append(this.home.main);
+    this.startPage = new StartPage();
   }
 
   start(){
+    this.body.append(this.startPage.container);
   }
 
 }

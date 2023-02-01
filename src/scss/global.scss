@@ -1,1 +1,9 @@
-@import './page/home.scss'
+// abstracts
+@import './abstracts/constants';
+@import './abstracts/mixins';
+
+// base
+@import './base/base.scss';
+
+// pages
+@import './page/startPage.scss';
