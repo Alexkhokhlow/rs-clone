@@ -3,7 +3,6 @@ export default class Home {
 
   constructor() {
     this.home = document.createElement('section');
-    const input = document.createElement('input');
 
   }
 }
