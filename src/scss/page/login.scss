@@ -1,0 +1,43 @@
+.login__page {
+    @include flex;
+    flex-direction: column;
+    position: relative;
+    background-color: $color-loginPage-bg;
+    font-family: 'Segoe UI', 'Roboto' ,'Oxygen','Ubuntu',sans-serif;
+    position: relative;
+    min-height: 100vh;
+    font-size: 14px;
+}
+
+
+.login__logo {
+    display: block;
+    height: 43px;
+    margin: 40px auto;
+}
+
+.bg__img {
+    z-index: -999;
+    position: fixed;
+    bottom: 0;
+    max-width: 30%;
+    width: 400px;
+
+}
+
+.bg_left {
+    left: 0;
+}
+
+.bg_right {
+    right: 0;
+}
+
+.form__conteiner {
+    background-color: $color-background;
+    border-radius: 3px;
+    padding: 25px 40px;
+    box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}

@@ -20,6 +20,7 @@ export default class App {
   }
 
   openPage() {
+    console.log('fsdfsd');
     const path = window.location.pathname;
     const routes = [/home/g, /login/g, /user\/([\w]+?)\b/g];
     let flag = true;
