@@ -1,32 +1,21 @@
-import Home from './pages/home/home';
+import StartPage from './pages/startPage/startPage';
 import Login from './pages/login/login';
 import User from './pages/user/user';
 
 export default class App {
-  home: Home;
-  login: Login;
   body: HTMLElement;
+
+  startPage: StartPage;
+
+  login: Login;
+
   user: User;
 
-  constructor() {
-    this.home = new Home();
+  constructor(){
+    this.body = document.body;
+    this.startPage = new StartPage();
     this.login = new Login();
     this.user = new User();
-    this.body = document.body;
-    //  const data = JSON.stringify({ email: 'ssfcs@gmail.com', password: 'dasdas', userName: 'sdvfnf' });
-    //   fetch('http://localhost:8081/api/users/signup', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: data,
-    //     credentials:'same-origin'
-    //   })
-    //     .then((response) => {
-    //       return response.text();
-    //     })
-    //     .then((text: string) => console.log(text))
-    //     .catch((err: Error) => console.error(err));
   }
 
   start() {
@@ -42,7 +31,7 @@ export default class App {
       if (match) {
         flag = false;
         if (match[0].includes('home')) {
-          this.body.append(this.home.home);
+          this.body.append(this.startPage.append());
           return;
         }
         if (match[0].includes('login')) {
@@ -58,7 +47,7 @@ export default class App {
     });
     if (flag) {
       if (path === '/') {
-        this.body.append(this.home.home);
+        window.location.href = 'home';
       } else {
         this.body.innerHTML = 'error';
       }
