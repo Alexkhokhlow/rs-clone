@@ -13,10 +13,23 @@ export default class App {
     this.login = new Login();
     this.user = new User();
     this.body = document.body;
+   // const data = JSON.stringify({ email: 'ssfcs@gmail.com', password: 'dasdas', userName: 'sdvfnf' });
+    // fetch('http://localhost:8081/api/users/signup', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: data,
+    //   credentials:'same-origin'
+    // })
+    //   .then((response) => {
+    //     return response.text();
+    //   })
+    //   .then((text: string) => console.log(text))
+    //   .catch((err: Error) => console.error(err));
   }
 
   start() {
-    this.openPage();
   }
 
   openPage() {
@@ -36,6 +49,7 @@ export default class App {
           return;
         }
         if (match[0].includes('user')) {
+          this.user.init(match[0]);
           this.body.append(this.user.user);
           return;
         }
