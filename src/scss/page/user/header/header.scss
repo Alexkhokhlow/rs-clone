@@ -1,0 +1,21 @@
+.header {
+  background-color: #026aa7;
+  color: white;
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown-button {
+    font-size: 14px;
+    background-color: #026aa7;
+    border: none;
+
+    &:hover{
+      background-color: rgba(255, 255, 255, 0.3)
+    }
+  }
+
+
+}
