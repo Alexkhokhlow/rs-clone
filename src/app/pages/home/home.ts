@@ -3,6 +3,6 @@ export default class Home {
 
   constructor() {
     this.home = document.createElement('section');
-    this.home.classList.add('dsa');
+    this.home.classList.add('asd');
   }
 }
