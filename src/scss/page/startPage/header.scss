@@ -36,16 +36,16 @@
 
 .logo__start {
   display: block;
-  padding: 1rem;
+  padding: 0 1rem;
   width: 35%;
 }
 
 .logo__img {
-  height: 2.5rem;
+  height: 3.5rem;
   vertical-align: middle;
 
-  @media (max-width: 390px) {
-    height: 1.8rem;
+  @media (max-width: 890px) {
+    height: 2.5rem;
   }
 }
 
