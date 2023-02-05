@@ -1,15 +1,16 @@
-import StartPage from "./pages/startPage/startPage";
+import StartPage from './pages/startPage/startPage';
 
-export default class App{
-  body:HTMLElement;
+export default class App {
+  body: HTMLElement;
+
   startPage: StartPage;
-  constructor(){
+
+  constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
   }
 
-  start(){
+  start() {
     this.body.append(this.startPage.container);
   }
-
 }

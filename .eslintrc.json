@@ -27,6 +27,7 @@
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/no-explicit-any": "error",
     "no-param-reassign": 0,
+    "global-require": 0,
     "@typescript-eslint/no-misused-promises": [
       "error",
       {

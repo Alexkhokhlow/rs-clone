@@ -1,16 +1,25 @@
-import Common from '../../utils/common';
-const logo = require('../../../assets/startPage/svg/logo.svg');
+import Common from '../../../utils/common';
+
+const logo = require('../../../../assets/startPage/svg/logo.svg') as string;
 
 export default class StartPageHeader {
-  header: HTMLElement;
-  logo: HTMLAnchorElement;
-  logoImg: HTMLImageElement;
-  links: HTMLElement;
-  logIn: HTMLAnchorElement;
-  trelloFree: HTMLAnchorElement;
-  
+  public header: HTMLElement;
+
+  private wrapper: HTMLElement;
+
+  public logo: HTMLAnchorElement;
+
+  private logoImg: HTMLImageElement;
+
+  public links: HTMLElement;
+
+  private logIn: HTMLAnchorElement;
+
+  private trelloFree: HTMLAnchorElement;
+
   constructor() {
     this.header = Common.createDomNode('header', ['header']);
+    this.wrapper = Common.createDomNode('div', ['wrapper', 'header__wrapper']);
     this.logo = Common.createDomNodeLink(['logo', 'logo__start'], 'home');
     this.logoImg = Common.createDomNodeImg(['logo__img'], logo);
     this.links = Common.createDomNode('div', ['links']);
@@ -22,6 +31,7 @@ export default class StartPageHeader {
   private append() {
     this.logo.append(this.logoImg);
     this.links.append(this.logIn, this.trelloFree);
-    this.header.append(this.logo, this.links);
+    this.wrapper.append(this.logo, this.links);
+    this.header.append(this.wrapper);
   }
 }

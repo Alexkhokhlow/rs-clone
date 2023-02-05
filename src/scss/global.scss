@@ -5,5 +5,12 @@
 // base
 @import './base/base.scss';
 
-// pages
-@import './page/startPage.scss';
+// Start page
+@import './page/startPage/startPage.scss';
+@import './page/startPage/header.scss';
+@import './page/startPage/signup.scss';
+@import './page/startPage/powerhouse.scss';
+@import './page/startPage/action.scss';
+@import './page/startPage/using.scss';
+@import './page/startPage/more.scss';
+@import './page/startPage/start.scss';

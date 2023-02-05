@@ -9,5 +9,5 @@
     "allowJs": true
   },
   "files": ["src/index.ts"],
-  "include": ["src"]
+  "include": ["src", "src/module.d.ts"]
 }

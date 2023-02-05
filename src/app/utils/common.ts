@@ -13,7 +13,7 @@ export default class Common {
     const node = document.createElement('a');
     node.classList.add(...classes);
     node.setAttribute('href', attr);
-    if(text) {
+    if (text) {
       node.innerText = text;
     }
 
@@ -28,12 +28,15 @@ export default class Common {
     return node;
   }
 
-  public static createDomNodeInput(placeholder: string, id: string, classes: string[]) {
+  public static createDomNodeInput(placeholder: string, id: string, classes: string[], type?: string) {
     const node = document.createElement('input');
     node.placeholder = placeholder;
     node.id = id;
     node.classList.add(...classes);
-  
+    if (type) {
+      node.type = type;
+    }
+
     return node;
   }
 
@@ -50,7 +53,7 @@ export default class Common {
     const node = document.createElement('button');
     node.classList.add(...classes);
     node.innerText = text;
-    if(type) {
+    if (type) {
       node.type = type;
     }
 
