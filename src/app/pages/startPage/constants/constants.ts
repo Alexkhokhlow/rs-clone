@@ -91,4 +91,6 @@ const actions = [
   }
 ]
 
-export {articles, cardsDescription, actions};
+const github = ['https://github.com/MariDash', 'https://github.com/alexkhokhlow', 'https://github.com/janaahurtsova'];
+
+export {articles, cardsDescription, actions, github};

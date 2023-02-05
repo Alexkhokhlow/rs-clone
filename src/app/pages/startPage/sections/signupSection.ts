@@ -11,9 +11,9 @@ export default class SignupSection {
 
   private subtitle: HTMLElement;
 
-  public form: HTMLFormElement;
+  private form: HTMLFormElement;
 
-  private email: HTMLInputElement;
+  public email: HTMLInputElement;
 
   public submit: HTMLButtonElement;
 
@@ -34,7 +34,7 @@ export default class SignupSection {
       "Keep everything in the same place — even if your team isn't."
     );
     this.form = Common.createDomNode('form', ['signup__form']) as HTMLFormElement;
-    this.form.action = '/';
+    this.form.action = '/signup';
     this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], 'email');
     this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], "Sign up - it's free!", 'submit');
     this.image = Common.createDomNode('div', ['signup__image']);

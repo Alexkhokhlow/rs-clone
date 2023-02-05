@@ -6,6 +6,7 @@ import Powerhouse from './sections/powerhouse';
 import SignupSection from './sections/signupSection';
 import Using from './sections/using';
 import Start from './sections/start';
+import StartPageFooter from './sections/footer';
 
 export default class StartPage {
   public container: HTMLElement;
@@ -24,6 +25,8 @@ export default class StartPage {
 
   public start: Start;
 
+  private footer: StartPageFooter;
+
   constructor() {
     this.container = Common.createDomNode('div', ['page', 'page__start']);
     this.header = new StartPageHeader();
@@ -33,6 +36,7 @@ export default class StartPage {
     this.using = new Using();
     this.more = new More();
     this.start = new Start();
+    this.footer = new StartPageFooter();
   }
 
   public append() {
@@ -43,7 +47,8 @@ export default class StartPage {
       this.action.append(),
       this.more.append(),
       this.using.append(),
-      this.start.append()
+      this.start.append(),
+      this.footer.append()
     );
 
     return this.container;

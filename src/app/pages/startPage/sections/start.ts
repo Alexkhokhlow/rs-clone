@@ -22,7 +22,7 @@ export default class Start {
       'Get started with Trello today'
     );
     this.form = Common.createDomNode('form', ['start__form']) as HTMLFormElement;
-    this.form.action = '/';
+    this.form.action = '/signup';
     this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], 'email');
     this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!", 'submit');
   }
@@ -34,4 +34,5 @@ export default class Start {
 
     return this.section;
   }
+
 }

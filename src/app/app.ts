@@ -18,7 +18,7 @@ export default class App {
     this.user = new User();
   }
 
-  start()  {
+  start() {
     this.openPage();
   }
 
@@ -47,7 +47,7 @@ export default class App {
     });
     if (flag) {
       if (path === '/') {
-        this.body.append(this.startPage.append());
+        window.location.href = 'home';
       } else {
         this.body.innerHTML = 'error';
       }
