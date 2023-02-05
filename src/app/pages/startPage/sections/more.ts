@@ -28,8 +28,6 @@ export default class More {
       "Trello's intuitive features give any team the ability to quickly set up and customize workflows for just about anything."
     );
     this.featuresWrapper = Common.createDomNode('div', ['features']);
-    this.createFeatures();
-    this.append();
   }
 
   private createFeatures() {
@@ -44,9 +42,12 @@ export default class More {
     });
   }
 
-  private append() {
+  public append() {
+    this.createFeatures();
     this.container.append(this.subtitle, this.title, this.description);
     this.wrapper.append(this.container, this.featuresWrapper);
     this.section.append(this.wrapper);
+
+    return this.section;
   }
 }

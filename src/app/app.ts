@@ -11,6 +11,6 @@ export default class App {
   }
 
   start() {
-    this.body.append(this.startPage.container);
+    this.body.append(this.startPage.append());
   }
 }

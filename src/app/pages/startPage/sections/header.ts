@@ -25,13 +25,14 @@ export default class StartPageHeader {
     this.links = Common.createDomNode('div', ['links']);
     this.logIn = Common.createDomNodeLink(['login', 'login__start'], 'login', 'Log In');
     this.trelloFree = Common.createDomNodeLink(['signup__header'], 'signup', 'Get Trello for free');
-    this.append();
   }
 
-  private append() {
+  public append() {
     this.logo.append(this.logoImg);
     this.links.append(this.logIn, this.trelloFree);
     this.wrapper.append(this.logo, this.links);
     this.header.append(this.wrapper);
+
+    return this.header;
   }
 }

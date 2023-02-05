@@ -38,13 +38,14 @@ export default class SignupSection {
     this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], 'email');
     this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], "Sign up - it's free!", 'submit');
     this.image = Common.createDomNode('div', ['signup__image']);
-    this.append();
   }
 
-  private append() {
+  public append() {
     this.form.append(this.email, this.submit);
     this.textContainer.append(this.title, this.subtitle, this.form);
     this.wrapper.append(this.textContainer, this.image);
     this.section.append(this.wrapper);
+
+    return this.section;
   }
 }

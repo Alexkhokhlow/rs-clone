@@ -40,8 +40,6 @@ export default class Powerhouse {
     this.cardsWrapper = Common.createDomNode('div', ['cards__wrapper', 'swiper-pagination']);
     this.imagesWrapper = Common.createDomNode('div', ['images__wrapper', 'swiper-wrapper']);
     this.swiperScrollBar = Common.createDomNode('div', ['swiper-scrollbar']);
-    this.createSlider();
-    this.append();
   }
 
   private createSlider() {
@@ -63,11 +61,14 @@ export default class Powerhouse {
     return arr;
   }
 
-  private append() {
+  public append() {
+    this.createSlider();
     this.swiper.append(this.imagesWrapper);
     this.container.append(this.subtitle, this.title, this.description);
     this.swiperWrapper.append(this.cardsWrapper, this.swiper, this.swiperScrollBar,);
     this.wrapper.append(this.container, this.swiperWrapper);
     this.section.append(this.wrapper);
+
+    return this.section;
   }
 }

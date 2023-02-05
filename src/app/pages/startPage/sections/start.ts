@@ -25,12 +25,13 @@ export default class Start {
     this.form.action = '/';
     this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], 'email');
     this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!", 'submit');
-    this.append();
   }
 
-  private append() {
+  public append() {
     this.form.append(this.email, this.submit)
     this.wrapper.append(this.title, this.form);
     this.section.append(this.wrapper);
+
+    return this.section;
   }
 }

@@ -33,18 +33,19 @@ export default class StartPage {
     this.using = new Using();
     this.more = new More();
     this.start = new Start();
-    this.append();
   }
 
-  private append() {
+  public append() {
     this.container.append(
-      this.header.header,
-      this.signupSection.section,
-      this.powerhouse.section,
-      this.action.section,
-      this.more.section,
-      this.using.section,
-      this.start.section
+      this.header.append(),
+      this.signupSection.append(),
+      this.powerhouse.append(),
+      this.action.append(),
+      this.more.append(),
+      this.using.append(),
+      this.start.append()
     );
+
+    return this.container;
   }
 }

@@ -18,11 +18,12 @@ export default class Using {
       'Join over 2,000,000 teams worldwide that are using Trello to get more done.'
     );
     this.img = Common.createDomNode('div', ['using__img']);
-    this.append();
   }
 
-  private append() {
+  public append() {
     this.wrapper.append(this.text, this.img);
     this.section.append(this.wrapper);
+
+    return this.section;
   }
 }

@@ -25,13 +25,14 @@ export default class Action {
     this.swiperWrapper = Common.createDomNode('div', ['swiper-wrapper']);
     this.swiperPagination = Common.createDomNode('div', ['swiper-pagination']);
     this.createSwiper();
-    this.append();
   }
 
-  private append() {
+  public append() {
     this.wrapper.append(this.subtitle, this.title, this.swiper);
     this.swiper.append(this.swiperWrapper, this.swiperPagination);
     this.section.append(this.wrapper);
+
+    return this.section;
   }
 
   private createSwiper() {
