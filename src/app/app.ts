@@ -11,7 +11,7 @@ export default class App {
 
   user: User;
 
-  constructor(){
+  constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.login = new Login();

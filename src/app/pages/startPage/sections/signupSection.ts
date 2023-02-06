@@ -11,7 +11,7 @@ export default class SignupSection {
 
   private subtitle: HTMLElement;
 
-  private form: HTMLFormElement;
+  private form: HTMLElement;
 
   public email: HTMLInputElement;
 
@@ -33,10 +33,13 @@ export default class SignupSection {
       ['signup__subtitle'],
       "Keep everything in the same place — even if your team isn't."
     );
-    this.form = Common.createDomNode('form', ['signup__form']) as HTMLFormElement;
-    this.form.action = '/signup';
-    this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], 'email');
-    this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], "Sign up - it's free!", 'submit');
+    this.form = Common.createDomNode('div', ['start__form']);
+    this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], 'email');
+    this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!", 'submit');
+    this.submit.addEventListener('click', () => {
+      localStorage.setItem('data', this.email.value);
+      window.location.href = '/signup';
+    });
     this.image = Common.createDomNode('div', ['signup__image']);
   }
 
