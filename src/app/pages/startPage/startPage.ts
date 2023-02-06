@@ -1,12 +1,12 @@
 import Common from '../../utils/common';
 import Action from './sections/action';
+import StartPageFooter from './sections/footer';
 import StartPageHeader from './sections/header';
 import More from './sections/more';
 import Powerhouse from './sections/powerhouse';
 import SignupSection from './sections/signupSection';
-import Using from './sections/using';
 import Start from './sections/start';
-import StartPageFooter from './sections/footer';
+import Using from './sections/using';
 
 export default class StartPage {
   public container: HTMLElement;

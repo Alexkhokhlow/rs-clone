@@ -1,8 +1,9 @@
-import DropDownButton from './navigation/dropdownButton/dropdownButton';
 import Logo from './logo/logo';
+import DropDownButton from './navigation/dropdownButton/dropdownButton';
 
 export default class Header {
   header: HTMLElement;
+
   logo: Logo;
 
   constructor() {

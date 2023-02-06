@@ -1,9 +1,9 @@
-export default class DropDownButton{
+export default class DropDownButton {
   button: HTMLElement;
 
-  constructor(text: string){
+  constructor(text: string) {
     this.button = document.createElement('button');
     this.button.classList.add('dropdown-button');
-    this.button.textContent = `${text} ˅`
+    this.button.textContent = `${text} ˅`;
   }
 }

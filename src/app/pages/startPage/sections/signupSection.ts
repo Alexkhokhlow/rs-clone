@@ -13,9 +13,9 @@ export default class SignupSection {
 
   private emailWrapper: HTMLElement;
 
-  public email: HTMLInputElement;
+  private email: HTMLInputElement;
 
-  public submit: HTMLButtonElement;
+  private submit: HTMLButtonElement;
 
   private image: HTMLElement;
 
@@ -56,6 +56,6 @@ export default class SignupSection {
         this.email.value = '';
       }
       window.location.href = '/signup';
-    })
+    });
   }
 }

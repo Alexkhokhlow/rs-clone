@@ -1,5 +1,5 @@
-import StartPage from './pages/startPage/startPage';
 import Login from './pages/login/login';
+import StartPage from './pages/startPage/startPage';
 import User from './pages/user/user';
 
 export default class App {
@@ -41,7 +41,6 @@ export default class App {
         if (match[0].includes('user')) {
           this.user.init(match[0]);
           this.body.append(this.user.user);
-          return;
         }
       }
     });

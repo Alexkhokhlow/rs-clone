@@ -1,5 +1,5 @@
-import Common from "../../../utils/common";
-import { github } from "../constants/constants";
+import Common from '../../../utils/common';
+import { github } from '../constants/constants';
 
 const gitIcon = require('../../../../assets/github.svg') as string;
 const iconRss = require('../../../../assets/rs_school_js.svg') as string;
@@ -26,12 +26,12 @@ export default class StartPageFooter {
     this.rssIcon = Common.createDomNodeImg(['rss__icon'], iconRss);
     this.trello = Common.createDomNodeImg(['trello__footer'], trello);
 
-    github.forEach(link => {
+    github.forEach((link) => {
       const linkGit = Common.createDomNodeLink(['github'], link);
       const iconGit = Common.createDomNodeImg(['git__icon'], gitIcon);
       linkGit.append(iconGit);
       this.icons.append(linkGit);
-    })
+    });
   }
 
   public append() {
