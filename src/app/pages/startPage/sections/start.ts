@@ -7,7 +7,7 @@ export default class Start {
 
   private title: HTMLElement;
 
-  public form: HTMLFormElement;
+  public emailWrapper: HTMLElement;
 
   private email: HTMLInputElement;
 
@@ -21,18 +21,25 @@ export default class Start {
       ['start__title'],
       'Get started with Trello today'
     );
-    this.form = Common.createDomNode('form', ['start__form']) as HTMLFormElement;
-    this.form.action = '/signup';
+    this.emailWrapper = Common.createDomNode('div', ['start__form']);
     this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], 'email');
-    this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!", 'submit');
+    this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!");
   }
 
   public append() {
-    this.form.append(this.email, this.submit)
-    this.wrapper.append(this.title, this.form);
+    this.emailWrapper.append(this.email, this.submit)
+    this.wrapper.append(this.title, this.emailWrapper);
     this.section.append(this.wrapper);
+    this.setLocalEmail();
 
     return this.section;
+  }
+
+  private setLocalEmail() {
+    this.submit.addEventListener('click', () => {
+      localStorage.setItem('email', this.email.value);
+      window.location.href = '/signup';
+    })
   }
 
 }
