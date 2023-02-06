@@ -1,9 +1,9 @@
 import Swiper, { Pagination, Scrollbar } from 'swiper';
 import 'swiper/css';
-import App from '../../../app';
-const app = new App();
+import Powerhouse from '../sections/powerhouse';
+const app = new Powerhouse();
 
-const pagination = app.startPage.powerhouse.pagination();
+const pagination = app.pagination();
 
 const swiperAction = new Swiper(".action__swiper", {
   grabCursor: true,

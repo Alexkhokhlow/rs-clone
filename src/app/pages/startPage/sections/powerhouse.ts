@@ -68,7 +68,6 @@ export default class Powerhouse {
     this.swiperWrapper.append(this.cardsWrapper, this.swiper, this.swiperScrollBar,);
     this.wrapper.append(this.container, this.swiperWrapper);
     this.section.append(this.wrapper);
-
     return this.section;
   }
 }
