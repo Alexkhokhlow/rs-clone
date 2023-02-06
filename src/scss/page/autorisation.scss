@@ -1,0 +1,237 @@
+.login__page, 
+.signup__page {
+    @include flex;
+    flex-direction: column;
+    position: relative;
+    font-family: 'Segoe UI', 'Roboto' ,'Oxygen','Ubuntu',sans-serif;
+    position: relative;
+    min-height: 100vh;
+    font-size: 14px;
+}
+
+.login__page {
+    background-color: $color-loginPage-bg;
+    & h1 {
+        @include font($size: 16px, $weight: 800, $style: bold);
+        color: #5e6c84;
+    }
+
+    & .input_email:focus,
+    & .input_password:focus {
+        background-color: white;
+        border: 2px solid #4c9aff;
+        box-shadow: 0 0 0;
+    }
+}
+
+.signup__page {
+    & h1 {
+        @include font($size: 16px, $weight: 500,);
+    }
+
+    & .input_email:focus {
+        border: 2px solid rgb(9, 30, 66);
+        border-radius: 0.3rem;
+    }
+
+}
+
+
+.login__logo {
+    display: block;
+    height: 43px;
+    margin: 40px auto;
+}
+
+.bg__img {
+    position: fixed;
+    bottom: 0;
+    max-width: 30%;
+    width: 400px;
+}
+
+.bg_left {
+    left: 0;
+}
+
+.bg_right {
+    right: 0;
+}
+
+.form__conteiner {
+    background-color: $color-background;
+    border-radius: 3px;
+    padding: 25px 40px 40px;
+    box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
+    min-width: 400px;
+    margin: 0 auto;
+    z-index: 10;
+    margin-bottom: 30px;
+
+    @media screen and (max-width: 500px) {
+        min-width: 90%;
+    }
+}
+
+.login__title {
+    text-align: center;
+    letter-spacing: -0.01em;
+    line-height: 28px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.inputs__container {
+    @include flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input_email, 
+.input_password {
+    font-size: 14px;
+    background-color: #fafbfc;
+    border: 2px solid #dfe1e6;
+    box-sizing: border-box;
+    border-radius: 3px;
+    height: 40px;
+    transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+    padding: 0.5em;
+    max-width: 400px;
+    width: 99%;
+}
+
+.btn_submit {
+    background: #5AAC44;
+    color: #fff;
+    border-radius: 0.3em;
+    width: 100%;
+}
+
+.btn_submit:hover {
+    background: #61BD4F;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 0.8em;
+    padding: 0.6em 1.3em;
+    position: relative;
+    text-decoration: none;
+    border: 0px;
+    cursor: pointer;
+}
+
+.form__separator {
+    text-align: center;
+    font-size: 12px;
+    line-height: 1;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    color: #4d4d4d;
+    font-weight: 300;
+}
+
+.btn_way {
+    background: $color-background;
+    color: rgba(0,0,0,0.54);
+    box-shadow: rgb(0 0 0 / 20%) 1px 1px 5px 0;
+    border-color: transparent;
+    text-align: center;
+    border-radius: 3px;
+    width: 99%;
+    height: 39px;
+    padding-top: 0;
+    margin-bottom: 12px;
+    display: block;
+    cursor: pointer;
+}
+
+.btn_way:hover {
+    background-color: #f9fafc;
+}
+
+.btn_way .label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: bold;
+    color: #505f79;
+    padding: 3px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.form__link {
+    color: #0052cc;
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.44em;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form__link::before {
+    content: '\2022';
+    margin: 0 8px 0px 4px;
+}
+
+.icon {
+    display: inline-block;
+    border-radius: 1px;
+    width: 18px;
+    height: 18px;
+}
+
+#google__icon {
+    background: url(https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/8215f6659adc202403198fef903a447e/sign-in-with-google.svg);
+    vertical-align: -8px;
+}
+
+#msft__icon {
+    background: url(https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/72ece804e5285ab6507e2406157cda3c/microsoft-logo.svg);
+    vertical-align: -5px;
+}
+
+#apple__icon {
+    background: url(https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/6fc4ecf05a97cfb43cfcbb14738a5aa0/apple-logo-black.svg);
+    vertical-align: -6px;
+    background-size: 100% 100%;
+}
+
+#slack__icon {
+    background: url(https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/267584bf90783090ede8f337d9baf909/slack-logo.svg);
+    vertical-align: -5px;
+}
+
+.btn_way:last-child::after  {
+    content: "";
+    border-bottom: 1px solid hsl(0deg, 0%, 80%);
+    padding-bottom: 30px;
+    width: 100%;
+    display: block;
+}
+
+.footer {
+    @include flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+
+    & .footer__list {
+        @include flex;
+        gap: 15px;
+
+        @media screen and (max-width: 500px) {
+            flex-direction: column;
+            gap: 5px;   
+        }
+    }
+
+    & .list__item a {
+        @include font($size: 12px);
+        color: #5e6c84;
+    }
+}

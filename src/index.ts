@@ -1,6 +1,5 @@
-// import './scss/global.scss';
-// import App from './app/app';
+import './scss/global.scss';
+import App from './app/app';
 
-// const app = new App();
-console.log('feoihebnml');
-// app.start();
+const app = new App();
+app.start();

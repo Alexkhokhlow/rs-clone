@@ -9,6 +9,17 @@ export default class Common {
     return node;
   }
 
+  // c innerHTML
+  public static createDOMNode(element: string, classes: string[], text?: string) {
+    const node = document.createElement(element);
+    node.classList.add(...classes);
+    if (text) {
+      node.innerHTML = text;
+    }
+
+    return node;
+  }
+
   public static createDomNodeLink(classes: string[], attr: string, text?: string) {
     const node = document.createElement('a');
     node.classList.add(...classes);
@@ -33,6 +44,17 @@ export default class Common {
     node.placeholder = placeholder;
     node.id = id;
     node.classList.add(...classes);
+
+    return node;
+  }
+
+  // Input с типом
+  public static createDOMNodeInput(id: string, classes: string[], type: string, placeholder?: string) {
+    const node = document.createElement('input');
+    if (placeholder) node.placeholder = placeholder;
+    node.id = id;
+    node.classList.add(...classes);
+    node.setAttribute('type', type);
 
     return node;
   }
