@@ -1,4 +1,4 @@
-import Common from "../../../utils/common";
+import Common from '../../../utils/common';
 
 export default class Start {
   public section: HTMLElement;
@@ -44,5 +44,4 @@ export default class Start {
       window.location.href = '/signup';
     })
   }
-
 }
