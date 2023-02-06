@@ -37,7 +37,10 @@ export default class Start {
 
   private setLocalEmail() {
     this.submit.addEventListener('click', () => {
+      if (this.email.value) {
       localStorage.setItem('email', this.email.value);
+      this.email.value = '';
+      }
       window.location.href = '/signup';
     })
   }

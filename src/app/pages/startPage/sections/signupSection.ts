@@ -51,7 +51,10 @@ export default class SignupSection {
 
   private setLocalEmail() {
     this.submit.addEventListener('click', () => {
-      localStorage.setItem('email', this.email.value);
+      if (this.email.value) {
+        localStorage.setItem('email', this.email.value);
+        this.email.value = '';
+      }
       window.location.href = '/signup';
     })
   }
