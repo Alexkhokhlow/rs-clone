@@ -2,6 +2,7 @@ import Header from './header/header';
 
 export default class User {
   user: HTMLDivElement;
+
   header: Header;
 
   constructor() {

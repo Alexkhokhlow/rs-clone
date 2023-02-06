@@ -11,11 +11,11 @@ export default class SignupSection {
 
   private subtitle: HTMLElement;
 
-  private form: HTMLElement;
+  private emailWrapper: HTMLElement;
 
-  public email: HTMLInputElement;
+  private email: HTMLInputElement;
 
-  public submit: HTMLButtonElement;
+  private submit: HTMLButtonElement;
 
   private image: HTMLElement;
 
@@ -33,22 +33,29 @@ export default class SignupSection {
       ['signup__subtitle'],
       "Keep everything in the same place — even if your team isn't."
     );
-    this.form = Common.createDomNode('div', ['start__form']);
-    this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], 'email');
-    this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!", 'submit');
-    this.submit.addEventListener('click', () => {
-      localStorage.setItem('data', this.email.value);
-      window.location.href = '/signup';
-    });
+    this.emailWrapper = Common.createDomNode('div', ['signup__form']);
+    this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], 'email');
+    this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], "Sign up - it's free!");
     this.image = Common.createDomNode('div', ['signup__image']);
   }
 
   public append() {
-    this.form.append(this.email, this.submit);
-    this.textContainer.append(this.title, this.subtitle, this.form);
+    this.emailWrapper.append(this.email, this.submit);
+    this.textContainer.append(this.title, this.subtitle, this.emailWrapper);
     this.wrapper.append(this.textContainer, this.image);
     this.section.append(this.wrapper);
+    this.setLocalEmail();
 
     return this.section;
+  }
+
+  private setLocalEmail() {
+    this.submit.addEventListener('click', () => {
+      if (this.email.value) {
+        localStorage.setItem('email', this.email.value);
+        this.email.value = '';
+      }
+      window.location.href = '/signup';
+    });
   }
 }

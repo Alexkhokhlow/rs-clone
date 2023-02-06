@@ -36,7 +36,7 @@ export default class Action {
   }
 
   private createSwiper() {
-    actions.forEach(item => {
+    actions.forEach((item) => {
       const wrapper = Common.createDomNode('article', ['swiper-slide']);
       const colorLine = Common.createDomNode('div', ['action__color']);
       colorLine.style.background = item.color;
@@ -48,6 +48,6 @@ export default class Action {
       descriptionWrapper.append(icon, title, description);
       wrapper.append(colorLine, descriptionWrapper);
       this.swiperWrapper.append(wrapper);
-    })
+    });
   }
 }

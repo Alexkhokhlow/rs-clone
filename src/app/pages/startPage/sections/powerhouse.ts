@@ -65,7 +65,7 @@ export default class Powerhouse {
     this.createSlider();
     this.swiper.append(this.imagesWrapper);
     this.container.append(this.subtitle, this.title, this.description);
-    this.swiperWrapper.append(this.cardsWrapper, this.swiper, this.swiperScrollBar,);
+    this.swiperWrapper.append(this.cardsWrapper, this.swiper, this.swiperScrollBar);
     this.wrapper.append(this.container, this.swiperWrapper);
     this.section.append(this.wrapper);
     return this.section;
