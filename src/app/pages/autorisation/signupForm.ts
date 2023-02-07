@@ -51,7 +51,6 @@ export default class SignupForm {
 
     this.addHandlers();
 
-    localStorage.setItem('data', 'sheyko.mari@mail.ru');
     const mailFromLocalStorage = localStorage.getItem('data');
     if (mailFromLocalStorage && this.loginInput instanceof HTMLInputElement) {
       this.loginInput.value = mailFromLocalStorage;
@@ -74,6 +73,10 @@ export default class SignupForm {
       if (this.loginInput instanceof HTMLInputElement) {
         console.log(this.loginInput.value);
       }
+    });
+
+    this.linkToLoginPage.addEventListener('click', () => {
+      localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
     });
   }
 

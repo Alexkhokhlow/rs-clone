@@ -51,6 +51,13 @@ export default class LoginForm {
     this.form.append(this.linkToSingup);
 
     this.addHandlers();
+
+    const mailFromLocalStorage = localStorage.getItem('data');
+    if (mailFromLocalStorage && this.loginInput instanceof HTMLInputElement) {
+      this.loginInput.value = mailFromLocalStorage;
+      this.openPasswordInput();
+    }
+
     return this.form;
   }
 
@@ -59,8 +66,7 @@ export default class LoginForm {
       e.preventDefault();
       if (e.target instanceof HTMLInputElement) {
         if (e.target.value === 'Continue') {
-          e.target.value = 'Log in';
-          this.passwordInput.classList.remove('invisible');
+          this.openPasswordInput();
         } else {
           this.checkLoginPassword(
             (this.loginInput as HTMLInputElement).value,
@@ -69,6 +75,15 @@ export default class LoginForm {
         }
       }
     });
+
+    this.linkToSingup.addEventListener('click', () => {
+      localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
+    });
+  }
+
+  private openPasswordInput() {
+    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Log in';
+    this.passwordInput.classList.remove('invisible');
   }
 
   private checkLoginPassword(login: string, password: string) {
