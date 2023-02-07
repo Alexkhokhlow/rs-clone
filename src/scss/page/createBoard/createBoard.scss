@@ -1,0 +1,30 @@
+.create {
+  padding: .6rem .3rem;
+  width: 31rem;
+  box-shadow: $color-border-input;
+  border-radius: .5rem;
+}
+
+.create__wrapper {
+  @include flex;
+  flex-direction: column;
+  max-width: 30rem;
+}
+
+.create__title__wrapper {
+  @include flex($justify: flex-end);
+  width: 100%;
+  gap: 10rem;
+  padding: 1rem 0;
+}
+
+.create__title {
+  color: $color-create-text;
+  text-align: center;
+}
+
+.close__button {
+  background: url('../assets/workspace/create/x.svg') center center/cover no-repeat;
+  width: 1rem;
+  height: 1rem;
+}

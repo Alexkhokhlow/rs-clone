@@ -8,7 +8,7 @@
 }
 
 .footer__wrapper {
-  @include flex();
+  @include flex($align: flex-end);
 }
 
 .icons__wrapper {
@@ -57,4 +57,8 @@
   @media (max-width: 400px) {
     height: 2.2rem;
   }
+}
+
+.year {
+  color: $color-background;
 }

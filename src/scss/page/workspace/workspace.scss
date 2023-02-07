@@ -1,5 +1,12 @@
+.workspace__page {
+  @include flex($align: stretch);
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .workspace__main {
   padding: 5rem 0;
+  flex: auto;
 }
 
 .workspace__wrapper {

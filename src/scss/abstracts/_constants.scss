@@ -16,4 +16,7 @@ $color-workspace: linear-gradient(var(--ds-background-accent-purple-bolder, #403
 $color-hr: #091e4221;
 $color-create-button: #97a0af;
 $color-star: rgb(224, 20, 20);
-$color-border-input: inset 0 0 0 2px var(--ds-border-input,#dfe1e6);
+$color-border-input: inset 0 0 0 2px #dfe1e6;
+$color-create-text: #5e6c84;
+$color-border-create: 0 8px 16px -4px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
+
