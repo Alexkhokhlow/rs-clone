@@ -26,7 +26,6 @@ export default class SignupForm {
     this.inputsContainer = Common.createDomNode('div', ['inputs__container']);
     this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', 'Enter email');
     this.btnSubmit = Common.createDOMNodeInput('submit', ['input_sublit', 'btn', 'btn_submit'], 'submit');
-    // эта кнопка disabled, пока почта не валидна
     this.seperetor = Common.createDomNode('div', ['form__separator'], 'OR');
     this.entryWays = SignupForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
@@ -35,20 +34,59 @@ export default class SignupForm {
   }
 
   public render() {
+    this.form.append(this.formTitle, this.inputsContainer, this.seperetor);
+
+    if (this.btnSubmit instanceof HTMLInputElement) {
+      this.btnSubmit.value = 'Continue';
+      this.btnSubmit.setAttribute('disabled', 'disabled');
+    }
+
+    this.inputsContainer.append(this.loginInput, this.btnSubmit);
+
+    this.entryWays.forEach((way) => {
+      this.form.append(way);
+    });
+
+    this.form.append(this.linkToLoginPage);
+
+    this.addHandlers();
+
+    localStorage.setItem('data', 'sheyko.mari@mail.ru');
+    const mailFromLocalStorage = localStorage.getItem('data');
+    if (mailFromLocalStorage && this.loginInput instanceof HTMLInputElement) {
+      this.loginInput.value = mailFromLocalStorage;
+      this.changeActivityofBtn(this.isValidMail(mailFromLocalStorage), this.btnSubmit);
+    }
+
+    return this.form;
+  }
+
+  private addHandlers() {
+    this.loginInput.addEventListener('input', (e) => {
+      if (e.target) {
+        this.changeActivityofBtn(this.isValidMail((e.target as HTMLInputElement).value), this.btnSubmit);
+      }
+    });
+
     this.btnSubmit.addEventListener('click', (e) => {
       e.preventDefault();
-      // TODO: добавить авторизацию (если зашёл, то сохранить в localStorage)
+      // TODO: добавить регистрацию + введение пароля, имени  (сохранить в localStorage и перейти на главную страницу)
       if (this.loginInput instanceof HTMLInputElement) {
         console.log(this.loginInput.value);
       }
     });
-    this.form.append(this.formTitle, this.inputsContainer, this.seperetor);
-    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Continue';
-    this.inputsContainer.append(this.loginInput, this.btnSubmit);
-    this.entryWays.forEach((way) => {
-      this.form.append(way);
-    });
-    this.form.append(this.linkToLoginPage);
-    return this.form;
+  }
+
+  private isValidMail(mail: string) {
+    const regExp = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{1,6}$/;
+    return regExp.test(mail);
+  }
+
+  private changeActivityofBtn(condition: boolean, btn: HTMLElement) {
+    if (condition) {
+      btn.removeAttribute('disabled');
+    } else {
+      btn.setAttribute('disabled', 'disabled');
+    }
   }
 }

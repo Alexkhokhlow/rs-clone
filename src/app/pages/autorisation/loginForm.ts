@@ -27,7 +27,12 @@ export default class LoginForm {
     this.formTitle = Common.createDomNode('h1', ['login__title'], 'Log in to Trello');
     this.inputsContainer = Common.createDomNode('div', ['inputs__container']);
     this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', 'Enter email');
-    this.passwordInput = Common.createDOMNodeInput('password', ['input_password'], 'password', 'Enter password');
+    this.passwordInput = Common.createDOMNodeInput(
+      'password',
+      ['input_password', 'invisible'],
+      'password',
+      'Enter password'
+    );
     this.btnSubmit = Common.createDOMNodeInput('submit', ['input_sublit', 'btn', 'btn_submit'], 'submit');
     this.seperetor = Common.createDomNode('div', ['form__separator'], 'OR');
     this.entryWays = LoginForm.otherEntryWays.map((elem) => {
@@ -37,20 +42,37 @@ export default class LoginForm {
   }
 
   public render() {
-    this.btnSubmit.addEventListener('click', (e) => {
-      e.preventDefault();
-      // TODO: добавить авторизацию (если зашёл, то сохранить в localStorage)
-      if (this.loginInput instanceof HTMLInputElement && this.passwordInput instanceof HTMLInputElement) {
-        console.log(this.loginInput.value, this.passwordInput.value);
-      }
-    });
     this.form.append(this.formTitle, this.inputsContainer, this.seperetor);
-    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Log in';
+    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Continue';
     this.inputsContainer.append(this.loginInput, this.passwordInput, this.btnSubmit);
     this.entryWays.forEach((way) => {
       this.form.append(way);
     });
     this.form.append(this.linkToSingup);
+
+    this.addHandlers();
     return this.form;
+  }
+
+  private addHandlers() {
+    this.btnSubmit.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (e.target instanceof HTMLInputElement) {
+        if (e.target.value === 'Continue') {
+          e.target.value = 'Log in';
+          this.passwordInput.classList.remove('invisible');
+        } else {
+          this.checkLoginPassword(
+            (this.loginInput as HTMLInputElement).value,
+            (this.passwordInput as HTMLInputElement).value
+          );
+        }
+      }
+    });
+  }
+
+  private checkLoginPassword(login: string, password: string) {
+    console.log(login, password);
+    // TODO: добавить авторизацию (если зашёл, то сохранить в localStorage)
   }
 }
