@@ -1,6 +1,6 @@
 import StartPage from './pages/startPage/startPage';
 import Login from './pages/login/login';
-import User from './pages/user/user';
+import Workspace from './pages/workspace/workspace';
 
 export default class App {
   body: HTMLElement;
@@ -9,22 +9,24 @@ export default class App {
 
   login: Login;
 
-  user: User;
+  workspace: Workspace;
 
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.login = new Login();
-    this.user = new User();
+    this.workspace = new Workspace();
   }
 
   start() {
-    this.openPage();
+    // this.openPage();
+    this.body.append(this.workspace.append());
+
   }
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/user\/([\w]+?)\b/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/workspace\/([\w]+?)\b/g];
     let flag = true;
     routes.forEach((route) => {
       const match = path.match(route);
@@ -38,9 +40,9 @@ export default class App {
           this.body.append(this.login.login);
           return;
         }
-        if (match[0].includes('user')) {
-          this.user.init(match[0]);
-          this.body.append(this.user.user);
+        if (match[0].includes('workspace')) {
+          // this.workspace.init(match[0]);
+          this.body.append(this.workspace.append());
           return;
         }
       }

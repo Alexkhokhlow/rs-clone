@@ -49,14 +49,26 @@ export default class Common {
     return node;
   }
 
-  public static createDomNodeButton(classes: string[], text: string, type?: string) {
+  public static createDomNodeButton(classes: string[], text?: string, type?: string) {
     const node = document.createElement('button');
     node.classList.add(...classes);
-    node.innerText = text;
+    if (text) {
+      node.innerText = text;
+    }
     if (type) {
       node.type = type;
     }
 
     return node;
+  }
+
+  public static setLocalEmail(button: HTMLButtonElement, input: HTMLInputElement) {
+    button.addEventListener('click', () => {
+      if (input.value) {
+        localStorage.setItem('email', input.value);
+        input.value = '';
+      }
+      window.location.href = '/signup';
+    });
   }
 }
