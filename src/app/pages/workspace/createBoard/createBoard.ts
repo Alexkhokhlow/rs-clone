@@ -11,6 +11,10 @@ export default class CreatingBoard {
   private line: HTMLElement;
   private board: HTMLElement;
   private boardImg: HTMLImageElement;
+  private boardInfo: HTMLElement;
+  private backgroundWrapper: HTMLElement;
+  private backgroundTitle: HTMLElement;
+
 
   constructor() {
     this.section = Common.createDomNode('section', ['create']);
@@ -19,14 +23,19 @@ export default class CreatingBoard {
     this.closeButton = Common.createDomNode('div', ['close__button']);
     this.title = Common.createDomNode('h3', ['create__title'], 'Create board');
     this.line = Common.createDomNode('hr', ['horizontal__line']);
-    this.board = Common.createDomNode('div', ['board__img']);
+    this.boardInfo = Common.createDomNode('div', ['board__inform']);
+    this.board = Common.createDomNode('div', ['board__background']);
     this.boardImg = Common.createDomNodeImg(['board__icon'], board);
+    this.backgroundWrapper = Common.createDomNode('div', ['background__wrapper']);
+    this.backgroundTitle = Common.createDomNode('div', ['create__subtitle'], 'Background');
   }
 
   public append() {
-    
+    this.board.append(this.boardImg);
+    this.backgroundWrapper.append(this.backgroundTitle);
+    this.boardInfo.append(this.board, this.backgroundWrapper);
     this.titleWrapper.append(this.title, this.closeButton);
-    this.wrapper.append(this.titleWrapper, this.line);
+    this.wrapper.append(this.titleWrapper, this.line, this.boardInfo);
     this.section.append(this.wrapper);
 
     return this.section;
