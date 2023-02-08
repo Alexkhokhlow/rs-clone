@@ -1,0 +1,60 @@
+.start__footer {
+  padding: 1rem;
+  background-color: $color-background-footer;
+
+  @media (max-width: 660px) {
+    padding: 1rem 1.5rem;
+  }
+}
+
+.footer__wrapper {
+  @include flex();
+}
+
+.icons__wrapper {
+  @include flex($justify: flex-end);
+  gap: 1rem;
+}
+
+.github,
+.rss {
+  line-height: 100%;
+}
+
+.git__icon {
+  max-width: 4rem;
+  filter: invert(1);
+
+  @media (max-width: 768px) {
+    max-width: 2.5rem;
+  }
+
+  @media (max-width: 400px) {
+    height: 1.8rem;
+  }
+}
+
+.rss__icon {
+  height: 4rem;
+  filter: invert(1);
+
+  @media (max-width: 768px) {
+    height: 2.5rem;
+  }
+
+  @media (max-width: 400px) {
+    height: 1.8rem;
+  }
+}
+
+.trello__footer {
+  height: 5rem;
+
+  @media (max-width: 768px) {
+    height: 3rem;
+  }
+
+  @media (max-width: 400px) {
+    height: 2.2rem;
+  }
+}

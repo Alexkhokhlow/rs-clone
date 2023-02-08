@@ -25,6 +25,7 @@ export default class App {
   openPage() {
     const path = window.location.pathname;
     const routes = [/\/home\b/g, /\/login\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+
     let flag = true;
     routes.forEach((route) => {
       const match = path.match(route);

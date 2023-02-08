@@ -1,13 +1,14 @@
 @mixin flex($justify: space-between, $align: center) {
-    display: flex;
-    align-items: $align;
-    justify-content: $justify;
+
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
 }
-  
+
 @mixin font($size, $height: 140%, $weight: 400, $style: normal) {
-    font-family: Poppins, sans-serif;
-    font-size: $size;
-    font-style: $style;
-    font-weight: $weight;
-    line-height: $height;
+  font-family: Poppins, sans-serif;
+  font-size: $size;
+  font-style: $style;
+  font-weight: $weight;
+  line-height: $height;
 }

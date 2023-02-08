@@ -6,6 +6,16 @@
 @import './base/base.scss';
 
 // pages
-// @import './page/startPage.scss';
 @import './page/home.scss';
 @import './page/autorisation.scss';
+
+// Start page
+@import './page/startPage/startPage.scss';
+@import './page/startPage/header.scss';
+@import './page/startPage/signup.scss';
+@import './page/startPage/powerhouse.scss';
+@import './page/startPage/action.scss';
+@import './page/startPage/using.scss';
+@import './page/startPage/more.scss';
+@import './page/startPage/start.scss';
+@import './page/startPage/footer.scss';

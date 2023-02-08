@@ -9,7 +9,6 @@ const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader
 
 const config = {
   entry: './src/index.ts',
-  devtool: 'source-map',
   output: {
     filename: '[name].[contenthash].js',
     assetModuleFilename: './assets/[name].[contenthash][ext][query]',
@@ -49,9 +48,9 @@ const config = {
         use: [stylesHandler, 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         type: 'asset',
-      },
+      }
     ],
   },
   resolve: {
