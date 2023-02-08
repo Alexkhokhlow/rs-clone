@@ -1,6 +1,7 @@
 import Autorisation from './pages/autorisation/autorisation';
 import StartPage from './pages/startPage/startPage';
 import User from './pages/user/user';
+import Server from './server/server';
 
 export default class App {
   body: HTMLElement;
@@ -18,8 +19,15 @@ export default class App {
     this.user = new User();
   }
 
-  start() {
+  async start() {
     this.openPage();
+    const server = new Server();
+    try{
+      {token: 'dsada'}
+    const data = JSON.parse(await server.login('dsad','dsa'))
+    } catch(error){
+
+    }
   }
 
   openPage() {
