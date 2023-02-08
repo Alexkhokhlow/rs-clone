@@ -1,7 +1,7 @@
 import Common from '../../utils/common';
-import StartPageHeader from '../startPage/sections/header';
-import Header from '../workspace/sections/header/header';
 import Footer from '../autorisation/footer';
+import StartPageHeader from '../startPage/sections/header';
+import Header from '../workspace/header/header';
 
 export default class ErrorPage {
   header: HTMLElement;

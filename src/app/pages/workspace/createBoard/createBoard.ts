@@ -1,30 +1,48 @@
-import Common from "../../../utils/common";
-import { backgrounds } from "../../startPage/constants/constants";
+import Common from '../../../utils/common';
+import { backgrounds } from '../../startPage/constants/constants';
 
-const board = require('../../../../assets/workspace/create/create_board.svg');
+const board = require('../../../../assets/workspace/create/create_board.svg') as string;
 
 export default class CreatingBoard {
   private overlay: HTMLElement;
-  private section: HTMLElement;
-  private titleWrapper: HTMLElement;
-  private closeButton: HTMLElement;
-  private title: HTMLElement;
-  private wrapper: HTMLElement;
-  private line: HTMLElement;
-  private board: HTMLElement;
-  private boardImg: HTMLImageElement;
-  private boardInfo: HTMLElement;
-  private backgroundWrapper: HTMLElement;
-  private backgroundTitle: HTMLElement;
-  private backgrounds: HTMLElement;
-  private boardTitle: HTMLLabelElement;
-  private boardTitleWrapper: HTMLElement;
-  private boardTitleInput: HTMLInputElement;
-  private boardTitleText: HTMLElement;
-  private star: HTMLElement;
-  private boardVisibilityWrapper: HTMLElement;
-  private visibilityTitle: HTMLLabelElement;
 
+  private section: HTMLElement;
+
+  private titleWrapper: HTMLElement;
+
+  private closeButton: HTMLElement;
+
+  private title: HTMLElement;
+
+  private wrapper: HTMLElement;
+
+  private line: HTMLElement;
+
+  private board: HTMLElement;
+
+  private boardImg: HTMLImageElement;
+
+  private boardInfo: HTMLElement;
+
+  private backgroundWrapper: HTMLElement;
+
+  private backgroundTitle: HTMLElement;
+
+  private backgrounds: HTMLElement;
+
+  private boardTitle: HTMLLabelElement;
+
+  private boardTitleWrapper: HTMLElement;
+
+  private boardTitleInput: HTMLInputElement;
+
+  private boardTitleText: HTMLElement;
+
+  private star: HTMLElement;
+
+  private boardVisibilityWrapper: HTMLElement;
+
+  private visibilityTitle: HTMLLabelElement;
 
   constructor() {
     this.overlay = Common.createDomNode('div', ['overlay']);
@@ -48,7 +66,6 @@ export default class CreatingBoard {
     this.boardVisibilityWrapper = Common.createDomNode('div', ['board__visibility__wrapper']);
     this.visibilityTitle = Common.createDomNodeLabel('visibility', 'Visibility', ['create__subtitle']);
     this.createBackgrounds();
-
   }
 
   public append() {
@@ -60,7 +77,7 @@ export default class CreatingBoard {
     this.boardInfo.append(this.board, this.backgroundWrapper, this.boardTitleWrapper, this.boardVisibilityWrapper);
     this.titleWrapper.append(this.title, this.closeButton);
     this.wrapper.append(this.titleWrapper, this.line);
-    this.section.append(this.wrapper,  this.boardInfo);
+    this.section.append(this.wrapper, this.boardInfo);
     this.overlay.append(this.section);
     this.backgrounds.addEventListener('click', this.chooseBackground.bind(this));
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
@@ -71,7 +88,7 @@ export default class CreatingBoard {
   }
 
   private createBackgrounds() {
-    backgrounds.forEach(color => {
+    backgrounds.forEach((color) => {
       const background = Common.createDomNodeButton(['background']);
       background.title = color.title;
       background.style.background = color.color;
@@ -82,7 +99,7 @@ export default class CreatingBoard {
 
   private chooseBackground(event: Event) {
     const target = event.target as HTMLButtonElement;
-    Array.from(this.backgrounds.children).forEach(item => {
+    Array.from(this.backgrounds.children).forEach((item) => {
       item.classList.remove('active');
     });
     target.classList.add('active');
@@ -95,7 +112,7 @@ export default class CreatingBoard {
 
   private closeModal(event: Event) {
     const classes = (event.target as HTMLElement).classList;
-    if(classes.contains('overlay') || classes.contains('close__button')) {
+    if (classes.contains('overlay') || classes.contains('close__button')) {
       if (this.overlay) {
         this.overlay.remove();
       }

@@ -1,7 +1,7 @@
 import Common from '../../../utils/common';
 
 export default class Start {
-  public section: HTMLElement;
+  private section: HTMLElement;
 
   private wrapper: HTMLElement;
 
@@ -26,6 +26,7 @@ export default class Start {
     this.emailWrapper.append(this.email, this.submit);
     this.wrapper.append(this.title, this.emailWrapper);
     this.section.append(this.wrapper);
+    Common.setLocalEmail(this.submit, this.email);
 
     return this.section;
   }

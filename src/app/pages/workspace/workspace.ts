@@ -1,14 +1,18 @@
-import Header from './header/header';
 import Common from '../../utils/common';
-import MainWorkspace from './main/main';
 import StartPageFooter from '../startPage/sections/footer';
 import CreatingBoard from './createBoard/createBoard';
+import Header from './header/header';
+import MainWorkspace from './main/main';
 
 export default class Workspace {
   private workspace: HTMLElement;
+
   private header: Header;
+
   private main: MainWorkspace;
+
   private footer: StartPageFooter;
+
   private creatingBoard: CreatingBoard;
 
   constructor() {
@@ -28,6 +32,5 @@ export default class Workspace {
   private bindEvents() {
     this.header.create.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
     this.main.createButton.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
-
   }
 }

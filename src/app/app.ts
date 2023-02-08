@@ -1,8 +1,8 @@
 import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import StartPage from './pages/startPage/startPage';
-import Workspace from './pages/workspace/workspace';
 import CreatingBoard from './pages/workspace/createBoard/createBoard';
+import Workspace from './pages/workspace/workspace';
 import Server from './server/server';
 
 export default class App {
@@ -30,12 +30,12 @@ export default class App {
   async start() {
     this.openPage();
     const server = new Server();
-    try{
-      {token: 'dsada'}
-    const data = JSON.parse(await server.login('dsad','dsa'))
-    } catch(error){
-
-    }
+    try {
+      {
+        ('dsada');
+      }
+      const data = JSON.parse(await server.login('dsad', 'dsa'));
+    } catch (error) {}
   }
 
   openPage() {
@@ -57,7 +57,6 @@ export default class App {
         }
         if (match[0].includes('workspace')) {
           this.body.append(this.workspace.append());
-          return;
         }
       }
     });

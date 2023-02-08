@@ -1,26 +1,46 @@
-import Common from "../../../utils/common";
+import Common from '../../../utils/common';
 
-export default class MainWorkspace{
+export default class MainWorkspace {
   private section: HTMLElement;
+
   private wrapper: HTMLElement;
+
   private titleWrapper: HTMLElement;
+
   private title: HTMLElement;
+
   private titleIcon: HTMLElement;
+
   private titleText: HTMLElement;
+
   private line: HTMLElement;
+
   private boards: HTMLElement;
+
   private boardsTitle: HTMLElement;
+
   private boardsLayout: HTMLElement;
+
   public createButton: HTMLElement;
+
   private editWrapper: HTMLElement;
+
   private edit: HTMLElement;
+
   private nameWrapper: HTMLElement;
+
   private name: HTMLInputElement;
+
   private showedTitle: HTMLElement;
+
   private nameLabel: HTMLLabelElement;
+
   private star: HTMLElement;
+
   private buttons: HTMLElement;
+
   private saveButton: HTMLButtonElement;
+
   private cancelButton: HTMLButtonElement;
 
   constructor() {
@@ -28,7 +48,7 @@ export default class MainWorkspace{
     this.wrapper = Common.createDomNode('div', ['wrapper', 'workspace__wrapper']);
     this.titleWrapper = Common.createDomNode('div', ['workspace__title__wrapper']);
     this.editWrapper = Common.createDomNode('div', ['title__edit__wrapper']);
-    this.edit =  Common.createDomNode('div', ['title__edit']);
+    this.edit = Common.createDomNode('div', ['title__edit']);
     this.showedTitle = Common.createDomNode('div', ['title__showed']);
     this.title = Common.createDomNode('h2', ['workspace__title'], 'Workspace');
     this.titleIcon = Common.createDomNode('div', ['workspace__title__icon']);

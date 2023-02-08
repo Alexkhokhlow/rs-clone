@@ -7,6 +7,10 @@
 .workspace__main {
   padding: 5rem 0;
   flex: auto;
+
+  @media(max-width: 575px) {
+    padding: 3rem 1.5rem;
+  }
 }
 
 .workspace__wrapper {

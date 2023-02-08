@@ -134,10 +134,9 @@ const backgrounds = [
   {
     title: 'Yellow',
     color: 'rgb(233 208 2)',
-  }
+  },
 ];
-
 
 const github = ['https://github.com/MariDash', 'https://github.com/alexkhokhlow', 'https://github.com/janaahurtsova'];
 
-export {articles, cardsDescription, actions, github, backgrounds};
+export { articles, cardsDescription, actions, github, backgrounds };
