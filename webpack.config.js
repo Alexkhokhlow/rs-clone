@@ -22,7 +22,7 @@ const config = {
     historyApiFallback: true,
   },
   experiments: {
-    topLevelAwait: true
+    topLevelAwait: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -62,9 +62,11 @@ module.exports = () => {
   if (isProduction) {
     config.mode = 'production';
 
-    config.plugins.push(new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }));
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      })
+    );
   } else {
     config.mode = 'development';
   }

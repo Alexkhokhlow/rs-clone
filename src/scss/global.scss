@@ -5,6 +5,10 @@
 // base
 @import './base/base.scss';
 
+// pages
+@import './page/home.scss';
+@import './page/autorisation.scss';
+
 // Start page
 @import './page/startPage/startPage.scss';
 @import './page/startPage/header.scss';

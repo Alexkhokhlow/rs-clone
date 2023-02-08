@@ -1,4 +1,4 @@
-import Login from './pages/login/login';
+import Autorisation from './pages/autorisation/autorisation';
 import StartPage from './pages/startPage/startPage';
 import User from './pages/user/user';
 
@@ -7,14 +7,14 @@ export default class App {
 
   startPage: StartPage;
 
-  login: Login;
+  autorisation: Autorisation;
 
   user: User;
 
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
-    this.login = new Login();
+    this.autorisation = new Autorisation();
     this.user = new User();
   }
 
@@ -24,7 +24,8 @@ export default class App {
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/user\/([\w]+?)\b/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+
     let flag = true;
     routes.forEach((route) => {
       const match = path.match(route);
@@ -34,8 +35,8 @@ export default class App {
           this.body.append(this.startPage.append());
           return;
         }
-        if (match[0].includes('login')) {
-          this.body.append(this.login.login);
+        if (match[0].includes('login') || match[0].includes('signup')) {
+          this.body.append(this.autorisation.render());
           return;
         }
         if (match[0].includes('user')) {
