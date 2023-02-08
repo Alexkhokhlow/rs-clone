@@ -57,6 +57,7 @@
 .signup__header {
   background-color: $color-brand;
   color: $color-background;
+  transition: .3s;
 
   &:hover {
     background-color: $color-brand-hover;

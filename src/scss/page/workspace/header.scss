@@ -22,6 +22,7 @@
 .header__logo {
   border-radius: .5rem;
   padding: 0 .6rem;
+  transition: .3s;
 
   &:hover {
     background-color: $color-header-hover;
