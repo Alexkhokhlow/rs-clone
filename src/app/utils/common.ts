@@ -39,11 +39,22 @@ export default class Common {
     return node;
   }
 
+
   public static createDomNodeInput(placeholder: string, id: string, classes: string[], type?: string) {
     const node = document.createElement('input');
     node.placeholder = placeholder;
     node.id = id;
     node.classList.add(...classes);
+    return node;
+  }
+
+  // Input с типом
+  public static createDOMNodeInput(id: string, classes: string[], type: string, placeholder?: string) {
+    const node = document.createElement('input');
+    if (placeholder) node.placeholder = placeholder;
+    node.id = id;
+    node.classList.add(...classes);
+    node.setAttribute('type', type);
     if (type) {
       node.type = type;
     }
