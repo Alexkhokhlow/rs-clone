@@ -1,7 +1,9 @@
 import Common from '../../utils/common';
+import Footer from '../autorisation/footer';
 import StartPageHeader from '../startPage/sections/header';
 import Header from '../workspace/sections/header/header';
-import Footer from '../autorisation/footer';
+
+const footer = new Footer();
 
 export default class ErrorPage {
   header: HTMLElement;
@@ -34,7 +36,7 @@ export default class ErrorPage {
       );
     }
 
-    this.footer = new Footer().render();
+    this.footer = footer.render();
   }
 
   public render() {
