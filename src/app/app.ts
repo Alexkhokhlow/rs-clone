@@ -1,3 +1,4 @@
+import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import StartPage from './pages/startPage/startPage';
 import User from './pages/user/user';
@@ -12,11 +13,14 @@ export default class App {
 
   user: User;
 
+  errorPage: ErrorPage;
+
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.user = new User();
+    this.errorPage = new ErrorPage();
   }
 
   async start() {
@@ -57,7 +61,7 @@ export default class App {
       if (path === '/') {
         window.location.href = 'home';
       } else {
-        this.body.innerHTML = 'error';
+        this.body.append(this.errorPage.render());
       }
     }
   }
