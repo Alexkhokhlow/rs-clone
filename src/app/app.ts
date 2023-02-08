@@ -23,9 +23,8 @@ export default class App {
   }
 
   start() {
-    // this.openPage();
-    this.body.append(this.creatingBoard.append());
-
+    this.openPage();
+    // this.body.append(this.creatingBoard.append());
   }
 
   openPage() {

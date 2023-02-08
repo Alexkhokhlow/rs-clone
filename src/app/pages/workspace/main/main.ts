@@ -11,7 +11,7 @@ export default class MainWorkspace{
   private boards: HTMLElement;
   private boardsTitle: HTMLElement;
   private boardsLayout: HTMLElement;
-  private createButton: HTMLElement;
+  public createButton: HTMLElement;
   private editWrapper: HTMLElement;
   private edit: HTMLElement;
   private nameWrapper: HTMLElement;

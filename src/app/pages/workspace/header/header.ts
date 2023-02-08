@@ -13,7 +13,7 @@ export default class Header {
 
   public workspace: HTMLButtonElement;
 
-  private create: HTMLButtonElement;
+  public create: HTMLButtonElement;
 
   public user: HTMLButtonElement;
 

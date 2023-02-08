@@ -1,9 +1,9 @@
 .start__footer {
-  padding: 1rem;
+  padding: .6rem;
   background-color: $color-background-footer;
 
   @media (max-width: 660px) {
-    padding: 1rem 1.5rem;
+    padding: .6rem 1.5rem;
   }
 }
 
@@ -22,7 +22,7 @@
 }
 
 .git__icon {
-  max-width: 4rem;
+  max-width: 3rem;
   filter: invert(1);
 
   @media (max-width: 768px) {
@@ -35,7 +35,7 @@
 }
 
 .rss__icon {
-  height: 4rem;
+  height: 3rem;
   filter: invert(1);
 
   @media (max-width: 768px) {
@@ -48,14 +48,14 @@
 }
 
 .trello__footer {
-  height: 5rem;
+  height: 3rem;
 
   @media (max-width: 768px) {
-    height: 3rem;
+    height: 2.5rem;
   }
 
   @media (max-width: 400px) {
-    height: 2.2rem;
+    height: 2rem;
   }
 }
 
