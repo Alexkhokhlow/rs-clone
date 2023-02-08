@@ -4,6 +4,10 @@
 
 // base
 @import './base/base.scss';
+@import './page/404/404.scss';
+
+// pages
+@import './page/autorisation.scss';
 
 // Start page
 @import './page/startPage/startPage.scss';

@@ -57,39 +57,42 @@ const actions = [
     color: 'rgb(255, 143, 115)',
     icon: projectManagement,
     title: 'Project Management',
-    description: 'Keep tasks in order, deadlines on track, and team members aligned with Trello.'
+    description: 'Keep tasks in order, deadlines on track, and team members aligned with Trello.',
   },
   {
     color: 'rgb(121, 226, 242)',
     icon: brainstorming,
     title: 'Brainstorming',
-    description: 'Unleash your team\'s creativity and keep ideas visible, collaborative, and actionable.'
+    description: "Unleash your team's creativity and keep ideas visible, collaborative, and actionable.",
   },
   {
     color: 'rgb(121, 242, 192)',
     icon: meetings,
     title: 'Meetings',
-    description: 'Empower your team meetings to be more productive, empowering, and dare we say - fun.'
+    description: 'Empower your team meetings to be more productive, empowering, and dare we say - fun.',
   },
   {
     color: 'rgb(255, 227, 128)',
     icon: taskManagement,
     title: 'Task Management',
-    description: 'Use Trello to track, manage, complete, and bring tasks together like the pieces of a puzzle, and make your team\'s projects a cohesive success every time.'
+    description:
+      "Use Trello to track, manage, complete, and bring tasks together like the pieces of a puzzle, and make your team's projects a cohesive success every time.",
   },
   {
     color: 'rgb(0, 199, 229)',
     icon: crm,
     title: 'CRM',
-    description: 'Use Trello as your team\'s go-to command center for content curation, revisions, handoff, and publishing.'
+    description:
+      "Use Trello as your team's go-to command center for content curation, revisions, handoff, and publishing.",
   },
   {
     color: 'rgb(135, 119, 217)',
     icon: calendar,
     title: 'Editorial calendar',
-    description: 'Use Trello as your team\'s go-to command center for content curation, revisions, handoff, and publishing.'
-  }
-]
+    description:
+      "Use Trello as your team's go-to command center for content curation, revisions, handoff, and publishing.",
+  },
+];
 
 const backgrounds = [
   {

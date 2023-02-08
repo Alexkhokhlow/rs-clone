@@ -1,35 +1,47 @@
+import ErrorPage from './pages/404/404';
+import Autorisation from './pages/autorisation/autorisation';
 import StartPage from './pages/startPage/startPage';
-import Login from './pages/login/login';
 import Workspace from './pages/workspace/workspace';
 import CreatingBoard from './pages/workspace/createBoard/createBoard';
+import Server from './server/server';
 
 export default class App {
   body: HTMLElement;
 
   startPage: StartPage;
 
-  login: Login;
+  autorisation: Autorisation;
 
   workspace: Workspace;
 
   creatingBoard: CreatingBoard;
 
+  errorPage: ErrorPage;
+
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
-    this.login = new Login();
+    this.autorisation = new Autorisation();
     this.workspace = new Workspace();
     this.creatingBoard = new CreatingBoard();
+    this.errorPage = new ErrorPage();
   }
 
-  start() {
+  async start() {
     this.openPage();
-    // this.body.append(this.creatingBoard.append());
+    const server = new Server();
+    try{
+      {token: 'dsada'}
+    const data = JSON.parse(await server.login('dsad','dsa'))
+    } catch(error){
+
+    }
   }
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/workspace\b/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+
     let flag = true;
     routes.forEach((route) => {
       const match = path.match(route);
@@ -39,8 +51,8 @@ export default class App {
           this.body.append(this.startPage.append());
           return;
         }
-        if (match[0].includes('login')) {
-          this.body.append(this.login.login);
+        if (match[0].includes('login') || match[0].includes('signup')) {
+          this.body.append(this.autorisation.render());
           return;
         }
         if (match[0].includes('workspace')) {
@@ -53,7 +65,7 @@ export default class App {
       if (path === '/') {
         window.location.href = 'home';
       } else {
-        this.body.innerHTML = 'error';
+        this.body.append(this.errorPage.render());
       }
     }
   }

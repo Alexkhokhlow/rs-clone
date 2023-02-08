@@ -1,11 +1,12 @@
 import Swiper, { Pagination, Scrollbar } from 'swiper';
 import 'swiper/css';
 import Powerhouse from '../sections/powerhouse';
+
 const app = new Powerhouse();
 
 const pagination = app.pagination();
 
-const swiperAction = new Swiper(".action__swiper", {
+const swiperAction = new Swiper('.action__swiper', {
   grabCursor: true,
   effect: 'slide',
   breakpoints: {
@@ -26,7 +27,7 @@ const swiperAction = new Swiper(".action__swiper", {
   spaceBetween: 30,
   modules: [Pagination],
   pagination: {
-    el: ".swiper-pagination",
+    el: '.swiper-pagination',
     clickable: true,
   },
 });
@@ -48,4 +49,4 @@ const swiperPowerhouse = new Swiper('.swiper', {
   },
 });
 
-export {swiperAction, swiperPowerhouse};
+export { swiperAction, swiperPowerhouse };

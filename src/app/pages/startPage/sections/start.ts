@@ -7,11 +7,11 @@ export default class Start {
 
   private title: HTMLElement;
 
-  public emailWrapper: HTMLElement;
+  private emailWrapper: HTMLElement;
 
   private email: HTMLInputElement;
 
-  public submit: HTMLButtonElement;
+  private submit: HTMLButtonElement;
 
   constructor() {
     this.section = Common.createDomNode('section', ['start']);
@@ -26,10 +26,7 @@ export default class Start {
     this.emailWrapper.append(this.email, this.submit);
     this.wrapper.append(this.title, this.emailWrapper);
     this.section.append(this.wrapper);
-    Common.setLocalEmail(this.submit, this.email);
 
     return this.section;
   }
-
-
 }
