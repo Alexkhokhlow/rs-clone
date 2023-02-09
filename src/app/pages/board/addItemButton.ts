@@ -38,7 +38,6 @@ export default class AddItemButton {
     form.append(input, container);
 
     closeIcon.addEventListener('click', this.close.bind(this));
-    console.log(this.button);
     this.container.replaceChild(form, this.button);
     button.addEventListener('click', this.onClick);
     input.addEventListener('change', (event: Event) => {

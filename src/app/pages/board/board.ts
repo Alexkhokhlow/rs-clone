@@ -1,4 +1,5 @@
 import Common from '../../utils/common';
+import Header from '../workspace/header/header';
 import AddItemButton from './addItemButton';
 import TasksList from './tasksList/tasksList';
 
@@ -9,8 +10,14 @@ export default class Board {
 
   listsContainer: HTMLElement;
 
+  header: Header;
+  container: HTMLElement;
+
   constructor() {
     this.board = Common.createDOMNode('section', ['board']);
+    this.container = Common.createDOMNode('div', ['board-page'])
+    this.header = new Header();
+
     this.addListButton = new AddItemButton(
       'add another list',
       'Enter list title...',
@@ -18,6 +25,7 @@ export default class Board {
       this.addList.bind(this)
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container']);
+    this.container.append(this.header.append(), this.board)
     this.board.append(this.listsContainer, this.addListButton.container);
   }
 

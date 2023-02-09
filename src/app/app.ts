@@ -55,8 +55,7 @@ export default class App {
           this.body.append(this.workspace.append());
         }
         if (match[0].includes('board')) {
-          this.body.append(this.board.board);
-          return;
+          this.body.append(this.board.container);
         }
       }
     });
