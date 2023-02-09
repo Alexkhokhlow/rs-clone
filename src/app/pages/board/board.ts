@@ -31,12 +31,21 @@ export default class Board {
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container']);
     this.container.append(this.header.append(), this.board);
-    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskList);
+    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
   }
 
   onAddList() {
-    const list = new TasksList(this.addListButton.form.data);
+    const list = new TasksList(this.addListButton.form.data, this.openTaskInfo.bind(this));
     this.addListButton.onClose();
     this.listsContainer.append(list.tasksList);
+  }
+
+  openTaskInfo(event: Event) {
+    const target = event.currentTarget as HTMLElement;
+    const title = target.getAttribute('title');
+    if (title) {
+      this.taskInfo.init(title);
+      this.taskInfo.taskInfo.classList.add('active');
+    }
   }
 }

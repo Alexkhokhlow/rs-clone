@@ -8,10 +8,12 @@ export default class Task {
 
   priority: Priority;
 
-  constructor(title: string) {
+  constructor(title: string, onClick: (event: Event) => void) {
     this.task = Common.createDOMNode('div', ['task']);
     this.title = Common.createDOMNode('span', ['task__title'], title);
     this.priority = new Priority();
     this.task.append(this.title, this.priority.priority);
+    this.task.setAttribute('title', title);
+    this.task.addEventListener('click', onClick);
   }
 }
