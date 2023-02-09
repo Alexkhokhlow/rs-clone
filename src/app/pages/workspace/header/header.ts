@@ -1,6 +1,10 @@
 import Common from '../../../utils/common';
+import CreatingBoard from '../createBoard/createBoard';
+
 
 export default class Header {
+  private  creatingBoard: CreatingBoard;
+
   public header: HTMLElement;
 
   private wrapper: HTMLElement;
@@ -20,6 +24,7 @@ export default class Header {
   private userImg: HTMLElement;
 
   constructor() {
+    this.creatingBoard = new CreatingBoard();
     this.header = Common.createDomNode('header', ['header', 'workspace__header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'wrapper__header']);
     this.logo = Common.createDomNodeLink(['logo', 'header__logo'], '/');
@@ -40,6 +45,7 @@ export default class Header {
     this.workspace.addEventListener('click', () => {
       window.location.href = '/workspace';
     })
+    this.create.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
 
     return this.header;
   }

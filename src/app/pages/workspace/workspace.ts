@@ -30,7 +30,6 @@ export default class Workspace {
   }
 
   private bindEvents() {
-    this.header.create.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
     this.main.createButton.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
   }
 }
