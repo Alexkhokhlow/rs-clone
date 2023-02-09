@@ -78,6 +78,7 @@
 
 .board__button {
   background-color: $color-hr;
+  transition: .3s;
 
   &:hover {
     background-color: $color-pagination;
@@ -95,6 +96,7 @@
   height: 2rem;
   cursor: pointer;
   border-radius: .5rem;
+  transition: .3s;
 
   &:hover {
     background-color: $color-hr;
@@ -129,11 +131,21 @@
   width: 30%;
   padding: .5rem 0;
   border-radius: .5rem;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-pagination;
+  }
 }
 
 .save {
   background-color: $color-brand;
   color: $color-background;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-brand-hover;
+  }
 }
 
 .hidden {
