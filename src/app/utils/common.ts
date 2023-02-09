@@ -51,6 +51,19 @@ export default class Common {
     return node;
   }
 
+  // Input с типом
+  public static createDOMNodeInput(id: string, classes: string[], type: string, placeholder?: string) {
+    const node = document.createElement('input');
+    if (placeholder) {
+      node.placeholder = placeholder;
+    }
+    node.id = id;
+    node.classList.add(...classes);
+    node.setAttribute('type', type);
+
+    return node;
+  }
+
   public static createDomNodeLabel(forAtt: string, text: string, classes: string[]) {
     const node = document.createElement('label');
     node.setAttribute('for', forAtt);

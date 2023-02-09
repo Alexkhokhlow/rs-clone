@@ -7,8 +7,6 @@ const logolink = require('../../../assets/loginPage/logo.svg') as string;
 const bgLeftLink = require('../../../assets/loginPage/bgLeft.svg') as string;
 const bgRightLink = require('../../../assets/loginPage/bgRight.svg') as string;
 
-console.log(logolink);
-
 const loginForm = new LoginForm();
 const signupForm = new SignupForm();
 
