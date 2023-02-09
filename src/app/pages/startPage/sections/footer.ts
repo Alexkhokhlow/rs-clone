@@ -6,17 +6,19 @@ const iconRss = require('../../../../assets/rs_school_js.svg') as string;
 const trello = require('../../../../assets/startPage/svg/trello.svg') as string;
 
 export default class StartPageFooter {
-  footer: HTMLElement;
+  private footer: HTMLElement;
 
-  wrapper: HTMLElement;
+  private wrapper: HTMLElement;
 
-  icons: HTMLElement;
+  private icons: HTMLElement;
 
-  rssLink: HTMLAnchorElement;
+  private rssLink: HTMLAnchorElement;
 
-  rssIcon: HTMLImageElement;
+  private rssIcon: HTMLImageElement;
 
-  trello: HTMLImageElement;
+  private trello: HTMLImageElement;
+
+  private year: HTMLElement;
 
   constructor() {
     this.footer = Common.createDomNode('footer', ['start__footer']);
@@ -25,6 +27,7 @@ export default class StartPageFooter {
     this.rssLink = Common.createDomNodeLink(['rss'], 'https://rs.school/');
     this.rssIcon = Common.createDomNodeImg(['rss__icon'], iconRss);
     this.trello = Common.createDomNodeImg(['trello__footer'], trello);
+    this.year = Common.createDomNode('span', ['year'], '2023');
 
     github.forEach((link) => {
       const linkGit = Common.createDomNodeLink(['github'], link);
@@ -37,7 +40,7 @@ export default class StartPageFooter {
   public append() {
     this.rssLink.append(this.rssIcon);
     this.icons.append(this.rssLink);
-    this.wrapper.append(this.trello, this.icons);
+    this.wrapper.append(this.trello, this.year, this.icons);
     this.footer.append(this.wrapper);
 
     return this.footer;

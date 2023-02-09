@@ -94,6 +94,49 @@ const actions = [
   },
 ];
 
+const backgrounds = [
+  {
+    title: 'Blue',
+    color: 'rgb(0, 101, 255)',
+  },
+  {
+    title: 'Orange',
+    color: 'rgb(210, 144, 52)',
+  },
+  {
+    title: 'Green',
+    color: 'rgb(81, 152, 57)',
+  },
+  {
+    title: 'Red',
+    color: 'rgb(176, 70, 50)',
+  },
+  {
+    title: 'Purple',
+    color: 'rgb(137, 96, 158)',
+  },
+  {
+    title: 'Pink',
+    color: 'rgb(205, 90, 145)',
+  },
+  {
+    title: 'Lime',
+    color: 'rgb(75, 191, 107)',
+  },
+  {
+    title: 'Sky',
+    color: 'rgb(0, 174, 204)',
+  },
+  {
+    title: 'Gray',
+    color: 'rgb(131, 140, 145)',
+  },
+  {
+    title: 'Yellow',
+    color: 'rgb(233 208 2)',
+  },
+];
+
 const github = ['https://github.com/MariDash', 'https://github.com/alexkhokhlow', 'https://github.com/janaahurtsova'];
 
-export { articles, cardsDescription, actions, github };
+export { articles, cardsDescription, actions, github, backgrounds };

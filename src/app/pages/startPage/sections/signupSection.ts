@@ -44,18 +44,8 @@ export default class SignupSection {
     this.textContainer.append(this.title, this.subtitle, this.emailWrapper);
     this.wrapper.append(this.textContainer, this.image);
     this.section.append(this.wrapper);
-    this.setLocalEmail();
+    Common.setLocalEmail(this.submit, this.email);
 
     return this.section;
-  }
-
-  private setLocalEmail() {
-    this.submit.addEventListener('click', () => {
-      if (this.email.value) {
-        localStorage.setItem('email', this.email.value);
-        this.email.value = '';
-      }
-      window.location.href = '/signup';
-    });
   }
 }

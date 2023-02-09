@@ -1,7 +1,8 @@
 import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import StartPage from './pages/startPage/startPage';
-import User from './pages/user/user';
+import CreatingBoard from './pages/workspace/createBoard/createBoard';
+import Workspace from './pages/workspace/workspace';
 import Server from './server/server';
 
 export default class App {
@@ -11,7 +12,9 @@ export default class App {
 
   autorisation: Autorisation;
 
-  user: User;
+  workspace: Workspace;
+
+  creatingBoard: CreatingBoard;
 
   errorPage: ErrorPage;
 
@@ -19,24 +22,25 @@ export default class App {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
-    this.user = new User();
+    this.workspace = new Workspace();
+    this.creatingBoard = new CreatingBoard();
     this.errorPage = new ErrorPage();
   }
 
   async start() {
     this.openPage();
     const server = new Server();
-    try{
-      {token: 'dsada'}
-    const data = JSON.parse(await server.login('dsad','dsa'))
-    } catch(error){
-
-    }
+    try {
+      {
+        ('dsada');
+      }
+      const data = JSON.parse(await server.login('dsad', 'dsa'));
+    } catch (error) {}
   }
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
 
     let flag = true;
     routes.forEach((route) => {
@@ -51,9 +55,8 @@ export default class App {
           this.body.append(this.autorisation.render());
           return;
         }
-        if (match[0].includes('user')) {
-          this.user.init(match[0]);
-          this.body.append(this.user.user);
+        if (match[0].includes('workspace')) {
+          this.body.append(this.workspace.append());
         }
       }
     });
