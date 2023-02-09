@@ -1,17 +1,17 @@
 import Common from '../../../utils/common';
 
 export default class Start {
-  public section: HTMLElement;
+  private section: HTMLElement;
 
   private wrapper: HTMLElement;
 
   private title: HTMLElement;
 
-  public emailWrapper: HTMLElement;
+  private emailWrapper: HTMLElement;
 
   private email: HTMLInputElement;
 
-  public submit: HTMLButtonElement;
+  private submit: HTMLButtonElement;
 
   constructor() {
     this.section = Common.createDomNode('section', ['start']);
@@ -26,18 +26,8 @@ export default class Start {
     this.emailWrapper.append(this.email, this.submit);
     this.wrapper.append(this.title, this.emailWrapper);
     this.section.append(this.wrapper);
-    this.setLocalEmail();
+    Common.setLocalEmail(this.submit, this.email);
 
     return this.section;
-  }
-
-  private setLocalEmail() {
-    this.submit.addEventListener('click', () => {
-      if (this.email.value) {
-        localStorage.setItem('email', this.email.value);
-        this.email.value = '';
-      }
-      window.location.href = '/signup';
-    });
   }
 }

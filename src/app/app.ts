@@ -2,8 +2,8 @@ import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
-import User from './pages/user/user';
-import Server from './server/server';
+import CreatingBoard from './pages/workspace/createBoard/createBoard';
+import Workspace from './pages/workspace/workspace';
 
 export default class App {
   body: HTMLElement;
@@ -12,7 +12,9 @@ export default class App {
 
   autorisation: Autorisation;
 
-  user: User;
+  workspace: Workspace;
+
+  creatingBoard: CreatingBoard;
 
   board: Board;
 
@@ -22,9 +24,10 @@ export default class App {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
-    this.board = new Board();
-    this.user = new User();
+    this.workspace = new Workspace();
+    this.creatingBoard = new CreatingBoard();
     this.errorPage = new ErrorPage();
+    this.board = new Board();
   }
 
   async start() {
@@ -33,7 +36,7 @@ export default class App {
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
 
     let flag = true;
     routes.forEach((route) => {
@@ -48,13 +51,12 @@ export default class App {
           this.body.append(this.autorisation.render());
           return;
         }
+        if (match[0].includes('workspace')) {
+          this.body.append(this.workspace.append());
+        }
         if (match[0].includes('board')) {
           this.body.append(this.board.board);
           return;
-        }
-        if (match[0].includes('user')) {
-          this.user.init(match[0]);
-          this.body.append(this.user.user);
         }
       }
     });
