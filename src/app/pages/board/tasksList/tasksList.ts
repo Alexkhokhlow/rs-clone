@@ -6,6 +6,7 @@ export default class TasksList {
   tasksList: HTMLElement;
 
   title: HTMLElement;
+
   addCardButton: AddItemButton;
 
   constructor(title: string) {

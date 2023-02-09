@@ -13,7 +13,7 @@ export default class App {
   autorisation: Autorisation;
 
   user: User;
-  
+
   board: Board;
 
   errorPage: ErrorPage;

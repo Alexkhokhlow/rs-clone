@@ -1,4 +1,5 @@
 import Common from '../../utils/common';
+
 const closeIconlink = require('../../../assets/board/close.svg') as string;
 
 export default class AddItemButton {
@@ -9,8 +10,11 @@ export default class AddItemButton {
   onClick: (event: Event) => void;
 
   data: string;
+
   inputValue: string;
+
   buttonText: string;
+
   constructor(title: string, inputValue: string, buttonText: string, onClick: (event: Event) => void) {
     this.onClick = onClick;
     this.inputValue = inputValue;

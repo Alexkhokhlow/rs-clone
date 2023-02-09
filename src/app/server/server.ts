@@ -13,7 +13,7 @@ export default class Server {
       },
       body: JSON.stringify({ userName, email, password }),
     });
-    
+
     await this.checkError(response);
 
     const json = await response.json();
@@ -35,7 +35,7 @@ export default class Server {
     return json;
   }
 
-  async checkError(response: Response){
+  async checkError(response: Response) {
     if (!response.ok) {
       const message = `An error has occurred: ${await response.text()}`;
       throw new Error(message);

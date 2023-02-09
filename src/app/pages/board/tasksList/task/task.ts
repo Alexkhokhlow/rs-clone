@@ -2,6 +2,7 @@ import Common from '../../../../utils/common';
 
 export default class Task {
   task: HTMLElement;
+
   title: HTMLElement;
 
   constructor(title: string) {

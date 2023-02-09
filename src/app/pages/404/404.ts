@@ -1,12 +1,12 @@
 import Common from '../../utils/common';
 import Footer from '../autorisation/footer';
 import StartPageHeader from '../startPage/sections/header';
-import Header from '../workspace/sections/header/header';
+//import Header from '../workspace/sections/header/header';
 
 const footer = new Footer();
 
 export default class ErrorPage {
-  header: HTMLElement;
+  //header: HTMLElement;
 
   main: HTMLElement;
 
@@ -21,14 +21,14 @@ export default class ErrorPage {
     this.title = Common.createDOMNode('h2', ['error__title'], 'Page not found.');
 
     if (this.isAuthorized()) {
-      this.header = new Header().append();
+     // this.header = new Header().append();
       this.errorMessage = Common.createDOMNode(
         'p',
         ['error__message'],
         'Perhaps this is a private page. Ask the person who shared the link to share the board or invite you to the workspace.'
       );
     } else {
-      this.header = new StartPageHeader().append();
+    //  this.header = new StartPageHeader().append();
       this.errorMessage = Common.createDOMNode(
         'p',
         ['error__message'],
@@ -41,7 +41,7 @@ export default class ErrorPage {
 
   public render() {
     this.title.append(this.errorMessage);
-    this.main.append(this.header, this.title, this.footer);
+   // this.main.append(this.header, this.title, this.footer);
 
     return this.main;
   }
