@@ -1,4 +1,5 @@
 import Autorisation from './pages/autorisation/autorisation';
+import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
 import User from './pages/user/user';
 import Server from './server/server';
@@ -11,28 +12,24 @@ export default class App {
   autorisation: Autorisation;
 
   user: User;
+  
+  board: Board;
 
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
+    this.board = new Board();
     this.user = new User();
   }
 
   async start() {
     this.openPage();
-    const server = new Server();
-    try{
-      {token: 'dsada'}
-    const data = JSON.parse(await server.login('dsad','dsa'))
-    } catch(error){
-
-    }
   }
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
 
     let flag = true;
     routes.forEach((route) => {
@@ -45,6 +42,10 @@ export default class App {
         }
         if (match[0].includes('login') || match[0].includes('signup')) {
           this.body.append(this.autorisation.render());
+          return;
+        }
+        if (match[0].includes('board')) {
+          this.body.append(this.board.board);
           return;
         }
         if (match[0].includes('user')) {
