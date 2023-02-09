@@ -34,7 +34,7 @@ export default class ErrorPage {
       );
     }
 
-    this.footer = footer.render();
+    this.footer = new Footer().render();
   }
 
   public render() {
