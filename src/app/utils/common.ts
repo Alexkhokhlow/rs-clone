@@ -39,7 +39,6 @@ export default class Common {
     return node;
   }
 
-
   public static createDomNodeInput(placeholder: string, id: string, classes: string[], type?: string) {
     const node = document.createElement('input');
     node.placeholder = placeholder;
