@@ -1,9 +1,9 @@
 import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
+import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
 import CreatingBoard from './pages/workspace/createBoard/createBoard';
 import Workspace from './pages/workspace/workspace';
-import Server from './server/server';
 
 export default class App {
   body: HTMLElement;
@@ -16,6 +16,8 @@ export default class App {
 
   creatingBoard: CreatingBoard;
 
+  board: Board;
+
   errorPage: ErrorPage;
 
   constructor() {
@@ -25,22 +27,16 @@ export default class App {
     this.workspace = new Workspace();
     this.creatingBoard = new CreatingBoard();
     this.errorPage = new ErrorPage();
+    this.board = new Board();
   }
 
   async start() {
     this.openPage();
-    const server = new Server();
-    try {
-      {
-        ('dsada');
-      }
-      const data = JSON.parse(await server.login('dsad', 'dsa'));
-    } catch (error) {}
   }
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
 
     let flag = true;
     routes.forEach((route) => {
@@ -57,6 +53,9 @@ export default class App {
         }
         if (match[0].includes('workspace')) {
           this.body.append(this.workspace.append());
+        }
+        if (match[0].includes('board')) {
+          this.body.append(this.board.container);
         }
       }
     });
