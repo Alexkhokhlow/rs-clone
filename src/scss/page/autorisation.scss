@@ -242,6 +242,19 @@
     }
 }
 
+.login__error {
+    border-radius: 3px;
+    box-shadow: red 0px 4px 8px -2px, rgb(9 30 66 / 30%) 0px 0px 1px;
+    color: rgb(37, 56, 88);
+    font-size: 12px;
+    margin-bottom: 24px;
+    padding: 10px;
+    transform-origin: 50% 0px;
+    transition-property: visibility, height, margin-bottom, opacity, transform, padding;
+    transition-duration: 0s, 0.2s, 0.2s, 0.2s, 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
 .invisible {
     display: none;
 }
