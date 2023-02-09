@@ -16,15 +16,15 @@ export default class TasksList {
       'add a card',
       'Enter a little for this card...',
       'add card',
-      this.addCart.bind(this)
+      this.onAddCart.bind(this)
     );
 
     this.tasksList.append(this.title, this.addCardButton.container);
   }
 
-  addCart() {
-    const task = new Task(this.addCardButton.data);
-    this.addCardButton.close();
+  onAddCart() {
+    const task = new Task(this.addCardButton.form.data);
+    this.addCardButton.onClose();
     this.tasksList.insertBefore(task.task, this.addCardButton.container);
   }
 }
