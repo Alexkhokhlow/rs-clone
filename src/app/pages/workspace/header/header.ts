@@ -37,6 +37,9 @@ export default class Header {
     this.user.append(this.userImg);
     this.wrapper.append(this.navigation, this.user);
     this.header.append(this.wrapper);
+    this.workspace.addEventListener('click', () => {
+      window.location.href = '/workspace';
+    })
 
     return this.header;
   }
