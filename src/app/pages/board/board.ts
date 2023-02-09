@@ -1,6 +1,6 @@
 import Common from '../../utils/common';
 import Header from '../workspace/header/header';
-import AddItemButton from './addItemButton';
+import AddItemButton from './common/addItemButton';
 import TaskInfo from './taskInfo/taskInfo';
 import TasksList from './tasksList/tasksList';
 

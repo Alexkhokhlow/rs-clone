@@ -1,5 +1,5 @@
 import Common from '../../../utils/common';
-import AddItemButton from '../addItemButton';
+import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
 
 export default class TasksList {

@@ -79,6 +79,19 @@
   box-shadow: #091e4240;
 }
 
-.priority{
-  
+.description {
+
+  &__edit {
+    display: none;
+  }
+
+ 
+}
+
+.active {
+  display:  inline-block;
+}
+
+.inactive {
+  display:  none;
 }
