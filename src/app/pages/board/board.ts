@@ -17,11 +17,14 @@ export default class Board {
 
   taskInfo: TaskInfo;
 
+  tasksListArray : TasksList[];
+
   constructor() {
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
     this.taskInfo = new TaskInfo();
+    this.tasksListArray = [];
 
     this.addListButton = new AddItemButton(
       'add another list',
@@ -36,6 +39,7 @@ export default class Board {
 
   onAddList() {
     const list = new TasksList(this.addListButton.form.data);
+    this.tasksListArray.push(list);
     this.addListButton.onClose();
     this.listsContainer.append(list.tasksList);
   }
