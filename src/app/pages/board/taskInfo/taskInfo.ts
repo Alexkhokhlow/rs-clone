@@ -35,14 +35,15 @@ export default class TaskInfo {
     this.main = Common.createDomNode('main', ['task-info__main']);
     this.container = Common.createDOMNode('div', ['task-info__container']);
     this.container.append(this.main, this.sidebar.sidebar);
-    this.header.append(this.title, this.info);
+    this.header.append(this.title, this.close, this.info);
     this.main.append(this.description.description, this.comment.commentsForm);
     this.taskInfo.append(this.header, this.container);
     this.close.addEventListener('click', this.onClose.bind(this));
   }
 
-  init(text: string) {
-    this.title.textContent = text;
+  init(title: string, list: string) {
+    this.title.textContent = title;
+    this.info.textContent = `from ${list}`;
   }
 
   onClose() {

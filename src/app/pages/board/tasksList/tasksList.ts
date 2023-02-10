@@ -3,15 +3,19 @@ import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
 
 export default class TasksList {
-  tasksList: HTMLElement;
+  public tasksList: HTMLElement;
 
-  title: HTMLElement;
+  private title: HTMLElement;
 
-  addCardButton: AddItemButton;
-  onClick: (event: Event) => void;
+  private addCardButton: AddItemButton;
+
+  private onClick: (event: Event) => void;
+
+  titleText: string;
 
   constructor(title: string, onClick: (event: Event) => void) {
     this.onClick = onClick;
+    this.titleText = title;
     this.tasksList = Common.createDOMNode('div', ['tasks-list']);
     this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
     this.addCardButton = new AddItemButton(
@@ -25,8 +29,10 @@ export default class TasksList {
   }
 
   onAddCart() {
-    const task = new Task(this.addCardButton.form.data, this.onClick);
-    this.addCardButton.onClose();
-    this.tasksList.insertBefore(task.task, this.addCardButton.container);
+    if (this.addCardButton.form.data) {
+      const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText);
+      this.addCardButton.onClose();
+      this.tasksList.insertBefore(task.task, this.addCardButton.container);
+    }
   }
 }

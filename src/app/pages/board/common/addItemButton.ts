@@ -23,5 +23,7 @@ export default class AddItemButton {
   onClose() {
     this.container.replaceChild(this.button, this.container.children[0]);
     this.form.data = '';
+    this.form.input.value = '';
+
   }
 }

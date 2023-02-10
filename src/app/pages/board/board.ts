@@ -35,16 +35,18 @@ export default class Board {
   }
 
   onAddList() {
-    const list = new TasksList(this.addListButton.form.data, this.openTaskInfo.bind(this));
-    this.addListButton.onClose();
-    this.listsContainer.append(list.tasksList);
+    if (this.addListButton.form.data) {
+      const list = new TasksList(this.addListButton.form.data, this.openTaskInfo.bind(this));
+      this.addListButton.onClose();
+      this.listsContainer.append(list.tasksList);
+    }
   }
 
   openTaskInfo(event: Event) {
     const target = event.currentTarget as HTMLElement;
-    const title = target.getAttribute('title');
-    if (title) {
-      this.taskInfo.init(title);
+    const { title, list } = target.dataset;
+    if (title && list) {
+      this.taskInfo.init(title, list);
       this.taskInfo.taskInfo.classList.add('active');
     }
   }
