@@ -35,6 +35,21 @@ export default class Server {
     return json;
   }
 
+  async checkEmail(email: string) {
+    const response = await fetch(`${this.address}/email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async checkError(response: Response) {
     if (!response.ok) {
       const message = `An error has occurred: ${await response.text()}`;

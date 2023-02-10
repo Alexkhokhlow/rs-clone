@@ -103,7 +103,6 @@ export default class LoginForm {
       this.btnSubmit.setAttribute('disabled', 'disabled');
       try {
         const result = await server.login(login, password);
-        // сохранение токена в localStorage и переход в workspace
         localStorage.setItem('token', result.token);
         window.location.href = 'workspace';
       } catch (error) {

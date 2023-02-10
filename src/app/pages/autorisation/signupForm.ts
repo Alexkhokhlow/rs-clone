@@ -1,5 +1,8 @@
+import Server from '../../server/server';
 import Common from '../../utils/common';
 import EntryWays from './entryWays';
+
+const server = new Server();
 
 export default class SignupForm {
   static otherEntryWays = ['Google', 'msft', 'Apple', 'Slack'];
@@ -8,9 +11,15 @@ export default class SignupForm {
 
   formTitle: HTMLElement;
 
+  errorMessage: HTMLElement;
+
   inputsContainer: HTMLElement;
 
   loginInput: HTMLElement;
+
+  passwordInput: HTMLElement;
+
+  nameInput: HTMLElement;
 
   btnSubmit: HTMLElement;
 
@@ -23,8 +32,16 @@ export default class SignupForm {
   constructor() {
     this.form = Common.createDomNode('div', ['login__form']);
     this.formTitle = Common.createDomNode('h1', ['login__title'], 'Sign up for your account');
+    this.errorMessage = Common.createDOMNode('p', ['login__error', 'invisible']);
     this.inputsContainer = Common.createDomNode('div', ['inputs__container']);
     this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', 'Enter email');
+    this.passwordInput = Common.createDOMNodeInput(
+      'password',
+      ['input_password', 'invisible'],
+      'password',
+      'Enter password'
+    );
+    this.nameInput = Common.createDOMNodeInput('name', ['input_name', 'invisible'], 'text', 'Enter your name');
     this.btnSubmit = Common.createDOMNodeInput('submit', ['input_sublit', 'btn', 'btn_submit'], 'submit');
     this.seperetor = Common.createDomNode('div', ['form__separator'], 'OR');
     this.entryWays = SignupForm.otherEntryWays.map((elem) => {
@@ -34,14 +51,14 @@ export default class SignupForm {
   }
 
   public render() {
-    this.form.append(this.formTitle, this.inputsContainer, this.seperetor);
+    this.form.append(this.formTitle, this.errorMessage, this.inputsContainer, this.seperetor);
 
     if (this.btnSubmit instanceof HTMLInputElement) {
       this.btnSubmit.value = 'Continue';
       this.btnSubmit.setAttribute('disabled', 'disabled');
     }
 
-    this.inputsContainer.append(this.loginInput, this.btnSubmit);
+    this.inputsContainer.append(this.loginInput, this.passwordInput, this.nameInput, this.btnSubmit);
 
     this.entryWays.forEach((way) => {
       this.form.append(way);
@@ -69,15 +86,41 @@ export default class SignupForm {
 
     this.btnSubmit.addEventListener('click', (e) => {
       e.preventDefault();
-      // TODO: добавить регистрацию + введение пароля, имени  (сохранить в localStorage и перейти на главную страницу)
-      if (this.loginInput instanceof HTMLInputElement) {
-        console.log(this.loginInput.value);
+      if (this.loginInput instanceof HTMLInputElement && this.btnSubmit instanceof HTMLInputElement) {
+        if (this.btnSubmit.value === 'Continue') {
+          const mail = this.loginInput.value.trim();
+          if (this.checkMail(mail)) {
+            this.passwordInput.classList.remove('invisible');
+            this.nameInput.classList.remove('invisible');
+            this.btnSubmit.value = 'Sign up';
+            this.deleteErrorMessage();
+          } else {
+            this.showErrorMessage();
+          }
+        } else if (
+          this.btnSubmit.value === 'Sign up' &&
+          this.passwordInput instanceof HTMLInputElement &&
+          this.nameInput instanceof HTMLInputElement
+        ) {
+          const mail = this.loginInput.value.trim();
+          const password = this.passwordInput.value.trim();
+          const name = this.nameInput.value.trim();
+          if (this.isValidMail(mail) && password !== '' && name !== '') {
+            this.singUp(mail, password, name);
+          } else {
+            this.showErrorMessage();
+          }
+        }
       }
     });
 
     this.linkToLoginPage.addEventListener('click', () => {
-      localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
+      this.mailToLocalStorage();
     });
+  }
+
+  private mailToLocalStorage() {
+    localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
   }
 
   private isValidMail(mail: string) {
@@ -91,5 +134,51 @@ export default class SignupForm {
     } else {
       btn.setAttribute('disabled', 'disabled');
     }
+  }
+
+  private showErrorMessage() {
+    if (this.btnSubmit instanceof HTMLInputElement) {
+      if (this.btnSubmit.value === 'Sign up') {
+        this.errorMessage.innerHTML = 'Invalid email address and/or password and/or name.';
+      } else {
+        this.errorMessage.innerHTML =
+          'It looks like you have already registered an account using this email address. <a href=/signup class="message__link">Sign in</a>.';
+      }
+    }
+
+    this.errorMessage.classList.remove('invisible');
+  }
+
+  private deleteErrorMessage() {
+    this.errorMessage.classList.add('invisible');
+  }
+
+  private checkMail(mail: string) {
+    // когда добавится на сервер запрос на провеку адреса почты, раскомментить
+    // this.btnSubmit.setAttribute('disabled', 'disabled');
+    if (mail !== '1') {
+      return true;
+    }
+    return false;
+    // try {
+    //   await server.checkEmail(mail);
+    //   return true;
+    // } catch (e) {
+    //   return false;
+    // }
+    // this.btnSubmit.removeAttribute('disabled');
+  }
+
+  private async singUp(mail: string, password: string, name: string) {
+    this.changeActivityofBtn(false, this.btnSubmit);
+    try {
+      await server.signUp(mail, password, name);
+      this.deleteErrorMessage();
+      this.mailToLocalStorage();
+      window.location.href = 'login';
+    } catch (error) {
+      this.showErrorMessage();
+    }
+    this.changeActivityofBtn(true, this.btnSubmit);
   }
 }
