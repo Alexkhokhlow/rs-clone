@@ -27,7 +27,7 @@ export default class ErrorPage {
       );
     } else {
       this.header = new StartPageHeader().append();
-      this.errorMessage = Common.createDomNode(
+      this.errorMessage = Common.createDOMNode(
         'p',
         ['error__message'],
         'Perhaps this is a private page. You could see it <a href=/signup class="message__link">by signing in</a>.'
