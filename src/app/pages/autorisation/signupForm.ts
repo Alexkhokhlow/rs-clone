@@ -68,7 +68,7 @@ export default class SignupForm {
 
     this.addHandlers();
 
-    const mailFromLocalStorage = localStorage.getItem('data');
+    const mailFromLocalStorage = localStorage.getItem('email');
     if (mailFromLocalStorage && this.loginInput instanceof HTMLInputElement) {
       this.loginInput.value = mailFromLocalStorage;
       this.changeActivityofBtn(this.isValidMail(mailFromLocalStorage), this.btnSubmit);

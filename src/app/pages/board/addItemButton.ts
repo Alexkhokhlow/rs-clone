@@ -9,7 +9,7 @@ export default class AddItemButton {
   form: Form;
 
   constructor(title: string, inputValue: string, buttonText: string, onClick: (event: Event) => void) {
-    this.container = Common.createDOMNode('div', ['add-item']);
+    this.container = Common.createDomNode('div', ['add-item']);
     this.button = Common.createDomNodeButton(['add-item__button'], title);
     this.container.append(this.button);
     this.button.addEventListener('click', this.onActivate.bind(this));

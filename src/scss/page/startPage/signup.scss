@@ -77,6 +77,7 @@
   color: $color-background;
   padding: 1rem;
   border-radius: .5rem;
+  transition: .3s;
 
   &:hover {
     background-color: $color-brand-hover;
