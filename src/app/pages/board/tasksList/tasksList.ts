@@ -1,6 +1,7 @@
 import Common from '../../../utils/common';
 import AddItemButton from '../addItemButton';
 import Task from './task/task';
+let draggedItem: HTMLElement | null;
 
 export default class TasksList {
   tasksList: HTMLElement;
@@ -9,48 +10,55 @@ export default class TasksList {
 
   addCardButton: AddItemButton;
 
+  tasksWrapper: HTMLElement;
+
   constructor(title: string) {
     this.tasksList = Common.createDOMNode('div', ['tasks-list']);
     this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
+    this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
       'add a card',
-      'Enter a little for this card...',
+      'Enter a title for this card...',
       'add card',
       this.onAddCart.bind(this)
     );
 
-    this.tasksList.addEventListener('dragover', (event: Event) => {
-      event.preventDefault();
-    });
-
-    this.tasksList.addEventListener('dragenter', function (event: Event) {
-      this.classList.add('hovered');
-      //  console.log(1);
-    });
-
-    this.tasksList.addEventListener('dragleave', function () {
-      this.classList.remove('hovered');
-      // console.log(2);
-    });
-    this.tasksList.addEventListener('drop', function (event: Event) {
-      event.preventDefault();
-      const target = event.currentTarget as HTMLElement;
-      //this.append(this.task);
-      // if (target.className === 'tasks-list') {
-      //   dragged.parentNode.removeChild(dragged);
-      //   target.appendChild(dragged);
-      // }
-      const drag = event as DragEvent;
-      const task = new Task(drag.dataTransfer?.getData('data') as string);
-      this.insertBefore(task.task, this.children[this.children.length - 1]);
-    });
-
-    this.tasksList.append(this.title, this.addCardButton.container);
+    this.tasksList.append(this.title, this.tasksWrapper, this.addCardButton.container);
   }
 
   onAddCart() {
-    const task = new Task(this.addCardButton.form.data);
+    const task = new Task(this.addCardButton.form.data).append();
     this.addCardButton.onClose();
-    this.tasksList.insertBefore(task.task, this.addCardButton.container);
+    this.tasksWrapper.append(task);
+
+    this.drag(task, this.tasksWrapper);
+  }
+
+  private drag(task:HTMLElement, list: HTMLElement) {
+    task.addEventListener('dragstart', () => {
+      draggedItem = task;
+
+      setTimeout(() => {
+        task.classList.add('hidden');
+      }, 0);
+    });
+
+    task.addEventListener('dragend', () => {
+      task.classList.remove('hidden');
+      draggedItem = null;
+    });
+
+    this.tasksList.addEventListener("dragover", (event) => {
+        event.preventDefault();
+    });
+    
+    this.tasksList.addEventListener("dragenter", (event) => {
+        event.preventDefault();
+    });
+    
+    this.tasksList.addEventListener("drop", (event) => {
+        event.preventDefault();
+        list.append(draggedItem!);
+    });
   }
 }

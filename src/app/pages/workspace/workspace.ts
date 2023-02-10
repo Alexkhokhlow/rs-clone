@@ -42,5 +42,6 @@ export default class Workspace {
     this.main.boardsLayout.append(boardPreview);
     this.creatingBoard.closeModal(event);
     this.creatingBoard.boardTitleInput.value = '';
+    window.location.href = '/board';
   }
 }

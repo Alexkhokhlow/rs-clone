@@ -1,6 +1,8 @@
 import Common from '../../../../utils/common';
 import Priority from './priority/priority';
 
+let count = 0;
+
 export default class Task {
   task: HTMLElement;
 
@@ -10,20 +12,16 @@ export default class Task {
 
   constructor(title: string) {
     this.task = Common.createDOMNode('div', ['task']);
+    this.task.id = count.toString();
     this.task.draggable = true;
     this.title = Common.createDOMNode('span', ['task__title'], title);
     this.priority = new Priority();
+  }
+
+  public append() {
     this.task.append(this.title, this.priority.priority);
+    count++;
 
-    this.task.addEventListener('dragstart', (event: DragEvent) => {
-      event.dataTransfer?.setData('data', this.title.textContent!);
-
-      setTimeout(() => {
-        this.task.classList.add('hidden');
-      }, 0);
-    });
-    this.task.addEventListener('dragend', () => {
-      this.task.parentNode?.removeChild(this.task);
-    });
+    return this.task;
   }
 }

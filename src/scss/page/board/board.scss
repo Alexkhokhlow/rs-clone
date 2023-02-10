@@ -1,20 +1,34 @@
+.board-page {
+  @include flex($align: stretch);
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .add-item {
   &__button {
-    border-radius: 3px;
-    min-height: 32px;
-    padding: 4px;
-    background: #ebecf0;
-    color: #5e6c84;
+    border-radius: .3rem;
+    min-height: 3.5rem;
+    min-width: 25rem;
+    padding: .5rem 1.5rem;
+    text-align: left;
+    background: #ffffff3d;
+    color: $color-background;
     cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
 
     &:before {
       content: '+';
+      margin-right: 0.5rem;
     }
   }
 
   &__form {
     background-color: gainsboro;
     width: fit-content;
+    min-width: 25rem;
     padding: 4px;
     border-radius: 3px;
 
@@ -48,24 +62,42 @@
 }
 
 .board {
-  background: green;
-  height: 100vh;
+  background: $color-brand;
+  padding: 2rem;
+  flex: auto;
   display: flex;
+  overflow-x: scroll;
+}
 
-  .lists__container {
-    height: fit-content;
-    display: flex;
-  }
+.lists__container {
+  height: fit-content;
+  display: flex;
+  gap: 2rem;
+  margin-right: 2rem;
 }
 
 .tasks-list {
+  @include flex($align: flex-start);
   width: fit-content;
-  display: flex;
+  min-width: 25rem;
   flex-direction: column;
-  align-items: start;
-  margin: 8px;
-  padding: 4px;
+  height: fit-content;
+  padding: .7rem;
+  border-radius: .3rem;
   background-color: #ebecf0;
+
+  & .add-item__button {
+    color: $color-create-text;
+    transition: .3s linear;
+
+    &:hover {
+      background: $color-pagination;
+    }
+  }
+}
+
+.tasks__wrapper {
+  width: 100%;
 }
 
 .task {
@@ -77,8 +109,4 @@
   background-color: #fff;
   border-radius: 3px;
   box-shadow: #091e4240;
-}
-
-.priority{
-  
 }
