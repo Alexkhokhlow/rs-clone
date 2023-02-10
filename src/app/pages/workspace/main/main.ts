@@ -19,7 +19,7 @@ export default class MainWorkspace {
 
   private boardsTitle: HTMLElement;
 
-  private boardsLayout: HTMLElement;
+  public boardsLayout: HTMLElement;
 
   public createButton: HTMLElement;
 

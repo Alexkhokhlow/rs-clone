@@ -65,18 +65,16 @@
 }
 
 .boards__layout {
-  @include flex();
+  @include flex($justify: flex-start);
   flex-wrap: wrap;
   width: 100%;
+  gap: 1rem;
 }
 
 .board__button {
   width: 30%;
   height: 9.5rem;
-  border-radius: 1rem;
-}
-
-.board__button {
+  border-radius: .3rem;
   background-color: $color-hr;
   transition: .3s;
 
@@ -138,7 +136,8 @@
   }
 }
 
-.save {
+.save,
+.create__button {
   background-color: $color-brand;
   color: $color-background;
   transition: .3s;
@@ -148,6 +147,21 @@
   }
 }
 
-.hidden {
-  display: none;
+.board__preview {
+  width: 30%;
+  height: 9.5rem;
+  border-radius: .3rem;
+  padding: .6rem .8rem;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+}
+
+.board__preview__title {
+  color: $color-background;
+  font-weight: bold;
+  font-size: 1.8rem;
 }
