@@ -35,30 +35,45 @@ export default class TasksList {
   }
 
   private drag(task:HTMLElement, list: HTMLElement) {
-    task.addEventListener('dragstart', () => {
-      draggedItem = task;
+    task.addEventListener('dragstart', (event: DragEvent) => {
+      event.dataTransfer!.setData("data", (event.target as HTMLElement).id);
+      event.dataTransfer!.effectAllowed = "move";
+      // draggedItem = task;
 
-      setTimeout(() => {
-        task.classList.add('hidden');
-      }, 0);
+      // setTimeout(() => {
+      //   task.classList.add('hidden');
+      // }, 0);
     });
 
-    task.addEventListener('dragend', () => {
-      task.classList.remove('hidden');
-      draggedItem = null;
-    });
+    // task.addEventListener('dragend', () => {
+    //   task.classList.remove('hidden');
+    //   draggedItem = null;
+    // });
 
     this.tasksList.addEventListener("dragover", (event) => {
         event.preventDefault();
+        event.dataTransfer!.dropEffect = "move";
     });
     
-    this.tasksList.addEventListener("dragenter", (event) => {
-        event.preventDefault();
-    });
+    // this.tasksList.addEventListener("dragenter", (event) => {
+        // this.classList.add('hovered');
+
+    //     event.preventDefault();
+    // });
+
+    // this.tasksList.addEventListener("dragleave", (event) => {
+          // this.classList.remove('hovered');
+    //     event.preventDefault();
+    // })
     
     this.tasksList.addEventListener("drop", (event) => {
         event.preventDefault();
-        list.append(draggedItem!);
+        const data = event.dataTransfer!.getData("application/my-app");
+        if ((event.target as HTMLElement).closest('.tasks__wrapper')) {
+          console.log(event.target);
+        (event.target as HTMLElement).appendChild(document.getElementById(data)!);
+        }
+        // list.append(draggedItem!);
     });
   }
 }
