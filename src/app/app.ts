@@ -35,36 +35,69 @@ export default class App {
   }
 
   openPage() {
-    const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
-
+    let path = window.location.pathname;
+    if (path[path.length - 1] === '/') {
+      path = path.slice(0, -1);
+    }
     let flag = true;
-    routes.forEach((route) => {
-      const match = path.match(route);
-      if (match) {
-        flag = false;
-        if (match[0].includes('home')) {
-          this.body.append(this.startPage.append());
-          return;
+
+    if (this.isAuthorized()) {
+      const routes = ['/workspace', '/board'];
+      routes.forEach((route) => {
+        if (route === path) {
+          flag = false;
+          switch (path) {
+            case '/workspace':
+              this.body.append(this.workspace.append());
+              break;
+            case '/board':
+              this.body.append(this.board.container);
+              break;
+            default:
+              this.body.append(this.errorPage.render());
+          }
         }
-        if (match[0].includes('login') || match[0].includes('signup')) {
-          this.body.append(this.autorisation.render());
-          return;
-        }
-        if (match[0].includes('workspace')) {
-          this.body.append(this.workspace.append());
-        }
-        if (match[0].includes('board')) {
-          this.body.append(this.board.container);
+      });
+      if (flag) {
+        switch (path) {
+          case '':
+            window.location.href = 'workspace';
+            break;
+          default:
+            this.body.append(this.errorPage.render());
         }
       }
-    });
-    if (flag) {
-      if (path === '/') {
-        window.location.href = 'home';
-      } else {
-        this.body.append(this.errorPage.render());
+    } else {
+      const routes = ['/home', '/login', '/signup'];
+      routes.forEach((route) => {
+        if (route === path) {
+          flag = false;
+          switch (path) {
+            case '/home':
+              this.body.append(this.startPage.append());
+              break;
+            case '/login':
+            case '/signup':
+              this.body.append(this.autorisation.render());
+              break;
+            default:
+              this.body.append(this.errorPage.render());
+          }
+        }
+      });
+      if (flag) {
+        switch (path) {
+          case '':
+            window.location.href = 'home';
+            break;
+          default:
+            this.body.append(this.errorPage.render());
+        }
       }
     }
+  }
+
+  private isAuthorized() {
+    return !localStorage.getItem('token');
   }
 }
