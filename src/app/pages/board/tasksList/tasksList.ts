@@ -37,38 +37,5 @@ export default class TasksList {
     const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText)
     this.addCardButton.onClose();
     this.tasksWrapper.append(task.task);
-
-    this.drag(task.task, this.tasksWrapper);
-  }
-
-  private drag(task:HTMLElement, list: HTMLElement) {
-    task.addEventListener('dragstart', (event: DragEvent) => {
-      event.dataTransfer!.setData("data", (event.target as HTMLElement).id);
-      event.dataTransfer!.effectAllowed = "move";
-      // draggedItem = task;
-
-      // setTimeout(() => {
-      //   task.classList.add('hidden');
-      // }, 0);
-    });
-
-    // task.addEventListener('dragend', () => {
-    //   task.classList.remove('hidden');
-    //   draggedItem = null;
-    // });
-
-    this.tasksList.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        event.dataTransfer!.dropEffect = "move";
-    });
-    
-    this.tasksList.addEventListener("dragenter", (event) => {
-        event.preventDefault();
-    });
-    
-    this.tasksList.addEventListener("drop", (event) => {
-        event.preventDefault();
-        list.append(draggedItem!);
-    });
   }
 }

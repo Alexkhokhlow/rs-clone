@@ -47,9 +47,65 @@ export default class Board {
     this.addListButton.onClose();
     this.listsContainer.classList.remove('hidden');
     this.listsContainer.append(list.tasksList);
+
+    this.drag(list.tasksList);
   }
 
-  onShowTaskInfo() {
-    this.taskInfo.taskInfo.classList.add('active');
+  onShowTaskInfo(event: Event) {
+    const target = event.currentTarget as HTMLElement;
+    const { title, list } = target.dataset;
+    if (title && list) {
+      this.taskInfo.taskInfo.classList.add('active');
+      this.taskInfo.init(title, list);
+    }
+  }
+
+  private drag(list: HTMLElement) {
+    list.addEventListener('dragstart', (event) => {
+      const target = (event.target as HTMLElement).closest('.task') as HTMLElement;
+      event.dataTransfer!.setData('data', target.id);
+      event.dataTransfer!.effectAllowed = "move";
+
+      setTimeout(() => {
+        target.classList.add('hidden');
+      }, 0);
+    });
+
+    list.addEventListener('dragend', (event) => {
+      const target = (event.target as HTMLElement).closest('.task') as HTMLElement;
+      target.classList.remove('hidden');
+    });
+
+    list.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        event.dataTransfer!.dropEffect = "move";
+    });
+    
+    list.addEventListener("dragenter", (event) => {
+      const target = event.target as HTMLElement
+      if (target.classList.contains('tasks__wrapper')) {
+        target.classList.add("hovered");
+
+      }
+    });
+
+    list.addEventListener("dragleave", (event) => {
+      const target = event.target as HTMLElement
+      if (target.classList.contains('tasks__wrapper')) {
+        target.classList.remove("hovered");
+      }
+    });
+    
+    list.addEventListener("drop", (event) => {
+      event.preventDefault();
+      const target = event.target as HTMLElement;
+      const data = event.dataTransfer!.getData("data");
+      if (target.classList.contains('hovered')) {
+        target.classList.remove("hovered");
+      }
+      if (target.closest('.tasks__wrapper')) {
+        target.append(document.getElementById(data) as HTMLElement)
+      }
+    });
   }
 }
