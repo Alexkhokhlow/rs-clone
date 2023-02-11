@@ -1,6 +1,6 @@
-import Common from '../../utils/common';
+import Common from '../../../utils/common';
 
-const closeIcon = require('../../../assets/board/close.svg') as string;
+const closeIcon = require('../../../../assets/board/close.svg') as string;
 
 export default class Form {
   form: HTMLElement;
@@ -15,7 +15,7 @@ export default class Form {
 
   data: string;
 
-  constructor(inputValue: string, buttonText: string, onClick: (event: Event) => void, close: () => void) {
+  constructor(inputValue: string, buttonText: string, onClick: (event: Event) => void, close: (event: Event) => void) {
     this.data = '';
     this.form = Common.createDOMNode('div', ['add-item__form']);
     this.input = Common.createDOMNodeInput('1', ['add-item__form__input'], 'text', inputValue);
@@ -32,5 +32,10 @@ export default class Form {
       const target = event.target as HTMLInputElement;
       this.data = target.value;
     });
+  }
+
+  initData(data: string) {
+    this.data = data;
+    this.input.value = data;
   }
 }

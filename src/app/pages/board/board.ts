@@ -1,9 +1,9 @@
 import Common from '../../utils/common';
+import StartPageFooter from '../startPage/sections/footer';
 import Header from '../workspace/header/header';
-import AddItemButton from './addItemButton';
+import AddItemButton from './common/addItemButton';
 import TaskInfo from './taskInfo/taskInfo';
 import TasksList from './tasksList/tasksList';
-import StartPageFooter from '../startPage/sections/footer';
 
 export default class Board {
   board: HTMLElement;
@@ -20,7 +20,7 @@ export default class Board {
 
   footer: StartPageFooter;
 
-  tasksListArray : TasksList[];
+  tasksListArray: TasksList[];
 
   constructor() {
     this.board = Common.createDOMNode('section', ['board']);
@@ -38,14 +38,18 @@ export default class Board {
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container', 'hidden']);
     this.container.append(this.header.append(), this.board, this.footer.append());
-    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskList);
+    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
   }
 
   onAddList() {
-    const list = new TasksList(this.addListButton.form.data);
+    const list = new TasksList(this.addListButton.form.data, this.onShowTaskInfo.bind(this));
     this.tasksListArray.push(list);
     this.addListButton.onClose();
     this.listsContainer.classList.remove('hidden');
     this.listsContainer.append(list.tasksList);
+  }
+
+  onShowTaskInfo() {
+    this.taskInfo.taskInfo.classList.add('active');
   }
 }

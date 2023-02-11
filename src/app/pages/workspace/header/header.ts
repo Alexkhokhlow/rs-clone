@@ -42,7 +42,7 @@ export default class Header {
     this.header.append(this.wrapper);
     this.workspace.addEventListener('click', () => {
       window.location.href = '/workspace';
-    })
+    });
     if (creatingBoard) {
       this.create.addEventListener('click', creatingBoard.append.bind(creatingBoard));
     }
