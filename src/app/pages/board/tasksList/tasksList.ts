@@ -2,8 +2,6 @@ import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
 
-let draggedItem: HTMLElement | null;
-
 export default class TasksList {
   public tasksList: HTMLElement;
 
@@ -21,7 +19,9 @@ export default class TasksList {
     this.onClick = onClick;
     this.titleText = title;
     this.tasksList = Common.createDOMNode('div', ['tasks-list']);
+    this.tasksList.draggable = true;
     this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
+    this.title.contentEditable = 'true';
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
       'add a card',
@@ -34,7 +34,7 @@ export default class TasksList {
   }
 
   onAddCart() {
-    const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText)
+    const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText);
     this.addCardButton.onClose();
     this.tasksWrapper.append(task.task);
   }

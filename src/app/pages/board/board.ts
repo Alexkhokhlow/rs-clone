@@ -5,6 +5,8 @@ import AddItemButton from './common/addItemButton';
 import TaskInfo from './taskInfo/taskInfo';
 import TasksList from './tasksList/tasksList';
 
+let draggedEl: HTMLElement | null;
+
 export default class Board {
   board: HTMLElement;
 
@@ -29,7 +31,6 @@ export default class Board {
     this.taskInfo = new TaskInfo();
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
-
     this.addListButton = new AddItemButton(
       'Add another list',
       'Enter list title...',
@@ -48,7 +49,7 @@ export default class Board {
     this.listsContainer.classList.remove('hidden');
     this.listsContainer.append(list.tasksList);
 
-    this.drag(list.tasksList);
+    this.drag(list.tasksWrapper);
   }
 
   onShowTaskInfo(event: Event) {
@@ -62,50 +63,49 @@ export default class Board {
 
   private drag(list: HTMLElement) {
     list.addEventListener('dragstart', (event) => {
-      const target = (event.target as HTMLElement).closest('.task') as HTMLElement;
-      event.dataTransfer!.setData('data', target.id);
-      event.dataTransfer!.effectAllowed = "move";
-
+      const target = event.target as HTMLElement;
+      draggedEl = target;
       setTimeout(() => {
-        target.classList.add('hidden');
+        target.classList.add('dragging');
       }, 0);
     });
 
     list.addEventListener('dragend', (event) => {
-      const target = (event.target as HTMLElement).closest('.task') as HTMLElement;
-      target.classList.remove('hidden');
-    });
-
-    list.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        event.dataTransfer!.dropEffect = "move";
-    });
-    
-    list.addEventListener("dragenter", (event) => {
-      const target = event.target as HTMLElement
-      if (target.classList.contains('tasks__wrapper')) {
-        target.classList.add("hovered");
-
-      }
-    });
-
-    list.addEventListener("dragleave", (event) => {
-      const target = event.target as HTMLElement
-      if (target.classList.contains('tasks__wrapper')) {
-        target.classList.remove("hovered");
-      }
-    });
-    
-    list.addEventListener("drop", (event) => {
-      event.preventDefault();
       const target = event.target as HTMLElement;
-      const data = event.dataTransfer!.getData("data");
-      if (target.classList.contains('hovered')) {
-        target.classList.remove("hovered");
-      }
-      if (target.closest('.tasks__wrapper')) {
-        target.append(document.getElementById(data) as HTMLElement)
+      draggedEl = null;
+
+      target.classList.remove('dragging');
+    });
+
+    list.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      const bottomTask = this.insertAboveTask(list, event.clientY);
+
+      if (!bottomTask) {
+        list.append(draggedEl as HTMLElement);
+      } else {
+        list.insertBefore(draggedEl as HTMLElement, bottomTask);
       }
     });
+  }
+
+  private insertAboveTask(list: HTMLElement, mousePosition: number) {
+    const draggableElements = [...list.querySelectorAll('.task:not(.dragging)')] as HTMLElement[];
+
+    let closestTask!: HTMLElement;
+    let closestOffset = Number.NEGATIVE_INFINITY;
+
+    draggableElements.forEach((task) => {
+      const { top, height } = task.getBoundingClientRect();
+      console.log(task.getBoundingClientRect());
+      const offset = mousePosition - top - height / 2;
+
+      if (offset < 0 && offset > closestOffset) {
+        closestOffset = offset;
+        closestTask = task;
+      }
+    });
+
+    return closestTask;
   }
 }
