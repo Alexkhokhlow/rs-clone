@@ -17,20 +17,31 @@ export default class Workspace {
 
   constructor() {
     this.workspace = Common.createDomNode('div', ['workspace__page']);
+    this.creatingBoard = new CreatingBoard();
     this.header = new Header();
     this.main = new MainWorkspace();
     this.footer = new StartPageFooter();
-    this.creatingBoard = new CreatingBoard();
   }
 
   public append() {
-    this.workspace.append(this.header.append(), this.main.append(), this.footer.append());
+    this.workspace.append(this.header.append(this.creatingBoard), this.main.append(), this.footer.append());
     this.bindEvents();
     return this.workspace;
   }
 
   private bindEvents() {
-    this.header.create.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
     this.main.createButton.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
+    this.creatingBoard.createButton.addEventListener('click', this.createBoard.bind(this));
+  }
+
+  private createBoard(event: Event) {
+    const boardPreview = Common.createDomNode('div', ['board__preview']);
+    boardPreview.style.background = this.creatingBoard.board.style.background;
+    const boardTitle = Common.createDOMNode('h3', ['board__preview__title'], this.creatingBoard.boardTitleInput.value);
+    boardPreview.append(boardTitle);
+    this.main.boardsLayout.append(boardPreview);
+    this.creatingBoard.closeModal(event);
+    this.creatingBoard.boardTitleInput.value = '';
+    window.location.href = '/board';
   }
 }

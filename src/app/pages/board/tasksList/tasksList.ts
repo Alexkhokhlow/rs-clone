@@ -1,6 +1,7 @@
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
+let draggedItem: HTMLElement | null;
 
 export default class TasksList {
   public tasksList: HTMLElement;
@@ -11,28 +12,59 @@ export default class TasksList {
 
   private onClick: (event: Event) => void;
 
-  titleText: string;
+  addCardButton: AddItemButton;
+
+  tasksWrapper: HTMLElement;
 
   constructor(title: string, onClick: (event: Event) => void) {
     this.onClick = onClick;
     this.titleText = title;
     this.tasksList = Common.createDOMNode('div', ['tasks-list']);
     this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
+    this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
       'add a card',
-      'Enter a little for this card...',
+      'Enter a title for this card...',
       'add card',
       this.onAddCart.bind(this)
     );
 
-    this.tasksList.append(this.title, this.addCardButton.container);
+    this.tasksList.append(this.title, this.tasksWrapper, this.addCardButton.container);
   }
 
   onAddCart() {
-    if (this.addCardButton.form.data) {
-      const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText);
-      this.addCardButton.onClose();
-      this.tasksList.insertBefore(task.task, this.addCardButton.container);
-    }
+    const task = new Task(this.addCardButton.form.data).append();
+    this.addCardButton.onClose();
+    this.tasksWrapper.append(task);
+
+    this.drag(task, this.tasksWrapper);
+  }
+
+  private drag(task:HTMLElement, list: HTMLElement) {
+    task.addEventListener('dragstart', () => {
+      draggedItem = task;
+
+      setTimeout(() => {
+        task.classList.add('hidden');
+      }, 0);
+    });
+
+    task.addEventListener('dragend', () => {
+      task.classList.remove('hidden');
+      draggedItem = null;
+    });
+
+    this.tasksList.addEventListener("dragover", (event) => {
+        event.preventDefault();
+    });
+    
+    this.tasksList.addEventListener("dragenter", (event) => {
+        event.preventDefault();
+    });
+    
+    this.tasksList.addEventListener("drop", (event) => {
+        event.preventDefault();
+        list.append(draggedItem!);
+    });
   }
 }

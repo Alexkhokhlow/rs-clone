@@ -29,7 +29,9 @@
         @include font($size: 16px, $weight: 500,);
     }
 
-    & .input_email:focus {
+    & .input_email:focus,
+    & .input_password:focus,
+    & .input_name:focus {
         border: 2px solid rgb(9, 30, 66);
         border-radius: 0.3rem;
     }
@@ -88,7 +90,8 @@
 }
 
 .input_email, 
-.input_password {
+.input_password,
+.input_name {
     font-size: 14px;
     background-color: #fafbfc;
     border: 2px solid #dfe1e6;
@@ -239,6 +242,25 @@
     & .list__item a {
         @include font($size: 12px);
         color: #5e6c84;
+    }
+}
+
+.login__error {
+    border-radius: 3px;
+    box-shadow: red 0px 4px 8px -2px, rgb(9 30 66 / 30%) 0px 0px 1px;
+    color: rgb(37, 56, 88);
+    font-size: 12px;
+    margin-bottom: 24px;
+    padding: 10px;
+    transform-origin: 50% 0px;
+    transition-property: visibility, height, margin-bottom, opacity, transform, padding;
+    transition-duration: 0s, 0.2s, 0.2s, 0.2s, 0.2s;
+    transition-timing-function: ease-in-out;
+    max-width: 400px;
+
+    & .message__link {
+        font-size: 12px;
+        text-decoration: underline;
     }
 }
 

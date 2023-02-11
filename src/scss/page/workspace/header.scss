@@ -68,6 +68,7 @@
   color: $color-background;
   padding: .6rem .8rem;
   border-radius: .5rem;
+  transition: .3s;
 
   &:hover {
     background-color: $color-header-hover;

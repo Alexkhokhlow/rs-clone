@@ -1,5 +1,8 @@
+import Server from '../../server/server';
 import Common from '../../utils/common';
 import EntryWays from './entryWays';
+
+const server = new Server();
 
 export default class LoginForm {
   static otherEntryWays = ['Google', 'msft', 'Apple', 'Slack'];
@@ -7,6 +10,8 @@ export default class LoginForm {
   form: HTMLElement;
 
   formTitle: HTMLElement;
+
+  errorMessage: HTMLElement;
 
   inputsContainer: HTMLElement;
 
@@ -25,6 +30,11 @@ export default class LoginForm {
   constructor() {
     this.form = Common.createDomNode('div', ['login__form']);
     this.formTitle = Common.createDomNode('h1', ['login__title'], 'Log in to Trello');
+    this.errorMessage = Common.createDomNode(
+      'p',
+      ['login__error', 'invisible'],
+      'Invalid email address and/or password.'
+    );
     this.inputsContainer = Common.createDomNode('div', ['inputs__container']);
     this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', 'Enter email');
     this.passwordInput = Common.createDOMNodeInput(
@@ -42,7 +52,7 @@ export default class LoginForm {
   }
 
   public render() {
-    this.form.append(this.formTitle, this.inputsContainer, this.seperetor);
+    this.form.append(this.formTitle, this.errorMessage, this.inputsContainer, this.seperetor);
     if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Continue';
     this.inputsContainer.append(this.loginInput, this.passwordInput, this.btnSubmit);
     this.entryWays.forEach((way) => {
@@ -69,8 +79,8 @@ export default class LoginForm {
           this.openPasswordInput();
         } else {
           this.checkLoginPassword(
-            (this.loginInput as HTMLInputElement).value,
-            (this.passwordInput as HTMLInputElement).value
+            (this.loginInput as HTMLInputElement).value.trim(),
+            (this.passwordInput as HTMLInputElement).value.trim()
           );
         }
       }
@@ -86,8 +96,23 @@ export default class LoginForm {
     this.passwordInput.classList.remove('invisible');
   }
 
-  private checkLoginPassword(login: string, password: string) {
-    console.log(login, password);
-    // TODO: добавить авторизацию (если зашёл, то сохранить в localStorage)
+  private async checkLoginPassword(login: string, password: string) {
+    if (login === '' || password === '') {
+      this.showErrorMessage();
+    } else {
+      this.btnSubmit.setAttribute('disabled', 'disabled');
+      try {
+        const result = await server.login(login, password);
+        localStorage.setItem('token', result.token);
+        window.location.href = 'workspace';
+      } catch (error) {
+        this.showErrorMessage();
+      }
+      this.btnSubmit.removeAttribute('disabled');
+    }
+  }
+
+  private showErrorMessage() {
+    this.errorMessage.classList.remove('invisible');
   }
 }
