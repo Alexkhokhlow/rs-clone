@@ -2,8 +2,6 @@ import Common from '../../../utils/common';
 import CreatingBoard from '../createBoard/createBoard';
 
 export default class Header {
-  // private  creatingBoard: CreatingBoard;
-
   public header: HTMLElement;
 
   private wrapper: HTMLElement;
@@ -44,7 +42,7 @@ export default class Header {
       window.location.href = '/workspace';
     });
     if (creatingBoard) {
-      this.create.addEventListener('click', creatingBoard.append.bind(creatingBoard));
+      this.create.addEventListener('click', creatingBoard.openModal.bind(creatingBoard));
     }
 
     return this.header;

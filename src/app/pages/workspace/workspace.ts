@@ -24,13 +24,18 @@ export default class Workspace {
   }
 
   public append() {
-    this.workspace.append(this.header.append(this.creatingBoard), this.main.append(), this.footer.append());
+    this.workspace.append(
+      this.header.append(this.creatingBoard),
+      this.main.append(),
+      this.creatingBoard.append(),
+      this.footer.append()
+    );
     this.bindEvents();
     return this.workspace;
   }
 
   private bindEvents() {
-    this.main.createButton.addEventListener('click', this.creatingBoard.append.bind(this.creatingBoard));
+    this.main.createButton.addEventListener('click', this.creatingBoard.openModal.bind(this.creatingBoard));
     this.creatingBoard.createButton.addEventListener('click', this.createBoard.bind(this));
   }
 
