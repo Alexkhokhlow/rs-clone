@@ -5,6 +5,7 @@ export default class CheckListModule {
   checkList: HTMLElement;
 
   title: HTMLElement;
+
   module: ModuleForm;
 
   constructor() {

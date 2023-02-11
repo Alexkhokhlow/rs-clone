@@ -2,9 +2,10 @@ import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
 
 export default class LabelsModule {
- labels: HTMLElement;
+  labels: HTMLElement;
 
   title: HTMLElement;
+
   module: ModuleForm;
 
   constructor() {

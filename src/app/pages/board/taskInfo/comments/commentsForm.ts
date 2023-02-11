@@ -4,9 +4,13 @@ import InputComment from './inputComment/inputComment';
 
 export default class CommentsForm {
   commentsForm: HTMLElement;
+
   title: HTMLElement;
+
   container: HTMLElement;
+
   input: InputComment;
+
   comments: Comment[];
 
   constructor() {

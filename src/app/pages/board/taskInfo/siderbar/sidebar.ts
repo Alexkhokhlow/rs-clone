@@ -5,13 +5,21 @@ import MembersModule from './modules/membersModule';
 
 export default class Sidebar {
   sidebar: HTMLElement;
+
   title: HTMLElement;
+
   modules: HTMLElement;
+
   members: HTMLButtonElement;
+
   labels: HTMLButtonElement;
+
   modalMembers: MembersModule;
+
   modalLabels: LabelsModule;
+
   modalCheckList: CheckListModule;
+
   checkList: HTMLButtonElement;
 
   constructor() {

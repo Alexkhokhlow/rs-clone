@@ -1,7 +1,7 @@
 import Common from '../../../../utils/common';
 import Priority from './priority/priority';
 
-let count = 0;
+const count = 0;
 
 export default class Task {
   task: HTMLElement;
@@ -19,10 +19,8 @@ export default class Task {
     this.task.setAttribute('data-title', title);
     this.task.setAttribute('data-list', listName);
     this.task.addEventListener('click', onClick);
+    this.task.append(this.title, this.priority.priority);
+
   }
 
-  public append() {
-    this.task.append(this.title, this.priority.priority);
-   
-  }
 }

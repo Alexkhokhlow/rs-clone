@@ -1,6 +1,7 @@
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
+
 let draggedItem: HTMLElement | null;
 
 export default class TasksList {
@@ -12,9 +13,9 @@ export default class TasksList {
 
   private onClick: (event: Event) => void;
 
-  addCardButton: AddItemButton;
-
   tasksWrapper: HTMLElement;
+
+  titleText: string;
 
   constructor(title: string, onClick: (event: Event) => void) {
     this.onClick = onClick;
@@ -33,14 +34,14 @@ export default class TasksList {
   }
 
   onAddCart() {
-    const task = new Task(this.addCardButton.form.data).append();
+    const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText)
     this.addCardButton.onClose();
-    this.tasksWrapper.append(task);
+    this.tasksWrapper.append(task.task);
 
-    this.drag(task, this.tasksWrapper);
+    this.drag(task.task, this.tasksWrapper);
   }
 
-  private drag(task:HTMLElement, list: HTMLElement) {
+  private drag(task: HTMLElement, list: HTMLElement) {
     task.addEventListener('dragstart', () => {
       draggedItem = task;
 
@@ -54,17 +55,17 @@ export default class TasksList {
       draggedItem = null;
     });
 
-    this.tasksList.addEventListener("dragover", (event) => {
-        event.preventDefault();
+    this.tasksList.addEventListener('dragover', (event) => {
+      event.preventDefault();
     });
-    
-    this.tasksList.addEventListener("dragenter", (event) => {
-        event.preventDefault();
+
+    this.tasksList.addEventListener('dragenter', (event) => {
+      event.preventDefault();
     });
-    
-    this.tasksList.addEventListener("drop", (event) => {
-        event.preventDefault();
-        list.append(draggedItem!);
+
+    this.tasksList.addEventListener('drop', (event) => {
+      event.preventDefault();
+      list.append(draggedItem!);
     });
   }
 }

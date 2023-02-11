@@ -3,11 +3,17 @@ import AddItemButton from '../../../common/addItemButton';
 
 export default class Comment {
   userName: HTMLElement;
+
   comment: HTMLElement;
+
   input: AddItemButton;
+
   edit: HTMLElement;
+
   delete: HTMLElement;
+
   data: string;
+
   id: number;
 
   constructor(text: string, onDelete: (event: Event) => void, id: number) {

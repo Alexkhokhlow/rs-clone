@@ -5,6 +5,7 @@ export default class MembersModule {
   members: HTMLElement;
 
   title: HTMLElement;
+
   module: ModuleForm;
 
   constructor() {

@@ -19,8 +19,11 @@ export default class TaskInfo {
   private close: HTMLImageElement;
 
   sidebar: Sidebar;
+
   header: HTMLElement;
+
   main: HTMLElement;
+
   container: HTMLElement;
 
   constructor() {

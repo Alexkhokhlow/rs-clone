@@ -3,6 +3,7 @@ import Form from '../../../common/form';
 
 export default class InputComment {
   container: HTMLElement;
+
   userIcon: HTMLElement;
 
   form: Form;

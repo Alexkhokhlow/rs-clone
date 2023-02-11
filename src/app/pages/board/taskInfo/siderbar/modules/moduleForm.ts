@@ -4,7 +4,9 @@ const closeIcon = require('../../../../../../assets/board/close.svg') as string;
 
 export default class ModuleForm {
   module: HTMLElement;
+
   title: HTMLElement;
+
   closeIcon: HTMLImageElement;
 
   constructor() {
@@ -21,7 +23,7 @@ export default class ModuleForm {
     this.module.append(body);
   }
 
-  onClose(){
+  onClose() {
     this.module.classList.remove('active');
   }
 }
