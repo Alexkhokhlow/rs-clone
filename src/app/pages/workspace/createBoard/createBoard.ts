@@ -102,12 +102,20 @@ export default class CreatingBoard {
     this.private = Common.createDomNode('div', ['private']);
     this.privateIcon = Common.createDomNode('div', ['private__icon']);
     this.privateTitle = Common.createDomNode('h3', ['option__title'], 'Private');
-    this.privateDescription = Common.createDomNode('p', ['private__description'], 'Only board members can see and edit the board.');
+    this.privateDescription = Common.createDomNode(
+      'p',
+      ['private__description'],
+      'Only board members can see and edit the board.'
+    );
     this.publicWrapper = Common.createDomNode('div', ['option']);
     this.public = Common.createDomNode('div', ['public']);
     this.publicIcon = Common.createDomNode('div', ['public__icon']);
     this.publicTitle = Common.createDomNode('h3', ['option__title'], 'Public');
-    this.publicDescription = Common.createDomNode('p', ['public__description'], 'Anyone on the internet can see this board. Only members can edit.');
+    this.publicDescription = Common.createDomNode(
+      'p',
+      ['public__description'],
+      'Anyone on the internet can see this board. Only members can edit.'
+    );
     this.createButton = Common.createDomNodeButton(['button', 'create__button'], 'Create');
     this.createButton.disabled = true;
     this.createBackgrounds();
@@ -125,7 +133,13 @@ export default class CreatingBoard {
     this.options.append(this.privateWrapper, this.publicWrapper);
     this.dropDownMenu.append(this.visibility, this.options);
     this.boardVisibilityWrapper.append(this.visibilityTitle, this.dropDownMenu);
-    this.boardInfo.append(this.board, this.backgroundWrapper, this.boardTitleWrapper, this.boardVisibilityWrapper, this.createButton);
+    this.boardInfo.append(
+      this.board,
+      this.backgroundWrapper,
+      this.boardTitleWrapper,
+      this.boardVisibilityWrapper,
+      this.createButton
+    );
     this.titleWrapper.append(this.title, this.closeButton);
     this.wrapper.append(this.titleWrapper, this.line);
     this.section.append(this.wrapper, this.boardInfo);
@@ -146,7 +160,7 @@ export default class CreatingBoard {
   }
 
   private setDisabled() {
-    this.createButton.disabled = this.boardTitleInput.value.trim() ? false : true;
+    this.createButton.disabled = !this.boardTitleInput.value.trim();
   }
 
   private createBackgrounds() {
@@ -189,7 +203,7 @@ export default class CreatingBoard {
       this.visibility.value = 'Private';
       if (!this.options.classList.contains('hidden')) {
         this.options.classList.add('hidden');
-      };
+      }
       this.resetActiveBackground();
       this.board.style.background = 'rgb(0, 101, 255)';
       this.setDisabled();
@@ -198,14 +212,13 @@ export default class CreatingBoard {
 
   private chooseVisibility(event: Event) {
     const target = (event.target as HTMLElement).closest('.option');
-      if(target) {
-        this.visibility.value = target.lastChild!.firstChild!.textContent as string;
-        this.options.classList.add('hidden');
-      }
+    if (target) {
+      this.visibility.value = target.lastChild!.firstChild!.textContent as string;
+      this.options.classList.add('hidden');
+    }
   }
 
   private toggleDropDown() {
     this.options.classList.toggle('hidden');
   }
-
 }

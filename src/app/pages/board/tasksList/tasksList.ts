@@ -1,18 +1,25 @@
 import Common from '../../../utils/common';
-import AddItemButton from '../addItemButton';
+import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
+
 let draggedItem: HTMLElement | null;
 
 export default class TasksList {
-  tasksList: HTMLElement;
+  public tasksList: HTMLElement;
 
-  title: HTMLElement;
+  private title: HTMLElement;
 
-  addCardButton: AddItemButton;
+  private addCardButton: AddItemButton;
+
+  private onClick: (event: Event) => void;
 
   tasksWrapper: HTMLElement;
 
-  constructor(title: string) {
+  titleText: string;
+
+  constructor(title: string, onClick: (event: Event) => void) {
+    this.onClick = onClick;
+    this.titleText = title;
     this.tasksList = Common.createDOMNode('div', ['tasks-list']);
     this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
@@ -27,11 +34,11 @@ export default class TasksList {
   }
 
   onAddCart() {
-    const task = new Task(this.addCardButton.form.data).append();
+    const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText)
     this.addCardButton.onClose();
-    this.tasksWrapper.append(task);
+    this.tasksWrapper.append(task.task);
 
-    this.drag(task, this.tasksWrapper);
+    this.drag(task.task, this.tasksWrapper);
   }
 
   private drag(task:HTMLElement, list: HTMLElement) {
@@ -55,25 +62,13 @@ export default class TasksList {
         event.dataTransfer!.dropEffect = "move";
     });
     
-    // this.tasksList.addEventListener("dragenter", (event) => {
-        // this.classList.add('hovered');
-
-    //     event.preventDefault();
-    // });
-
-    // this.tasksList.addEventListener("dragleave", (event) => {
-          // this.classList.remove('hovered');
-    //     event.preventDefault();
-    // })
+    this.tasksList.addEventListener("dragenter", (event) => {
+        event.preventDefault();
+    });
     
     this.tasksList.addEventListener("drop", (event) => {
         event.preventDefault();
-        const data = event.dataTransfer!.getData("application/my-app");
-        if ((event.target as HTMLElement).closest('.tasks__wrapper')) {
-          console.log(event.target);
-        (event.target as HTMLElement).appendChild(document.getElementById(data)!);
-        }
-        // list.append(draggedItem!);
+        list.append(draggedItem!);
     });
   }
 }

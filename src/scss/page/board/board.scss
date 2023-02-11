@@ -109,4 +109,161 @@
   background-color: #fff;
   border-radius: 3px;
   box-shadow: #091e4240;
+  cursor: pointer;
+}
+
+.description {
+  &__edit {
+    display: none;
+  }
+}
+
+.task-info {
+  width: 768px;
+  z-index: 1000;
+  height: 80vh;
+  box-shadow: 0 0 0 1000px rgb(0 0 0 / 60%);
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 10px;
+
+  &__header {
+    width: 100%;
+  }
+
+  &__container {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-around;
+  }
+
+  &__main {
+    width: 65%;
+  }
+
+  &__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  .description {
+    width: 100%;
+    &__edit {
+      background-color: #0079bf;
+      padding: 4px 12px;
+      font-size: 14px;
+      border-radius: 3px;
+      color: white;
+    }
+
+    &__container {
+      width: 100%;
+
+      &__button {
+        width: 100%;
+        min-height: 60px;
+        padding-bottom: 25px;
+        padding-left: 20px;
+        text-align: start;
+      }
+    }
+
+    .add-item {
+      &__form {
+        width: 100%;
+      }
+    }
+  }
+
+  .comments {
+    margin-top: 50px;
+    width: 100%;
+    .add-item__button{
+      color:black;
+
+      &::before{
+        content: '';
+      }
+    }
+    .add-item__form {
+      box-shadow: 0 1px 2px -1px #091e4240, 0 0 0 1px #091e4214;
+      padding: 1px;
+      width: 100%;
+
+      &__container {
+        background-color: white;
+        margin: 0;
+        padding: 8px;
+      }
+
+      &__input {
+        box-shadow: none;
+      }
+    }
+
+    .input-comment {
+      display: flex;
+      align-items: flex-start;
+
+      &__user{
+        padding: 9px;
+        background: green;
+        border-radius: 50%;
+        color: white;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.sidebar {
+  width: 25%;
+  display: block;
+
+  .module__button {
+    margin: 4px 0;
+  }
+
+  &__modules {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.module {
+  min-width: 240px;
+  position: absolute;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: none;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.active {
+  display: inline-block;
+}
+
+.inactive {
+  display: none;
 }
