@@ -1,3 +1,4 @@
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
@@ -7,13 +8,17 @@ export default class TasksList {
 
   private title: HTMLElement;
 
-  private addCardButton: AddItemButton;
+  public addCardButton: AddItemButton;
 
   private onClick: (event: Event) => void;
 
   tasksWrapper: HTMLElement;
 
   titleText: string;
+
+  server: Server;
+
+  token: string | null;
 
   constructor(title: string, onClick: (event: Event) => void) {
     this.onClick = onClick;
@@ -22,20 +27,29 @@ export default class TasksList {
     this.tasksList.draggable = true;
     this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
     this.title.contentEditable = 'true';
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
+
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
       'add a card',
       'Enter a title for this card...',
       'add card',
-      this.onAddCart.bind(this)
+      this.onAddTask.bind(this)
     );
 
     this.tasksList.append(this.title, this.tasksWrapper, this.addCardButton.container);
   }
 
-  onAddCart() {
-    const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText);
+  async onAddTask() {
+    const name = this.addCardButton.form.data;
+    const index = String(this.tasksWrapper.children.length);
     this.addCardButton.onClose();
-    this.tasksWrapper.append(task.task);
+    const { id } = this.tasksWrapper.dataset;
+    if (this.token && id) {
+      const data = await this.server.createTask(this.token, id, name, index);
+      const task = new Task(name, this.onClick, this.titleText, index, data.id);
+      this.tasksWrapper.append(task.task);
+    }
   }
 }

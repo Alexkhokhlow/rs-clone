@@ -44,7 +44,7 @@ export default class CreatingBoard {
 
   private visibilityTitle: HTMLLabelElement;
 
-  private visibility: HTMLInputElement;
+  public visibility: HTMLInputElement;
 
   private dropDownMenu: HTMLElement;
 
