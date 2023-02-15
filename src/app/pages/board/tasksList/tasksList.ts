@@ -3,6 +3,8 @@ import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
 
+let draggedItem: HTMLElement | null;
+
 export default class TasksList {
   public tasksList: HTMLElement;
 

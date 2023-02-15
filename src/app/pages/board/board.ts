@@ -76,6 +76,16 @@ export default class Board {
     return this.container;
   }
 
+  async onAddList() {
+    const name = this.addListButton.form.data;
+    if (this.token) {
+      const data = await this.server.createTaskList(this.token, name, this.path);
+      this.createTaskList(name, data.id);
+    } else {
+      window.location.pathname = 'error';
+    }
+  }
+
   createTaskList(name: string, id: string) {
     const list = new TasksList(name, this.onShowTaskInfo.bind(this));
     list.tasksList.setAttribute('data-id', id);
@@ -85,6 +95,7 @@ export default class Board {
     this.listsContainer.append(list.tasksList);
 
     this.drag(list.tasksWrapper);
+    return list;
   }
 
   onShowTaskInfo(event: Event) {
