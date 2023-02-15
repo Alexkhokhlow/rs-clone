@@ -61,15 +61,17 @@ export default class Board {
       const response: IResponseBoard = await this.server.getDashboard(this.token, path);
       this.path = path;
       this.board.style.background = response.dashboard.color;
-      response.dashboard.tasklists.forEach(async (taskList) => {
-        const list = this.createTaskList(taskList.name, taskList.id);
-        if (taskList.tasks) {
-          taskList.tasks.forEach((task) => {
-            const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
-            list.tasksWrapper.append(taskInfo.task);
-          });
-        }
-      });
+      if (response.dashboard.tasklists) {
+        response.dashboard.tasklists.forEach(async (taskList) => {
+          const list = this.createTaskList(taskList.name, taskList.id);
+          if (taskList.tasks) {
+            taskList.tasks.forEach((task) => {
+              const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
+              list.tasksWrapper.append(taskInfo.task);
+            });
+          }
+        });
+      }
     } else {
       window.location.pathname = 'error';
     }
