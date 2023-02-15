@@ -6,9 +6,10 @@
 
 .add-item {
   &__button {
+    box-sizing: border-box;
     border-radius: .3rem;
     min-height: 3.5rem;
-    min-width: 25rem;
+    width: 25rem;
     padding: .5rem 1.5rem;
     text-align: left;
     background: #ffffff3d;
@@ -27,8 +28,7 @@
 
   &__form {
     background-color: gainsboro;
-    width: fit-content;
-    min-width: 25rem;
+    width: 25rem;
     padding: 4px;
     border-radius: 3px;
 
@@ -67,6 +67,17 @@
   flex: auto;
   display: flex;
   overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-snap-align: center;
+
+  &::-webkit-scrollbar {
+    background-color: $color-disabled;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: $color-scroll;
+  }
 }
 
 .lists__container {
@@ -79,16 +90,25 @@
 .tasks-list {
   @include flex($align: flex-start);
   width: fit-content;
-  min-width: 25rem;
+  width: 25rem;
   flex-direction: column;
   height: fit-content;
   padding: .7rem;
   border-radius: .3rem;
   background-color: #ebecf0;
 
+  & .add-item {
+    width: 100%;
+
+    & .add-item__form {
+      width: 100%;
+    }
+  }
+
   & .add-item__button {
     color: $color-create-text;
     transition: .3s linear;
+    width: 100%;
 
     &:hover {
       background: $color-pagination;
@@ -98,7 +118,7 @@
 
 .tasks__wrapper {
   width: 100%;
-  min-height: 50px;
+  min-height: 2rem;
 }
 
 .task {

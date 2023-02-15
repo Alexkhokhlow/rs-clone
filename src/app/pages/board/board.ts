@@ -8,6 +8,8 @@ import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
 import TasksList from './tasksList/tasksList';
 
+let draggedEl: HTMLElement | null;
+
 export default class Board {
   board: HTMLElement;
 
@@ -81,17 +83,8 @@ export default class Board {
     this.addListButton.onClose();
     this.listsContainer.classList.remove('hidden');
     this.listsContainer.append(list.tasksList);
-    return list;
-  }
 
-  async onAddList() {
-    const name = this.addListButton.form.data;
-    if (this.token) {
-      const data = await this.server.createTaskList(this.token, name, this.path);
-      this.createTaskList(name, data.id);
-    } else {
-      window.location.pathname = 'error';
-    }
+    this.drag(list.tasksWrapper);
   }
 
   onShowTaskInfo(event: Event) {
@@ -101,5 +94,53 @@ export default class Board {
       this.taskInfo.taskInfo.classList.add('active');
       this.taskInfo.init(title, list);
     }
+  }
+
+  private drag(list: HTMLElement) {
+    list.addEventListener('dragstart', (event) => {
+      const target = event.target as HTMLElement;
+      draggedEl = target;
+      setTimeout(() => {
+        target.classList.add('dragging');
+      }, 0);
+    });
+
+    list.addEventListener('dragend', (event) => {
+      const target = event.target as HTMLElement;
+      draggedEl = null;
+
+      target.classList.remove('dragging');
+    });
+
+    list.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      const bottomTask = this.insertAboveTask(list, event.clientY);
+
+      if (!bottomTask) {
+        list.append(draggedEl as HTMLElement);
+      } else {
+        list.insertBefore(draggedEl as HTMLElement, bottomTask);
+      }
+    });
+  }
+
+  private insertAboveTask(list: HTMLElement, mousePosition: number) {
+    const draggableElements = [...list.querySelectorAll('.task:not(.dragging)')] as HTMLElement[];
+
+    let closestTask!: HTMLElement;
+    let closestOffset = Number.NEGATIVE_INFINITY;
+
+    draggableElements.forEach((task) => {
+      const { top, height } = task.getBoundingClientRect();
+      console.log(task.getBoundingClientRect());
+      const offset = mousePosition - top - height / 2;
+
+      if (offset < 0 && offset > closestOffset) {
+        closestOffset = offset;
+        closestTask = task;
+      }
+    });
+
+    return closestTask;
   }
 }
