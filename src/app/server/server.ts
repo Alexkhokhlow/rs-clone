@@ -125,13 +125,28 @@ export default class Server {
     return json;
   }
 
-  async createTask(token: string, id: string, name: string) {
+  async createTask(token: string, id: string, name: string, index: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, id, name }),
+      body: JSON.stringify({ token, id, name, index }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateTask(token: string, id: string, taskListId: string, name: string, index: string) {
+    const response = await fetch(`${this.address}/task`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, taskListId, name, index }),
     });
 
     await this.checkError(response);

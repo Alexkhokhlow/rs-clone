@@ -1,16 +1,10 @@
+import { IBoard, IResponseBoards } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
 import CreatingBoard from './createBoard/createBoard';
 import Header from './header/header';
 import MainWorkspace from './main/main';
-
-type TDashboard = {
-  name: string;
-  color: string;
-  pathName: string;
-  access: boolean;
-};
 
 export default class Workspace {
   private workspace: HTMLElement;
@@ -52,12 +46,11 @@ export default class Workspace {
   private async getDashboards() {
     if (this.token) {
       try {
-        const dashboards = await this.server.getDashboards(this.token);
-        for (let key in dashboards) {
-          dashboards[key].forEach((data: TDashboard) => {
-            this.renderBoard(data.name, data.color, data.pathName);
-          });
-        }
+        const dashboards: IResponseBoards = await this.server.getDashboards(this.token);
+        const { availableDashboards, createdDashboards } = dashboards;
+        createdDashboards.forEach((dashboard) => {
+          this.renderBoard(dashboard.name, dashboard.color, dashboard.pathName);
+        });
       } catch (error) {
         console.log(error);
       }
@@ -95,7 +88,7 @@ export default class Workspace {
     };
     if (this.token) {
       try {
-        const dashboard: TDashboard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
+        const dashboard: IBoard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
         this.creatingBoard.closeModal(event);
         this.creatingBoard.boardTitleInput.value = '';
         this.renderBoard(data.name, data.color, dashboard.pathName);

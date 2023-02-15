@@ -31,7 +31,7 @@ export default class App {
   }
 
   async start() {
-    this.openPage();
+    await this.openPage();
   }
 
   async openPage() {

@@ -1,3 +1,4 @@
+import IResponseBoard, { ITaskList } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -57,14 +58,14 @@ export default class Board {
 
   async init(path: string) {
     if (this.token) {
-      const response = await this.server.getDashboard(this.token, path);
+      const response: IResponseBoard = await this.server.getDashboard(this.token, path);
       this.path = path;
       this.board.style.background = response.dashboard.color;
-      response.dashboard.forEach((data: { name: string; id: string; tasklists: { tasks: { name: string }[] } }) => {
-        const list = this.createTaskList(data.name, data.id);
-        if (data.tasklists) {
-          data.tasklists.tasks.forEach((task) => {
-            const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), data.name);
+      response.dashboard.tasklists.forEach(async (taskList) => {
+        const list = this.createTaskList(taskList.name, taskList.id);
+        if (taskList.tasks) {
+          taskList.tasks.forEach((task) => {
+            const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
             list.tasksWrapper.append(taskInfo.task);
           });
         }
@@ -79,7 +80,7 @@ export default class Board {
   async onAddList() {
     const name = this.addListButton.form.data;
     if (this.token) {
-      const data = await this.server.createTaskList(this.token, name, this.path);
+      const data: ITaskList = await this.server.createTaskList(this.token, name, this.path);
       this.createTaskList(name, data.id);
     } else {
       window.location.pathname = 'error';
@@ -88,7 +89,7 @@ export default class Board {
 
   createTaskList(name: string, id: string) {
     const list = new TasksList(name, this.onShowTaskInfo.bind(this));
-    list.tasksList.setAttribute('data-id', id);
+    list.tasksWrapper.setAttribute('data-id', id);
     this.tasksListArray.push(list);
     this.addListButton.onClose();
     this.listsContainer.classList.remove('hidden');
@@ -116,9 +117,19 @@ export default class Board {
       }, 0);
     });
 
-    list.addEventListener('dragend', (event) => {
+    list.addEventListener('dragend', async (event) => {
       const target = event.target as HTMLElement;
       draggedEl = null;
+      const parent = target.parentNode as HTMLElement;
+      const parentId = parent.dataset.id;
+
+      [...parent.children].forEach((item, index) => {
+        const element = item as HTMLElement;
+        const { id, title } = element.dataset;
+        if (this.token && id && parentId && title) {
+          this.server.updateTask(this.token, id, parentId, title, String(index));
+        }
+      });
 
       target.classList.remove('dragging');
     });
@@ -143,7 +154,6 @@ export default class Board {
 
     draggableElements.forEach((task) => {
       const { top, height } = task.getBoundingClientRect();
-      console.log(task.getBoundingClientRect());
       const offset = mousePosition - top - height / 2;
 
       if (offset < 0 && offset > closestOffset) {
