@@ -74,6 +74,7 @@ export default class LoginForm {
   private addHandlers() {
     this.btnSubmit.addEventListener('click', (e) => {
       e.preventDefault();
+      this.mailToLocalStorage();
       if (e.target instanceof HTMLInputElement) {
         if (e.target.value === 'Continue') {
           this.openPasswordInput();
@@ -87,7 +88,7 @@ export default class LoginForm {
     });
 
     this.linkToSingup.addEventListener('click', () => {
-      localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
+      this.mailToLocalStorage();
     });
   }
 
@@ -114,5 +115,9 @@ export default class LoginForm {
 
   private showErrorMessage() {
     this.errorMessage.classList.remove('invisible');
+  }
+
+  private mailToLocalStorage() {
+    localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
   }
 }
