@@ -27,19 +27,26 @@ export default class App {
     this.workspace = new Workspace();
     this.creatingBoard = new CreatingBoard();
     this.errorPage = new ErrorPage();
-    this.board = new Board();
+    this.board = new Board(this.workspace.creatingBoard);
   }
 
   async start() {
     this.openPage();
   }
 
-  openPage() {
+  async openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+    const routes = [
+      /\/home\b/g,
+      /\/login\b/g,
+      /\/board\/([\w]+?)\b/g,
+      /\/workspace\b/g,
+      /\/user\/([\w]+?)\b/g,
+      /signup/g,
+    ];
 
     let flag = true;
-    routes.forEach((route) => {
+    routes.forEach(async (route) => {
       const match = path.match(route);
       if (match) {
         flag = false;
@@ -55,7 +62,7 @@ export default class App {
           this.body.append(this.workspace.append());
         }
         if (match[0].includes('board')) {
-          this.body.append(this.board.container);
+          this.body.append(await this.board.init(match[0].replace('/board/', '')));
         }
       }
     });
