@@ -1,0 +1,20 @@
+.user__page .user__image {
+    background-image: url(https://trello-members.s3.amazonaws.com/62440c451b440688be97692d/bdc681cba7eb8bcba2862dabb33b23bb/50.png);
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+}
+
+.user__info {
+    @include flex;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 20px;
+}
+
+.user__mail {
+    color: #B3BAC5;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

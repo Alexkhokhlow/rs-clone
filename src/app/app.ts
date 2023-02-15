@@ -2,6 +2,7 @@ import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
+import UserPage from './pages/user/user';
 import CreatingBoard from './pages/workspace/createBoard/createBoard';
 import Workspace from './pages/workspace/workspace';
 
@@ -20,6 +21,8 @@ export default class App {
 
   errorPage: ErrorPage;
 
+  user: UserPage;
+
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
@@ -28,6 +31,7 @@ export default class App {
     this.creatingBoard = new CreatingBoard();
     this.errorPage = new ErrorPage();
     this.board = new Board();
+    this.user = new UserPage();
   }
 
   async start() {
@@ -36,7 +40,15 @@ export default class App {
 
   openPage() {
     const path = window.location.pathname;
-    const routes = [/\/home\b/g, /\/login\b/g, /\/board\b/g, /\/workspace\b/g, /\/user\/([\w]+?)\b/g, /signup/g];
+    const routes = [
+      /\/home\b/g,
+      /\/login\b/g,
+      /\/board\b/g,
+      /\/workspace\b/g,
+      /\/user\/([\w]+?)\b/g,
+      /signup/g,
+      /\/user\b/g,
+    ];
 
     let flag = true;
     routes.forEach((route) => {
@@ -56,6 +68,10 @@ export default class App {
         }
         if (match[0].includes('board')) {
           this.body.append(this.board.container);
+        }
+
+        if (match[0].includes('user')) {
+          this.body.append(this.user.render());
         }
       }
     });
