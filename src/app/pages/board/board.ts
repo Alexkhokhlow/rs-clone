@@ -173,13 +173,12 @@ export default class Board {
     draggableElements.forEach((task) => {
       const { top, height } = task.getBoundingClientRect();
       const offset = mousePosition - top - height / 2;
-
       if (offset < 0 && offset > closestOffset) {
         closestOffset = offset;
         closestTask = task;
       }
     });
-
     return closestTask;
   }
+
 }
