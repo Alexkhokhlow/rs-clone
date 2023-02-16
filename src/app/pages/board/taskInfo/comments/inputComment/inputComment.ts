@@ -8,7 +8,7 @@ export default class InputComment {
 
   form: Form;
 
-  constructor(onSave: () => void) {
+  constructor(onSave: (event: Event) => void) {
     this.container = Common.createDomNode('div', ['input-comment']);
     this.form = new Form('Write a comment...', 'Save', onSave, this.onClose.bind(this));
     this.userIcon = Common.createDomNode('span', ['input-comment__user'], 'LL');

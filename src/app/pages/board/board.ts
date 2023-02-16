@@ -73,6 +73,7 @@ export default class Board {
       const response: IResponseBoard = await this.server.getDashboard(this.token, path);
       this.listsContainer.innerHTML = '';
       this.path = path;
+      console.log(response);
       this.board.style.background = response.dashboard.color;
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach(async (taskList) => {
@@ -118,10 +119,9 @@ export default class Board {
 
   onShowTaskInfo(event: Event) {
     const target = event.currentTarget as HTMLElement;
-    const { title } = target.dataset;
-    if (title) {
-      this.taskInfo.taskInfo.classList.add('active');
-      this.taskInfo.init(title);
+    const { id } = target.dataset;
+    if (id) {
+      this.taskInfo.init(id);
     }
   }
 

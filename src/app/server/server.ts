@@ -1,3 +1,4 @@
+
 export default class Server {
   private address: string;
 
@@ -147,6 +148,36 @@ export default class Server {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token, id, taskListId, name, index }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async getTaskInfo(token: string, id: string) {
+    const response = await fetch(`${this.address}/taskInfo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateTaskInfo(token: string, id: string,  description:string,) {
+    const response = await fetch(`${this.address}/taskInfo/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, description}),
     });
 
     await this.checkError(response);

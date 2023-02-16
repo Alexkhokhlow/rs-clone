@@ -23,10 +23,13 @@ export default class CommentsForm {
     this.commentsForm.append(this.title, this.input.container, this.container);
   }
 
-  onSave() {
+  onSave(event: Event) {
     const comment = new Comment(this.input.form.input.value, this.onDelete.bind(this), this.comments.length + 1);
     this.comments.push(comment);
     this.commentsForm.append(comment.comment);
+    this.input.form.container.classList.add('inactive');
+    this.input.form.input.value = '';
+    event.stopPropagation();
   }
 
   onDelete(event: Event) {

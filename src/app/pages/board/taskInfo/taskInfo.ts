@@ -1,3 +1,4 @@
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import CommentsForm from './comments/commentsForm';
 import Description from './description/description';
@@ -25,6 +26,8 @@ export default class TaskInfo {
   main: HTMLElement;
 
   container: HTMLElement;
+  server: Server;
+  token: string | null;
 
   constructor() {
     this.taskInfo = Common.createDomNode('div', ['task-info']);
@@ -42,10 +45,23 @@ export default class TaskInfo {
     this.main.append(this.description.description, this.comment.commentsForm);
     this.taskInfo.append(this.header, this.container);
     this.close.addEventListener('click', this.onClose.bind(this));
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
   }
 
-  init(title: string) {
-    this.title.textContent = title;
+  async init(id: string) {
+    if (this.token) {
+      const { taskInfo } = await this.server.getTaskInfo(this.token, id);
+      this.title.textContent = taskInfo.name;
+      this.info.textContent = `from ${taskInfo.tasklist}`;
+      this.description.id = id;
+      if (taskInfo.description) {
+        this.description.init(taskInfo.description);
+      } else {
+        this.description.init('');
+      }
+      this.taskInfo.classList.add('active');
+    }
   }
 
   onClose() {

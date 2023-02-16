@@ -29,6 +29,7 @@ export default class Comment {
     this.delete.addEventListener('click', onDelete);
     this.delete.setAttribute('id', String(this.id));
     this.comment.append(this.userName, this.input.container, this.edit, this.delete);
+    this.input.button.disabled = true;
   }
 
   onSave() {
@@ -45,6 +46,7 @@ export default class Comment {
   }
 
   onEdit() {
+    this.input.form.initData(this.data);
     this.input.onActivate();
   }
 }
