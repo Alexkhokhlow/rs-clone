@@ -2,17 +2,32 @@ import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
 
 export default class CheckListModule {
-  checkList: HTMLElement;
+  public checkList: HTMLElement;
 
-  title: HTMLElement;
+  private title: HTMLLabelElement;
 
-  module: ModuleForm;
+  public module: ModuleForm;
+
+  public inputTitle: HTMLInputElement;
+
+  private form: HTMLFormElement;
+
+  public add: HTMLButtonElement;
 
   constructor() {
     this.module = new ModuleForm();
-    this.checkList = Common.createDomNode('div', ['checkList']);
-    this.title = Common.createDomNode('span', ['checkList__title'], 'checkList');
-    this.checkList.append(this.title);
-    this.module.init('checkList', this.checkList);
+    this.checkList = Common.createDomNode('div', ['checklist']);
+    this.form = Common.createDomNode('form', ['checklist__form']) as HTMLFormElement;
+    this.title = Common.createDomNodeLabel('checklist__title', 'Title', ['checklist__title']);
+    this.inputTitle = Common.createDomNodeInput('', 'checklist__title', ['checklist__input']);
+    this.inputTitle.value = 'Checklist';
+    this.add = Common.createDomNodeButton(['checklist__add'], 'Add');
+    this.append();
+    this.module.init('Add checklist', this.checkList);
+  }
+
+  private append() {
+    this.form.append(this.title, this.inputTitle, this.add);
+    this.checkList.append(this.form);
   }
 }

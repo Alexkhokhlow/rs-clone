@@ -1,7 +1,5 @@
 import Common from '../../../utils/common';
 
-const closeIcon = require('../../../../assets/board/close.svg') as string;
-
 export default class Form {
   form: HTMLElement;
 
@@ -11,7 +9,7 @@ export default class Form {
 
   button: HTMLButtonElement;
 
-  closeIcon: HTMLImageElement;
+  closeIcon: HTMLButtonElement;
 
   data: string;
 
@@ -21,7 +19,7 @@ export default class Form {
     this.input = Common.createDOMNodeInput('1', ['add-item__form__input'], 'text', inputValue);
     this.container = Common.createDOMNode('div', ['add-item__form__container']);
     this.button = Common.createDomNodeButton(['add-item__form__container__button'], buttonText);
-    this.closeIcon = Common.createDomNodeImg(['add-item__form__container__close'], closeIcon);
+    this.closeIcon = Common.createDomNodeButton(['add-item__form__container__close'], 'Cancel');
 
     this.container.append(this.button, this.closeIcon);
     this.form.append(this.input, this.container);
