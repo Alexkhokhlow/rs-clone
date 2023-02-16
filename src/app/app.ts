@@ -14,8 +14,6 @@ export default class App {
 
   workspace: Workspace;
 
-  creatingBoard: CreatingBoard;
-
   board: Board;
 
   errorPage: ErrorPage;
@@ -25,8 +23,7 @@ export default class App {
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
-    this.creatingBoard = new CreatingBoard();
-    this.errorPage = new ErrorPage();
+    this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
   }
 

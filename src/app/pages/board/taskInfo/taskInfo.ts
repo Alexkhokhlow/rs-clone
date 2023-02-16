@@ -44,9 +44,8 @@ export default class TaskInfo {
     this.close.addEventListener('click', this.onClose.bind(this));
   }
 
-  init(title: string, list: string) {
+  init(title: string) {
     this.title.textContent = title;
-    this.info.textContent = `from ${list}`;
   }
 
   onClose() {

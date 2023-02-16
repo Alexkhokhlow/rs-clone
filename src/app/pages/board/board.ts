@@ -52,7 +52,7 @@ export default class Board {
       this.onAddList.bind(this)
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container', 'hidden']);
-    this.container.append(this.header.append(creatingBoard), this.board, this.footer.append());
+    this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
     this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
   }
 
@@ -79,11 +79,14 @@ export default class Board {
     return this.container;
   }
 
-  async onAddList() {
+  async onAddList(event: Event) {
+    const target = event.target as HTMLButtonElement;
     const name = this.addListButton.form.data;
     if (this.token) {
+      target.disabled = true;
       const data: ITaskList = await this.server.createTaskList(this.token, name, this.path);
       this.createTaskList(name, data.id);
+      target.disabled = false;
     } else {
       window.location.pathname = 'error';
     }
@@ -103,10 +106,10 @@ export default class Board {
 
   onShowTaskInfo(event: Event) {
     const target = event.currentTarget as HTMLElement;
-    const { title, list } = target.dataset;
-    if (title && list) {
+    const { title } = target.dataset;
+    if (title) {
       this.taskInfo.taskInfo.classList.add('active');
-      this.taskInfo.init(title, list);
+      this.taskInfo.init(title);
     }
   }
 

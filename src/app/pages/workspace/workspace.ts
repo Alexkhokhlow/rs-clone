@@ -59,7 +59,6 @@ export default class Workspace {
 
   private bindEvents() {
     this.main.createButton.addEventListener('click', this.creatingBoard.openModal.bind(this.creatingBoard));
-    this.creatingBoard.createButton.addEventListener('click', this.createBoard.bind(this));
   }
 
   private renderBoard(name: string, color: string, pathName: string) {
@@ -80,21 +79,4 @@ export default class Workspace {
     }
   }
 
-  private async createBoard(event: Event) {
-    const data = {
-      color: this.creatingBoard.board.style.background,
-      name: this.creatingBoard.boardTitleInput.value,
-      access: this.creatingBoard.visibility.value === 'Public',
-    };
-    if (this.token) {
-      try {
-        const dashboard: IBoard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
-        this.creatingBoard.closeModal(event);
-        this.creatingBoard.boardTitleInput.value = '';
-        this.renderBoard(data.name, data.color, dashboard.pathName);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
 }
