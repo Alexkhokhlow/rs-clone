@@ -140,7 +140,7 @@ export default class Server {
     return json;
   }
 
-  async updateTask(token: string, id: string, taskListId: string, name: string, index: string) {
+  async updateTask(token: string, id: string,  taskListId: string, name: string, index: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'PUT',
       headers: {

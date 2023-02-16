@@ -1,3 +1,4 @@
+import { io } from 'socket.io-client';
 import IResponseBoard, { ITaskList } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
@@ -33,6 +34,7 @@ export default class Board {
   token: string | null;
 
   path: string;
+  socket: any;
 
   constructor(creatingBoard: CreatingBoard) {
     this.board = Common.createDOMNode('section', ['board']);
@@ -44,6 +46,7 @@ export default class Board {
     this.server = new Server();
     this.token = localStorage.getItem('token');
     this.path = '';
+    this.socket = io(`https://trello-clone-x3tl.onrender.com`);
 
     this.addListButton = new AddItemButton(
       'Add another list',
@@ -57,8 +60,18 @@ export default class Board {
   }
 
   async init(path: string) {
+    this.socket.on('answer', () => {
+      this.printBoard(path);
+    });
+    await this.printBoard(path);
+
+    return this.container;
+  }
+
+  async printBoard(path: string) {
     if (this.token) {
       const response: IResponseBoard = await this.server.getDashboard(this.token, path);
+      this.listsContainer.innerHTML = '';
       this.path = path;
       this.board.style.background = response.dashboard.color;
       if (response.dashboard.tasklists) {
@@ -75,13 +88,12 @@ export default class Board {
     } else {
       window.location.pathname = 'error';
     }
-
-    return this.container;
   }
 
   async onAddList(event: Event) {
     const target = event.target as HTMLButtonElement;
     const name = this.addListButton.form.data;
+    this.socket.emit('message', 'change');
     if (this.token) {
       target.disabled = true;
       const data: ITaskList = await this.server.createTaskList(this.token, name, this.path);
@@ -93,7 +105,7 @@ export default class Board {
   }
 
   createTaskList(name: string, id: string) {
-    const list = new TasksList(name, this.onShowTaskInfo.bind(this));
+    const list = new TasksList(name, this.onShowTaskInfo.bind(this), this.socket);
     list.tasksWrapper.setAttribute('data-id', id);
     this.tasksListArray.push(list);
     this.addListButton.onClose();
@@ -128,11 +140,12 @@ export default class Board {
       const parent = target.parentNode as HTMLElement;
       const parentId = parent.dataset.id;
 
-      [...parent.children].forEach((item, index) => {
+      [...parent.children].forEach(async (item, index) => {
         const element = item as HTMLElement;
         const { id, title } = element.dataset;
         if (this.token && id && parentId && title) {
-          this.server.updateTask(this.token, id, parentId, title, String(index));
+          await this.server.updateTask(this.token, id, parentId, title, String(index));
+          this.socket.emit('message', 'change');
         }
       });
 

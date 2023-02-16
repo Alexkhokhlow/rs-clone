@@ -20,7 +20,10 @@ export default class TasksList {
 
   token: string | null;
 
-  constructor(title: string, onClick: (event: Event) => void) {
+  socket: any;
+
+  constructor(title: string, onClick: (event: Event) => void, socket: any) {
+    this.socket = socket;
     this.onClick = onClick;
     this.titleText = title;
     this.tasksList = Common.createDOMNode('div', ['tasks-list']);
@@ -46,6 +49,7 @@ export default class TasksList {
     const index = String(this.tasksWrapper.children.length);
     this.addCardButton.onClose();
     const { id } = this.tasksWrapper.dataset;
+    this.socket.emit('message', 'change');
     if (this.token && id) {
       const data = await this.server.createTask(this.token, id, name, index);
       const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
