@@ -22,26 +22,32 @@ export default class TasksList {
 
   socket: any;
 
+  private deleteButton: HTMLElement;
+
+  private headerTaskList: HTMLElement;
+
   constructor(title: string, onClick: (event: Event) => void, socket: any) {
     this.socket = socket;
     this.onClick = onClick;
     this.titleText = title;
-    this.tasksList = Common.createDOMNode('div', ['tasks-list']);
+    this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
+    this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.tasksList.draggable = true;
-    this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
+    this.title = Common.createDomNode('span', ['tasks-list__title'], title);
     this.title.contentEditable = 'true';
+    this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
     this.server = new Server();
     this.token = localStorage.getItem('token');
 
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
-      'add a card',
+      'Add a card',
       'Enter a title for this card...',
-      'add card',
+      'Add card',
       this.onAddTask.bind(this)
     );
-
-    this.tasksList.append(this.title, this.tasksWrapper, this.addCardButton.container);
+    this.headerTaskList.append(this.title, this.deleteButton);
+    this.tasksList.append(this.headerTaskList, this.tasksWrapper, this.addCardButton.container);
   }
 
   async onAddTask() {

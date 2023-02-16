@@ -1,0 +1,268 @@
+.task-info {
+  width: 90%;
+  z-index: 1000;
+  height: 80vh;
+  box-shadow: 0 0 0 1000px rgb(0 0 0 / 60%);
+  display: none;
+  position: absolute;
+  border: .3rem;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: $color-background-feature;
+  padding: 1.5rem;
+  overflow-y: scroll;
+
+  &__header {
+    width: 100%;
+  }
+
+  &__container {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  &__main {
+    width: 73%;
+  }
+
+  &__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  .description {
+    width: 100%;
+
+    &__edit {
+      background-color: #e6e9ef;
+      padding: 4px 12px;
+      font-size: 14px;
+      border-radius: 3px;
+      margin-left: 1rem;
+      transition: .3s;
+
+      &:hover {
+        background: $color-pagination;
+      }
+    }
+
+    &__container {
+      width: 100%;
+
+      &__button {
+        width: 100%;
+        min-height: 60px;
+        padding-bottom: 15px;
+        padding-left: 10px;
+        text-align: start;
+        background-color: transparent;
+      }
+    }
+
+    .add-item__form {
+      width: 100%;
+    }
+  }
+
+  .comments {
+    margin-top: 20px;
+    width: 100%;
+
+    .add-item {
+      width: 100%;
+    }
+
+    .add-item__button{
+      color:black;
+      border: .05rem solid $color-border-comment;
+      width: 100%;
+      background-color: $color-background;
+      padding: 0.5rem;
+
+      &::before{
+        content: '';
+      }
+    }
+
+    &__container {
+      @include flex($align: stretch);
+      flex-direction: column;
+      margin-top: 1rem;
+      gap: 1rem;
+    }
+
+    .add-item__form {
+      padding: 1px;
+      width: 100%;
+
+      &__container {
+        background-color: $color-background;
+        margin: 0;
+        padding: 8px;
+      }
+
+      &__input {
+        box-shadow: none;
+      }
+    }
+
+    .input-comment {
+      display: flex;
+      align-items: flex-start;
+
+      &__user{
+        padding: 9px;
+        background: green;
+        border-radius: 50%;
+        color: $color-background;
+        margin-right: 5px;
+        width: 4rem;
+        text-align: center;
+      }
+    }
+
+    .comment__edit {
+      margin-right: 0.5rem;
+    }
+
+    .comment__edit,
+    .comment__delete {
+      background: transparent;
+      text-decoration: underline;
+      font-size: 1.2rem;
+      color: $color-pagination;
+
+      &:hover {
+        color: $color-pagination-active;
+      }
+    }
+  }
+}
+
+.sidebar {
+  width: 23%;
+  display: block;
+
+  &__title {
+    color: $color-create-text;
+    font-size: 1.3rem;
+  }
+
+  .module__button {
+    padding: .6rem;
+    border-radius: .3rem;
+    margin: 4px 0;
+  }
+
+  &__modules {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.module {
+  min-width: 240px;
+  position: absolute;
+  right: 0;
+  min-height: 10rem;
+  height: fit-content;
+  background: $color-background;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
+  flex-direction: column;
+  align-items: center;
+  padding: .7rem;
+  display: none;
+
+  &__header {
+    @include flex($justify: center);
+    position: relative;
+    padding: 0 .5rem .5rem;
+  }
+
+  &__title {
+    color: $color-create-text;
+  }
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.active {
+  display: inline-block;
+}
+
+.inactive {
+  display: none;
+}
+
+.sidebar__modules__members,
+.sidebar__modules__labels,
+.sidebar__modules__check {
+  @include flex($justify: flex-start);
+  gap: .5rem;
+
+    &::before {
+      content: url('../assets/board/taskInfo/member.svg');
+    }
+}
+
+.sidebar__modules__labels::before {
+  content: url('../assets/board/taskInfo/label.svg');
+}
+
+.sidebar__modules__check::before {
+  content: url('../assets/board/taskInfo/check.svg');
+}
+
+.members,
+.checklist,
+.labels {
+  padding: .5rem 0;
+}
+
+.members__title,
+.checklist__title,
+.labels__title {
+  font-size: 1.3rem;
+  color: $color-create-text;
+  font-weight: bold;
+}
+
+.checklist__form {
+  @include flex($align: flex-start);
+  flex-direction: column;
+}
+
+.checklist__add {
+  margin-top: 1rem;
+  padding: .6rem 2rem;
+  background-color: #0079bf;
+  border-radius: .3rem;
+  color: $color-background;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-brand-hover;
+  }
+}
+
+.checklist__input {
+  width: 100%;
+  padding: .5rem;
+  border: .05rem solid $color-border-comment;
+}

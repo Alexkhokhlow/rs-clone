@@ -8,9 +8,9 @@ export default class Comment {
 
   input: AddItemButton;
 
-  edit: HTMLElement;
+  edit: HTMLButtonElement;
 
-  delete: HTMLElement;
+  delete: HTMLButtonElement;
 
   data: string;
 
@@ -20,10 +20,10 @@ export default class Comment {
     this.data = text;
     this.id = id;
     this.comment = Common.createDomNode('div', ['comment']);
-    this.userName = Common.createDomNode('span', ['comment'], 'user name');
+    this.userName = Common.createDomNode('span', ['comment__user'], 'user name');
     this.input = new AddItemButton(text, text, 'save', this.onSave.bind(this));
-    this.edit = Common.createDomNode('span', ['comment'], 'edit');
-    this.delete = Common.createDomNode('span', ['comment'], 'delete');
+    this.edit = Common.createDomNodeButton(['comment__edit'], 'Edit');
+    this.delete = Common.createDomNodeButton(['comment__delete'], 'Delete');
 
     this.edit.addEventListener('click', this.onEdit.bind(this));
     this.delete.addEventListener('click', onDelete);

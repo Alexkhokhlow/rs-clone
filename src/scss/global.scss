@@ -6,8 +6,11 @@
 @import './base/base.scss';
 @import './page/404/404.scss';
 
-// pages
+// board
 @import './page/board/board.scss';
+@import './page/board/taskInfo.scss';
+
+//authorization
 @import './page/autorisation.scss';
 
 // Start page
@@ -27,7 +30,6 @@
 
 //create board
 @import './page/createBoard/createBoard.scss';
-
 
 //hide
 @import './base/hide.scss';
