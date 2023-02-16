@@ -1,6 +1,8 @@
 import Common from '../../utils/common';
 import Footer from '../autorisation/footer';
 import StartPageHeader from '../startPage/sections/header';
+import createBoard from '../workspace/createBoard/createBoard';
+import CreatingBoard from '../workspace/createBoard/createBoard';
 import Header from '../workspace/header/header';
 
 export default class ErrorPage {
@@ -14,12 +16,15 @@ export default class ErrorPage {
 
   footer: HTMLElement;
 
-  constructor() {
+  creatingBoard: CreatingBoard;
+
+  constructor(creatingBoard: CreatingBoard) {
+    this.creatingBoard = creatingBoard;
     this.main = Common.createDomNode('section', ['error__page']);
     this.title = Common.createDomNode('h2', ['error__title'], 'Page not found.');
 
     if (this.isAuthorized()) {
-      this.header = new Header().append();
+      this.header = new Header().append(creatingBoard);
       this.errorMessage = Common.createDomNode(
         'p',
         ['error__message'],
@@ -39,7 +44,7 @@ export default class ErrorPage {
 
   public render() {
     this.title.append(this.errorMessage);
-    this.main.append(this.header, this.title, this.footer);
+    this.main.append(this.header, this.title, this.creatingBoard.append(), this.footer);
 
     return this.main;
   }

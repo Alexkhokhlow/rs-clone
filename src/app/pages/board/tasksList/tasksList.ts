@@ -48,7 +48,7 @@ export default class TasksList {
     const { id } = this.tasksWrapper.dataset;
     if (this.token && id) {
       const data = await this.server.createTask(this.token, id, name, index);
-      const task = new Task(name, this.onClick, this.titleText, index, data.id);
+      const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
       this.tasksWrapper.append(task.task);
     }
   }
