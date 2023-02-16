@@ -266,3 +266,69 @@
   padding: .5rem;
   border: .05rem solid $color-border-comment;
 }
+
+.labels__container {
+  @include flex($align: stretch);
+  flex-direction: column;
+  gap: .5rem;
+  position: relative;
+}
+
+.label {
+  @include flex();
+  gap: .5rem;
+}
+
+.label__checkbox {
+  appearance: auto;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.label__color {
+  padding: .5rem 1rem;
+  border-radius: .3rem;
+}
+
+.label__edit__wrapper {
+  @include flex($justify: center);
+  transition: .3s;
+  cursor: pointer;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: .3rem;
+
+  &:hover {
+    background: rgba(205, 205, 205, .5);
+  }
+}
+
+.label__edit {
+  background: url('../assets/workspace/main/pencil.svg') center center/contain no-repeat;
+  width: 1.6rem;
+  height:1.6rem;
+}
+
+.label__title__wrapper {
+  @include flex($align: stretch);
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  background: $color-background;
+  padding: .7rem;
+  box-shadow: $color-box-shadow;
+  border-radius: .3rem;
+  top: .5rem;
+  left: 0;
+}
+
+.buttons {
+  @include flex($justify: flex-start);
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+.label__input {
+  padding: .6rem;
+  border: .05rem solid $color-border-comment;
+}

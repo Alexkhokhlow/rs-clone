@@ -18,13 +18,13 @@ export default class TaskInfo {
 
   private close: HTMLImageElement;
 
-  sidebar: Sidebar;
+  private sidebar: Sidebar;
 
-  header: HTMLElement;
+  private header: HTMLElement;
 
-  main: HTMLElement;
+  private main: HTMLElement;
 
-  container: HTMLElement;
+  private container: HTMLElement;
 
   constructor() {
     this.taskInfo = Common.createDomNode('div', ['task-info']);
@@ -43,13 +43,26 @@ export default class TaskInfo {
     this.main.append(this.description.description, this.comment.commentsForm);
     this.taskInfo.append(this.header, this.container);
     this.close.addEventListener('click', this.onClose.bind(this));
+    this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
   }
 
-  init(title: string) {
+  public init(title: string) {
     this.title.textContent = title;
   }
 
-  onClose() {
+  private onClose() {
     this.taskInfo.classList.remove('active');
+  }
+
+  private addLabels(event: Event) {
+    const target = event.target as HTMLElement;
+    if (target.closest('.label__color')) {
+      if (!(target.closest('.label__color')!.previousElementSibling as HTMLInputElement).checked) {
+        (target.closest('.label__color')!.previousElementSibling as HTMLInputElement).checked = true;
+        
+      } else {
+        (target.closest('.label__color')!.previousElementSibling as HTMLInputElement).checked = false;
+      }
+    }
   }
 }
