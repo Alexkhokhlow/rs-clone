@@ -27,7 +27,7 @@ export default class App {
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
     this.user = new UserPage();
-    this.errorPage = new ErrorPage();
+    this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
   }
 
