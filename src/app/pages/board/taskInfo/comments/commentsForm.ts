@@ -16,7 +16,7 @@ export default class CommentsForm {
   constructor() {
     this.comments = [];
     this.commentsForm = Common.createDomNode('div', ['comments']);
-    this.title = Common.createDomNode('span', ['comments__title'], 'Comments');
+    this.title = Common.createDomNode('span', ['comments__title', 'title__info'], 'Comments');
     this.input = new InputComment(this.onSave.bind(this));
     this.container = Common.createDomNode('div', ['comments__container']);
 
