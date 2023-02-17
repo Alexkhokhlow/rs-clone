@@ -2,6 +2,7 @@ import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
+import UserPage from './pages/user/user';
 import CreatingBoard from './pages/workspace/createBoard/createBoard';
 import Workspace from './pages/workspace/workspace';
 
@@ -18,11 +19,14 @@ export default class App {
 
   errorPage: ErrorPage;
 
+  user: UserPage;
+
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
+    this.user = new UserPage();
     this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
   }
@@ -40,6 +44,7 @@ export default class App {
       /\/workspace\b/g,
       /\/user\/([\w]+?)\b/g,
       /signup/g,
+      /\/user\b/g,
     ];
 
     let flag = true;
@@ -60,6 +65,10 @@ export default class App {
         }
         if (match[0].includes('board')) {
           this.body.append(await this.board.init(match[0].replace('/board/', '')));
+        }
+
+        if (match[0].includes('user')) {
+          this.body.append(this.user.render());
         }
       }
     });
