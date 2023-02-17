@@ -1,5 +1,5 @@
 const gears = require('../../../../assets/startPage/svg/more/Gears.svg') as string;
-const integrations = require('../../../../assets/startPage/svg/more/Integrations.svg') as string;
+const integrations = require('../../../../assets/startPage/svg/more/integrations.svg') as string;
 const search = require('../../../../assets/startPage/svg/more/search.svg') as string;
 const boards = require('../../../../assets/startPage/carousel/boards.webp') as string;
 const cards = require('../../../../assets/startPage/carousel/cards.webp') as string;
