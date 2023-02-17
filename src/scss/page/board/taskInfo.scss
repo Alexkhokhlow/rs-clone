@@ -1,13 +1,14 @@
 .task-info {
   width: 90%;
   z-index: 1000;
-  height: 80vh;
+  height: 90vh;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 60%);
   display: none;
   position: absolute;
   border: .3rem;
   left: 0;
   right: 0;
+  top: 2rem;
   margin: 0 auto;
   background-color: $color-background-feature;
   padding: 1.5rem;
@@ -19,13 +20,14 @@
 
   &__container {
     display: flex;
-    margin-top: 50px;
+    margin-top: 30px;
     justify-content: space-between;
     position: relative;
-  }
+    flex-wrap: nowrap;
 
-  &__main {
-    width: 73%;
+    @media (max-width: 500px) {
+      flex-direction: column;
+    }
   }
 
   &__close {
@@ -100,7 +102,10 @@
 
     .add-item__form {
       padding: 1px;
-      width: 100%;
+
+      @media (max-width: 500px) {
+        width: 85%;
+      }
 
       &__container {
         background-color: $color-background;
@@ -118,13 +123,13 @@
       align-items: flex-start;
 
       &__user{
-        padding: 9px;
+        @include flex($justify: center);
         background: green;
         border-radius: 50%;
         color: $color-background;
         margin-right: 5px;
-        width: 4rem;
-        text-align: center;
+        width: 3.6rem;
+        height: 3.6rem;
       }
     }
 
@@ -147,8 +152,13 @@
 }
 
 .sidebar {
-  width: 23%;
+  width: 25%;
   display: block;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    margin-top: 1rem;
+  }
 
   &__title {
     color: $color-create-text;
@@ -159,11 +169,25 @@
     padding: .6rem;
     border-radius: .3rem;
     margin: 4px 0;
+
+    @media (max-width: 340px) {
+      width: 48%;
+      margin: 0;
+    }
   }
 
   &__modules {
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 500px) {
+      flex-direction: row;
+      gap: .7rem;
+    }
+
+    @media (max-width: 340px) {
+      flex-wrap: wrap;
+    }
   }
 }
 
@@ -171,6 +195,7 @@
   min-width: 240px;
   position: absolute;
   right: 0;
+  top: 0;
   min-height: 10rem;
   height: fit-content;
   background: $color-background;
@@ -271,7 +296,6 @@
   @include flex($align: stretch);
   flex-direction: column;
   gap: .5rem;
-  position: relative;
 }
 
 .label {
@@ -286,16 +310,17 @@
 }
 
 .label__color {
-  padding: .5rem 1rem;
+  padding: .3rem 1rem;
   border-radius: .3rem;
+  width: 75%;
 }
 
 .label__edit__wrapper {
   @include flex($justify: center);
   transition: .3s;
   cursor: pointer;
-  width: 2.9rem;
-  height: 2.9rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: .3rem;
 
   &:hover {
