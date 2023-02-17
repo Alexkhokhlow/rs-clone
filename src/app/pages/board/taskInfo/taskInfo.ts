@@ -29,6 +29,7 @@ export default class TaskInfo {
   constructor() {
     this.taskInfo = Common.createDomNode('div', ['task-info']);
     this.title = Common.createDomNode('h2', ['task-info__title'], 'make new Page');
+    this.title.contentEditable = 'true';
     this.info = Common.createDomNode('h4', ['task-info__info'], 'from list create');
     this.close = Common.createDomNodeImg(['task-info__close'], closeIcon);
     this.description = new Description();
@@ -44,9 +45,8 @@ export default class TaskInfo {
     this.close.addEventListener('click', this.onClose.bind(this));
   }
 
-  init(title: string, list: string) {
+  init(title: string) {
     this.title.textContent = title;
-    this.info.textContent = `from ${list}`;
   }
 
   onClose() {

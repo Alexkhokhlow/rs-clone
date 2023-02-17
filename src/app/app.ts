@@ -15,8 +15,6 @@ export default class App {
 
   workspace: Workspace;
 
-  creatingBoard: CreatingBoard;
-
   board: Board;
 
   errorPage: ErrorPage;
@@ -28,22 +26,21 @@ export default class App {
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
-    this.creatingBoard = new CreatingBoard();
-    this.errorPage = new ErrorPage();
-    this.board = new Board();
     this.user = new UserPage();
+    this.errorPage = new ErrorPage(this.workspace.creatingBoard);
+    this.board = new Board(this.workspace.creatingBoard);
   }
 
   async start() {
-    this.openPage();
+    await this.openPage();
   }
 
-  openPage() {
+  async openPage() {
     const path = window.location.pathname;
     const routes = [
       /\/home\b/g,
       /\/login\b/g,
-      /\/board\b/g,
+      /\/board\/([\w]+?)\b/g,
       /\/workspace\b/g,
       /\/user\/([\w]+?)\b/g,
       /signup/g,
@@ -51,7 +48,7 @@ export default class App {
     ];
 
     let flag = true;
-    routes.forEach((route) => {
+    routes.forEach(async (route) => {
       const match = path.match(route);
       if (match) {
         flag = false;
@@ -67,7 +64,7 @@ export default class App {
           this.body.append(this.workspace.append());
         }
         if (match[0].includes('board')) {
-          this.body.append(this.board.container);
+          this.body.append(await this.board.init(match[0].replace('/board/', '')));
         }
 
         if (match[0].includes('user')) {

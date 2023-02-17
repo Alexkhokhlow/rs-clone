@@ -27,8 +27,8 @@ export default class Sidebar {
     this.title = Common.createDomNode('span', ['sidebar__title'], 'Add to card');
     this.modules = Common.createDomNode('div', ['sidebar__modules']);
     this.members = Common.createDomNodeButton(['sidebar__modules__members', 'module__button'], 'Members');
-    this.labels = Common.createDomNodeButton(['sidebar__modules__members', 'module__button'], 'Labels');
-    this.checkList = Common.createDomNodeButton(['sidebar__modules__members', 'module__button'], 'Checklist');
+    this.labels = Common.createDomNodeButton(['sidebar__modules__labels', 'module__button'], 'Labels');
+    this.checkList = Common.createDomNodeButton(['sidebar__modules__check', 'module__button'], 'Checklist');
     this.modalMembers = new MembersModule();
     this.modalLabels = new LabelsModule();
     this.modalCheckList = new CheckListModule();

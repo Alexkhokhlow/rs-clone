@@ -1,3 +1,5 @@
+import { IBoard } from '../../../../types/types';
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import { backgrounds } from '../../startPage/constants/constants';
 
@@ -44,7 +46,7 @@ export default class CreatingBoard {
 
   private visibilityTitle: HTMLLabelElement;
 
-  private visibility: HTMLInputElement;
+  public visibility: HTMLInputElement;
 
   private dropDownMenu: HTMLElement;
 
@@ -71,6 +73,8 @@ export default class CreatingBoard {
   private privateIcon: HTMLElement;
 
   private publicIcon: HTMLElement;
+  private server: Server;
+  private token: string | null;
 
   constructor() {
     this.overlay = Common.createDomNode('div', ['overlay', 'hidden']);
@@ -118,7 +122,11 @@ export default class CreatingBoard {
     );
     this.createButton = Common.createDomNodeButton(['button', 'create__button'], 'Create');
     this.createButton.disabled = true;
+    this.server = new Server();
     this.createBackgrounds();
+    this.token = localStorage.getItem('token');
+    this.bindEvents();
+
   }
 
   public append() {
@@ -145,8 +153,6 @@ export default class CreatingBoard {
     this.section.append(this.wrapper, this.boardInfo);
     this.overlay.append(this.section);
 
-    this.bindEvents();
-
     return this.overlay;
   }
 
@@ -157,6 +163,8 @@ export default class CreatingBoard {
     this.backgrounds.addEventListener('click', this.chooseBackground.bind(this));
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
     this.overlay.addEventListener('click', this.closeModal.bind(this));
+    this.createButton.addEventListener('click', this.createBoard.bind(this));
+
   }
 
   private setDisabled() {
@@ -223,5 +231,23 @@ export default class CreatingBoard {
 
   private toggleDropDown() {
     this.options.classList.toggle('hidden');
+  }
+
+  public async createBoard(event: Event) {
+    const data = {
+      color: this.board.style.background,
+      name: this.boardTitleInput.value,
+      access: this.visibility.value === 'Public',
+    };
+    if (this.token) {
+      try {
+        const dashboard: IBoard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
+        this.closeModal(event);
+        this.boardTitleInput.value = '';
+        window.location.pathname = `board/${dashboard.pathName}`
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }

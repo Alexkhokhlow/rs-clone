@@ -1,3 +1,4 @@
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
 import Task from './task/task';
@@ -7,7 +8,7 @@ export default class TasksList {
 
   private title: HTMLElement;
 
-  private addCardButton: AddItemButton;
+  public addCardButton: AddItemButton;
 
   private onClick: (event: Event) => void;
 
@@ -15,27 +16,50 @@ export default class TasksList {
 
   titleText: string;
 
-  constructor(title: string, onClick: (event: Event) => void) {
+  server: Server;
+
+  token: string | null;
+
+  socket: any;
+
+  private deleteButton: HTMLElement;
+
+  private headerTaskList: HTMLElement;
+
+  constructor(title: string, onClick: (event: Event) => void, socket: any) {
+    this.socket = socket;
     this.onClick = onClick;
     this.titleText = title;
-    this.tasksList = Common.createDOMNode('div', ['tasks-list']);
+    this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
+    this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.tasksList.draggable = true;
-    this.title = Common.createDOMNode('span', ['tasks-list__title'], title);
+    this.title = Common.createDomNode('span', ['tasks-list__title'], title);
     this.title.contentEditable = 'true';
+    this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
+
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
-      'add a card',
+      'Add a card',
       'Enter a title for this card...',
-      'add card',
-      this.onAddCart.bind(this)
+      'Add card',
+      this.onAddTask.bind(this)
     );
-
-    this.tasksList.append(this.title, this.tasksWrapper, this.addCardButton.container);
+    this.headerTaskList.append(this.title, this.deleteButton);
+    this.tasksList.append(this.headerTaskList, this.tasksWrapper, this.addCardButton.container);
   }
 
-  onAddCart() {
-    const task = new Task(this.addCardButton.form.data, this.onClick, this.titleText);
+  async onAddTask() {
+    const name = this.addCardButton.form.data;
+    const index = String(this.tasksWrapper.children.length);
     this.addCardButton.onClose();
-    this.tasksWrapper.append(task.task);
+    const { id } = this.tasksWrapper.dataset;
+    this.socket.emit('message', 'change');
+    if (this.token && id) {
+      const data = await this.server.createTask(this.token, id, name, index);
+      const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
+      this.tasksWrapper.append(task.task);
+    }
   }
 }
