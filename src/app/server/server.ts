@@ -2,7 +2,7 @@ export default class Server {
   private address: string;
 
   constructor() {
-    this.address = 'http://localhost:8081/api';
+    this.address = 'https://trello-clone-x3tl.onrender.com/api';
   }
 
   async signUp(email: string, password: string, userName: string) {
@@ -20,7 +20,7 @@ export default class Server {
   }
 
   async signGoogle() {
-    const response = await fetch(`http://localhost:8081/auth/google`, {
+    const response = await fetch(`https://trello-clone-x3tl.onrender.com/auth/google`, {
       method: 'GET',
       mode: 'no-cors',
       headers: {
