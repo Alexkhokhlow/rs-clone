@@ -2,6 +2,7 @@ import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
+import UserPage from './pages/user/user';
 import CreatingBoard from './pages/workspace/createBoard/createBoard';
 import Workspace from './pages/workspace/workspace';
 
@@ -14,27 +15,27 @@ export default class App {
 
   workspace: Workspace;
 
-  creatingBoard: CreatingBoard;
-
   board: Board;
 
   errorPage: ErrorPage;
+
+  user: UserPage;
 
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
-    this.creatingBoard = new CreatingBoard();
+    this.user = new UserPage();
     this.errorPage = new ErrorPage();
-    this.board = new Board();
+    this.board = new Board(this.workspace.creatingBoard);
   }
 
   async start() {
-    this.openPage();
+    await this.openPage();
   }
 
-  openPage() {
+  async openPage() {
     let path = window.location.pathname;
     if (path[path.length - 1] === '/') {
       path = path.slice(0, -1);
@@ -42,7 +43,7 @@ export default class App {
     let flag = true;
 
     if (this.isAuthorized()) {
-      const routes = ['/workspace', '/board'];
+      const routes = ['/workspace', '/board', '/user'];
       routes.forEach((route) => {
         if (route === path) {
           flag = false;
@@ -53,14 +54,22 @@ export default class App {
             case '/board':
               this.body.append(this.board.container);
               break;
+            case '/user':
+              this.body.append(this.user.render());
+              break;
             default:
               this.body.append(this.errorPage.render());
           }
+        } else if (/\/board\/([\w]+?)\b/g.test(path)) {
+          this.body.append(await this.board.init(match[0].replace('/board/', '')));
+        } else {
+          this.body.append(this.errorPage.render());
         }
       });
       if (flag) {
         switch (path) {
           case '':
+          case '/home':
             window.location.href = 'workspace';
             break;
           default:
