@@ -34,6 +34,7 @@ export default class Board {
   token: string | null;
 
   path: string;
+
   socket: any;
 
   constructor(creatingBoard: CreatingBoard) {
@@ -180,5 +181,4 @@ export default class Board {
     });
     return closestTask;
   }
-
 }

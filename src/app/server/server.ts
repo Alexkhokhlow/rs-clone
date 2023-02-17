@@ -16,7 +16,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    return await response;
+    return response;
   }
 
   async signGoogle() {

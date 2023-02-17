@@ -26,7 +26,9 @@ export default class TaskInfo {
   main: HTMLElement;
 
   container: HTMLElement;
+
   server: Server;
+
   token: string | null;
 
   constructor() {
@@ -54,7 +56,7 @@ export default class TaskInfo {
     if (this.token) {
       const { taskInfo, comments, user } = await this.server.getTaskInfo(this.token, id);
       this.comment.init(user);
-      comments.forEach((data: { text: string; userName: string; id:string }) => {
+      comments.forEach((data: { id: string; text: string; userName: string }) => {
         this.comment.createComment(data.text, data.userName, data.id);
       });
       this.title.textContent = taskInfo.name;

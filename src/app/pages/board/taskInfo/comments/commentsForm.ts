@@ -20,7 +20,7 @@ export default class CommentsForm {
 
   id: string;
 
-  user: { name: string; id: string };
+  user: { id: string; name: string };
 
   constructor() {
     this.id = '';
@@ -43,7 +43,7 @@ export default class CommentsForm {
     this.container.insertBefore(comment.comment, this.container.children[0]);
   }
 
-  init(user: { name: string; id: string }) {
+  init(user: { id: string; name: string }) {
     this.user = user;
     this.container.innerHTML = '';
   }

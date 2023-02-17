@@ -21,7 +21,7 @@ export default class Comment {
 
   token: string | null;
 
-  userId: { name: string; id: string };
+  userId: { id: string; name: string };
 
   commentId: string;
 
@@ -56,7 +56,7 @@ export default class Comment {
       this.input.button.textContent = 'Add a more detailed description...';
     }
     if (this.token) {
-      const res = await this.server.updateComment(this.token, this.userId.id, this.commentId, this.data);
+      this.server.updateComment(this.token, this.userId.id, this.commentId, this.data);
     }
 
     this.input.button.setAttribute('value', this.input.form.data);

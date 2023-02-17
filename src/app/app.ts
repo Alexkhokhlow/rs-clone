@@ -2,7 +2,6 @@ import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
-import CreatingBoard from './pages/workspace/createBoard/createBoard';
 import Workspace from './pages/workspace/workspace';
 import Server from './server/server';
 
@@ -19,7 +18,7 @@ export default class App {
 
   errorPage: ErrorPage;
 
-   constructor() {
+  constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
@@ -30,7 +29,7 @@ export default class App {
 
   async start() {
     await this.openPage();
-    const server = new Server()
+    const server = new Server();
     const data = await server.signGoogle();
     console.log(data);
   }

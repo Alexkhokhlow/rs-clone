@@ -16,8 +16,11 @@ export default class Description {
   editButton: HTMLButtonElement;
 
   data: string;
+
   server: Server;
+
   token: string | null;
+
   id: string;
 
   constructor() {
@@ -58,7 +61,7 @@ export default class Description {
       this.detailButton.textContent = 'Add a more detailed description...';
     }
     if (this.token) {
-      const data = await this.server.updateTaskInfo(this.token, this.id, this.data);
+      this.server.updateTaskInfo(this.token, this.id, this.data);
     }
     this.onClose();
   }

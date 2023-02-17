@@ -25,6 +25,6 @@ const labels = [
   },
   {
     color: '#5BA4CF',
-    title: 'blue'
-  }
-]
+    title: 'blue',
+  },
+];
