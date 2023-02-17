@@ -101,6 +101,7 @@ export default class App {
             break;
           default:
             this.body.append(this.errorPage.render());
+        
         }
       }
     }

@@ -50,7 +50,8 @@ export default class MainWorkspace {
     this.editWrapper = Common.createDomNode('div', ['title__edit__wrapper']);
     this.edit = Common.createDomNode('div', ['title__edit']);
     this.showedTitle = Common.createDomNode('div', ['title__showed']);
-    this.title = Common.createDomNode('h2', ['workspace__title'], 'Workspace');
+    const name = localStorage.getItem('workspace_name') ? localStorage.getItem('workspace_name') : 'Workspace';
+    this.title = Common.createDomNode('h2', ['workspace__title'], name as string);
     this.titleIcon = Common.createDomNode('div', ['workspace__title__icon']);
     this.titleText = Common.createDomNode('h3', ['workspace__title__text'], 'W');
     this.line = Common.createDomNode('hr', ['horizontal__line']);
@@ -95,6 +96,7 @@ export default class MainWorkspace {
 
   private editWorkspaceName() {
     this.title.innerText = this.name.value;
+    localStorage.setItem('workspace_name', this.name.value);
     this.nameWrapper.classList.add('hidden');
   }
 }

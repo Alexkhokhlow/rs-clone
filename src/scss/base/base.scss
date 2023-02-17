@@ -12,6 +12,7 @@ html {
   box-sizing: border-box;
   outline: none;
   border: none;
+  transition: hover 0.3s linear;
   
   @media (max-width: 890px) {
     font-size: 1.4rem;

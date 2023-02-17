@@ -1,3 +1,5 @@
+import { IBoard } from '../../../../types/types';
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import { backgrounds } from '../../startPage/constants/constants';
 
@@ -44,7 +46,7 @@ export default class CreatingBoard {
 
   private visibilityTitle: HTMLLabelElement;
 
-  private visibility: HTMLInputElement;
+  public visibility: HTMLInputElement;
 
   private dropDownMenu: HTMLElement;
 
@@ -71,9 +73,11 @@ export default class CreatingBoard {
   private privateIcon: HTMLElement;
 
   private publicIcon: HTMLElement;
+  private server: Server;
+  private token: string | null;
 
   constructor() {
-    this.overlay = Common.createDomNode('div', ['overlay']);
+    this.overlay = Common.createDomNode('div', ['overlay', 'hidden']);
     this.section = Common.createDomNode('section', ['create']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'create__wrapper']);
     this.titleWrapper = Common.createDomNode('div', ['create__title__wrapper']);
@@ -118,7 +122,11 @@ export default class CreatingBoard {
     );
     this.createButton = Common.createDomNodeButton(['button', 'create__button'], 'Create');
     this.createButton.disabled = true;
+    this.server = new Server();
     this.createBackgrounds();
+    this.token = localStorage.getItem('token');
+    this.bindEvents();
+
   }
 
   public append() {
@@ -144,11 +152,6 @@ export default class CreatingBoard {
     this.wrapper.append(this.titleWrapper, this.line);
     this.section.append(this.wrapper, this.boardInfo);
     this.overlay.append(this.section);
-    this.backgrounds.addEventListener('click', this.chooseBackground.bind(this));
-    this.closeButton.addEventListener('click', this.closeModal.bind(this));
-    this.overlay.addEventListener('click', this.closeModal.bind(this));
-    this.openModal();
-    this.bindEvents();
 
     return this.overlay;
   }
@@ -157,6 +160,11 @@ export default class CreatingBoard {
     this.visibility.addEventListener('click', this.toggleDropDown.bind(this));
     this.options.addEventListener('click', this.chooseVisibility.bind(this));
     this.boardTitleInput.addEventListener('input', this.setDisabled.bind(this));
+    this.backgrounds.addEventListener('click', this.chooseBackground.bind(this));
+    this.closeButton.addEventListener('click', this.closeModal.bind(this));
+    this.overlay.addEventListener('click', this.closeModal.bind(this));
+    this.createButton.addEventListener('click', this.createBoard.bind(this));
+
   }
 
   private setDisabled() {
@@ -176,49 +184,70 @@ export default class CreatingBoard {
   private chooseBackground(event: Event) {
     const target = event.target as HTMLButtonElement;
     if (target.closest('.background')) {
-      this.resetActiveBackground();
+      Array.from(this.backgrounds.children).forEach((item) => {
+        item.classList.remove('active');
+      });
+      target.classList.add('active');
       this.board.style.background = target.style.background;
     }
   }
 
-  private resetActiveBackground() {
-    Array.from(this.backgrounds.children).forEach((item) => {
-      item.classList.remove('active');
-    });
-    this.backgrounds.children[0].classList.add('active');
-  }
-
   public openModal() {
-    document.body.append(this.overlay);
+    this.overlay.classList.remove('hidden');
     this.board.style.background = 'rgb(0, 101, 255)';
   }
 
   public closeModal(event: Event) {
     const classes = (event.target as HTMLElement).classList;
     if (classes.contains('overlay') || classes.contains('close__button') || classes.contains('create__button')) {
-      if (this.overlay) {
-        this.overlay.remove();
-      }
-      this.boardTitleInput.value = '';
-      this.visibility.value = 'Private';
-      if (!this.options.classList.contains('hidden')) {
-        this.options.classList.add('hidden');
-      }
-      this.resetActiveBackground();
-      this.board.style.background = 'rgb(0, 101, 255)';
+      this.resetOptions();
       this.setDisabled();
     }
+  }
+
+  private resetOptions() {
+    if (this.overlay) {
+      this.overlay.classList.add('hidden');
+    }
+    this.boardTitleInput.value = '';
+    this.visibility.value = 'Private';
+    if (!this.options.classList.contains('hidden')) {
+      this.options.classList.add('hidden');
+    }
+    Array.from(this.backgrounds.children).forEach((item) => {
+      item.classList.remove('active');
+    });
+    this.backgrounds.children[0].classList.add('active');
+    this.board.style.background = 'rgb(0, 101, 255)';
   }
 
   private chooseVisibility(event: Event) {
     const target = (event.target as HTMLElement).closest('.option');
     if (target) {
-      this.visibility.value = target.lastChild!.firstChild!.textContent as string;
+      this.visibility.value = ((target.lastChild as HTMLElement).firstChild as HTMLElement).textContent as string;
       this.options.classList.add('hidden');
     }
   }
 
   private toggleDropDown() {
     this.options.classList.toggle('hidden');
+  }
+
+  public async createBoard(event: Event) {
+    const data = {
+      color: this.board.style.background,
+      name: this.boardTitleInput.value,
+      access: this.visibility.value === 'Public',
+    };
+    if (this.token) {
+      try {
+        const dashboard: IBoard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
+        this.closeModal(event);
+        this.boardTitleInput.value = '';
+        window.location.pathname = `board/${dashboard.pathName}`
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }

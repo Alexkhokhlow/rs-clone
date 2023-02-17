@@ -6,9 +6,13 @@
 @import './base/base.scss';
 @import './page/404/404.scss';
 
-// pages
+// board
 @import './page/board/board.scss';
+@import './page/board/taskInfo.scss';
+
+//authorization
 @import './page/autorisation.scss';
+@import './page/user/user.scss';
 
 // Start page
 @import './page/startPage/startPage.scss';
@@ -24,10 +28,10 @@
 // Workspace
 @import './page/workspace/header.scss';
 @import './page/workspace/workspace.scss';
+@import './page/workspace/userModal.scss';
 
 //create board
 @import './page/createBoard/createBoard.scss';
-
 
 //hide
 @import './base/hide.scss';

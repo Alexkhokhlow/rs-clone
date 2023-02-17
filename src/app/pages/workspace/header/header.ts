@@ -1,9 +1,8 @@
 import Common from '../../../utils/common';
 import CreatingBoard from '../createBoard/createBoard';
+import UserModal from './userModal';
 
 export default class Header {
-  // private  creatingBoard: CreatingBoard;
-
   public header: HTMLElement;
 
   private wrapper: HTMLElement;
@@ -20,6 +19,8 @@ export default class Header {
 
   public user: HTMLButtonElement;
 
+  userModal: HTMLElement;
+
   private userImg: HTMLElement;
 
   constructor() {
@@ -32,6 +33,7 @@ export default class Header {
     this.create = Common.createDomNodeButton(['header__button'], 'Create');
     this.user = Common.createDomNodeButton(['header__button', 'user__button']);
     this.userImg = Common.createDomNode('div', ['user__image']);
+    this.userModal = new UserModal().render();
   }
 
   public append(creatingBoard?: CreatingBoard) {
@@ -39,14 +41,22 @@ export default class Header {
     this.navigation.append(this.logo, this.workspace, this.create);
     this.user.append(this.userImg);
     this.wrapper.append(this.navigation, this.user);
-    this.header.append(this.wrapper);
+    this.header.append(this.wrapper, this.userModal);
+    if (creatingBoard) {
+      this.create.addEventListener('click', creatingBoard.openModal.bind(creatingBoard));
+    }
+
+    this.addHandlers();
+    return this.header;
+  }
+
+  private addHandlers() {
     this.workspace.addEventListener('click', () => {
       window.location.href = '/workspace';
     });
-    if (creatingBoard) {
-      this.create.addEventListener('click', creatingBoard.append.bind(creatingBoard));
-    }
 
-    return this.header;
+    this.user.addEventListener('click', () => {
+      this.userModal.classList.toggle('hidden');
+    });
   }
 }
