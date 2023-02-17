@@ -17,6 +17,10 @@
   @include flex;
   flex-direction: column;
   gap: 3rem;
+
+  @media (max-width: 350px) {
+    gap: 2rem;
+  }
 }
 
 .workspace__title__wrapper {
@@ -24,6 +28,10 @@
   @include flex($align: flex-start, $justify: flex-start);
   flex-direction: column;
   gap: 1.5rem;
+
+  @media (max-width: 650px) {
+    width: 100%;
+  }
 }
 
 .title__showed {
@@ -37,17 +45,31 @@
   width: 6rem;
   height: 6rem;
   border-radius: 1rem;
+
+  @media (max-width: 350px) {
+    width: 5rem;
+    height: 5rem;
+  }
 }
 
 .workspace__title__text {
   color: $color-background;
   font-size: 3rem;
   font-weight: bold;
+
+  @media (max-width: 350px) {
+    font-size: 2.5rem;
+  }
 }
 
 .workspace__title,
 .boards__title {
   font-size: 2.6rem;
+
+  @media (max-width: 350px) {
+    font-size: 2.2rem;
+  }
+
 }
 
 .horizontal__line {
@@ -66,13 +88,17 @@
 
 .boards__layout {
   @include flex($justify: flex-start);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
   gap: 1rem;
+
+  @media (max-width: 650px) {
+    flex-wrap: wrap;
+  }
 }
 
 .board__button {
-  width: 30%;
+  width: 25%;
   height: 9.5rem;
   border-radius: .3rem;
   background-color: $color-hr;
@@ -80,6 +106,18 @@
 
   &:hover {
     background-color: $color-pagination;
+  }
+
+  @media (max-width: 650px) {
+    width: 32%;
+  }
+
+  @media (max-width: 530px) {
+    width: 48%;
+  }
+
+  @media (max-width: 350px) {
+    width: 100%;
   }
 }
 
@@ -99,12 +137,21 @@
   &:hover {
     background-color: $color-hr;
   }
+
+  @media (max-width: 350px) {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
 }
 
 .name__wrapper {
   @include flex($align: flex-start);
   flex-direction: column;
   width: 50%;
+
+  @media (max-width: 450px) {
+    width: 70%;
+  }
 }
 
 .label__star {
@@ -148,7 +195,7 @@
 }
 
 .board__preview {
-  width: 30%;
+  width: 25%;
   height: 9.5rem;
   border-radius: .3rem;
   padding: .6rem .8rem;
@@ -158,10 +205,26 @@
   &:hover {
     filter: brightness(90%);
   }
+
+  @media (max-width: 650px) {
+    width: 32%;
+  }
+
+  @media (max-width: 530px) {
+    width: 48%;
+  }
+
+  @media (max-width: 350px) {
+    width: 100%;
+  }
 }
 
 .board__preview__title {
   color: $color-background;
   font-weight: bold;
   font-size: 1.8rem;
+
+  @media (max-width: 890px) {
+    font-size: 1.4rem;
+  }
 }
