@@ -24,7 +24,7 @@ export default class Server {
       method: 'GET',
       mode: 'no-cors',
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://polite-platypus-de6805.netlify.app/',
       },
     });
     console.log(response);
