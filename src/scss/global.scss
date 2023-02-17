@@ -12,6 +12,7 @@
 
 //authorization
 @import './page/autorisation.scss';
+@import './page/user/user.scss';
 
 // Start page
 @import './page/startPage/startPage.scss';
@@ -27,6 +28,7 @@
 // Workspace
 @import './page/workspace/header.scss';
 @import './page/workspace/workspace.scss';
+@import './page/workspace/userModal.scss';
 
 //create board
 @import './page/createBoard/createBoard.scss';
