@@ -44,6 +44,7 @@ export default class App {
     if (this.isAuthorized()) {
       const routes = ['/workspace', '/board', '/user'];
       if (/\/board\/([\w]+?)\b/g.test(path)) {
+        flag = false;
         this.body.append(await this.board.init(path.replace('/board/', '')));
       } else {
         routes.forEach((route) => {
