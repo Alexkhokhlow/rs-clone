@@ -52,10 +52,15 @@ export default class TaskInfo {
 
   async init(id: string) {
     if (this.token) {
-      const { taskInfo } = await this.server.getTaskInfo(this.token, id);
+      const { taskInfo, comments, user } = await this.server.getTaskInfo(this.token, id);
+      this.comment.init(user);
+      comments.forEach((data: { text: string; userName: string; id:string }) => {
+        this.comment.createComment(data.text, data.userName, data.id);
+      });
       this.title.textContent = taskInfo.name;
       this.info.textContent = `from ${taskInfo.tasklist}`;
       this.description.id = id;
+      this.comment.id = id;
       if (taskInfo.description) {
         this.description.init(taskInfo.description);
       } else {

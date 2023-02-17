@@ -1,4 +1,3 @@
-
 export default class Server {
   private address: string;
 
@@ -13,6 +12,19 @@ export default class Server {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ userName, email, password }),
+    });
+
+    await this.checkError(response);
+
+    return await response;
+  }
+
+  async signGoogle() {
+    const response = await fetch(`http://localhost:8081/auth/google`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     await this.checkError(response);
@@ -141,7 +153,7 @@ export default class Server {
     return json;
   }
 
-  async updateTask(token: string, id: string,  taskListId: string, name: string, index: string) {
+  async updateTask(token: string, id: string, taskListId: string, name: string, index: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'PUT',
       headers: {
@@ -171,13 +183,58 @@ export default class Server {
     return json;
   }
 
-  async updateTaskInfo(token: string, id: string,  description:string,) {
-    const response = await fetch(`${this.address}/taskInfo/`, {
+  async updateTaskInfo(token: string, id: string, description: string) {
+    const response = await fetch(`${this.address}/taskInfo`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, id, description}),
+      body: JSON.stringify({ token, id, description }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async createComment(token: string, id: string, comment: string) {
+    const response = await fetch(`${this.address}/comment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, comment }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateComment(token: string, userId: string, id: string, comment: string) {
+    const response = await fetch(`${this.address}/comment`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userId, id, comment }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async deleteComment(token: string, userId: string, id: string) {
+    const response = await fetch(`${this.address}/comment`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userId, id }),
     });
 
     await this.checkError(response);
