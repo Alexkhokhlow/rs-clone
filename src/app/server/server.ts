@@ -22,6 +22,7 @@ export default class Server {
   async signGoogle() {
     const response = await fetch(`http://localhost:8081/auth/google`, {
       method: 'GET',
+      mode: 'no-cors'
     });
 
     await this.checkError(response);
