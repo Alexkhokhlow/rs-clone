@@ -27,6 +27,7 @@
 
     @media (max-width: 500px) {
       flex-direction: column;
+      margin-top: 20px;
     }
   }
 
@@ -41,6 +42,7 @@
 
   .description {
     width: 100%;
+    margin-top: 2rem;
 
     &__edit {
       background-color: #e6e9ef;
@@ -326,12 +328,12 @@
   &:hover {
     background: rgba(205, 205, 205, .5);
   }
-}
 
-.label__edit {
-  background: url('../assets/workspace/main/pencil.svg') center center/contain no-repeat;
-  width: 1.6rem;
-  height:1.6rem;
+  .label__edit {
+    background: url('../assets/workspace/main/pencil.svg') center center/contain no-repeat;
+    width: 1.6rem;
+    height:1.6rem;
+  }
 }
 
 .label__title__wrapper {
@@ -356,4 +358,26 @@
 .label__input {
   padding: .6rem;
   border: .05rem solid $color-border-comment;
+}
+
+.labels__info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: .5rem;
+  width: 90%;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+
+  .label__color {
+    width: 95%;
+  }
+}
+
+.labels__add {
+  width: 35%;
+  font-size: 2rem;
+  border-radius: .3rem;
+  color: $color-create-text;
 }
