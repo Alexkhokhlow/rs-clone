@@ -3,7 +3,6 @@ import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
 import UserPage from './pages/user/user';
-import CreatingBoard from './pages/workspace/createBoard/createBoard';
 import Workspace from './pages/workspace/workspace';
 
 export default class App {
@@ -44,28 +43,28 @@ export default class App {
 
     if (this.isAuthorized()) {
       const routes = ['/workspace', '/board', '/user'];
-      routes.forEach((route) => {
-        if (route === path) {
-          flag = false;
-          switch (path) {
-            case '/workspace':
-              this.body.append(this.workspace.append());
-              break;
-            case '/board':
-              this.body.append(this.board.container);
-              break;
-            case '/user':
-              this.body.append(this.user.render());
-              break;
-            default:
-              this.body.append(this.errorPage.render());
+      if (/\/board\/([\w]+?)\b/g.test(path)) {
+        this.body.append(await this.board.init(path.replace('/board/', '')));
+      } else {
+        routes.forEach((route) => {
+          if (route === path) {
+            flag = false;
+            switch (path) {
+              case '/workspace':
+                this.body.append(this.workspace.append());
+                break;
+              case '/board':
+                this.body.append(this.board.container);
+                break;
+              case '/user':
+                this.body.append(this.user.render());
+                break;
+              default:
+                this.body.append(this.errorPage.render());
+            }
           }
-        } else if (/\/board\/([\w]+?)\b/g.test(path)) {
-          this.body.append(await this.board.init(match[0].replace('/board/', '')));
-        } else {
-          this.body.append(this.errorPage.render());
-        }
-      });
+        });
+      }
       if (flag) {
         switch (path) {
           case '':
@@ -101,13 +100,12 @@ export default class App {
             break;
           default:
             this.body.append(this.errorPage.render());
-        
         }
       }
     }
   }
 
   private isAuthorized() {
-    return !localStorage.getItem('token');
+    return !!localStorage.getItem('token');
   }
 }

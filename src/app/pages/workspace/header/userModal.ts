@@ -50,13 +50,13 @@ export default class UserModal {
     this.logOutBtn.addEventListener('click', () => this.leaveAccount());
 
     this.profileBtn.addEventListener('click', () => {
-      window.location.href = 'user';
+      window.location.pathname = 'user';
     });
   }
 
   private leaveAccount() {
     localStorage.removeItem('token');
     localStorage.removeItem('data');
-    window.location.href = 'login';
+    window.location.pathname = 'login';
   }
 }
