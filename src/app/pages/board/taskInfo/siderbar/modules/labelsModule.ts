@@ -41,14 +41,13 @@ export default class LabelsModule {
   private append() {
     this.buttons.append(this.save, this.cancel);
     this.wrapper.append(this.label, this.input, this.buttons);
-    this.labelsContainer.append(this.wrapper);
-    this.labels.append(this.title, this.labelsContainer);
+    this.labels.append(this.title, this.wrapper, this.labelsContainer);
     this.module.init('Labels', this.labels);
     this.bindEvents();
   }
 
-  private createLabels() {
-    labels.forEach(label => {
+  public createLabels() {
+    labels.forEach((label, index) => {
       const labelLi = Common.createDomNode('li', ['label']);
       const checkbox = Common.createDomNodeInput('', '', ['label__checkbox'], 'checkbox');
       const editWrapper = Common.createDomNode('div', ['label__edit__wrapper']);
@@ -56,11 +55,12 @@ export default class LabelsModule {
       labelColor.readOnly = true;
       labelColor.style.background = `${label.color}`;
       labelColor.title = label.title;
+      labelColor.setAttribute('id', String(index + 1));
       const edit = Common.createDomNode('div', ['label__edit']);
       editWrapper.append(edit);
       labelLi.append(checkbox, labelColor, editWrapper);
       this.labelsContainer.append(labelLi);
-    })
+    });
   }
 
   private bindEvents() {

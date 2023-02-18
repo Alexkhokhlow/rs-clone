@@ -34,6 +34,7 @@ export default class Board {
   token: string | null;
 
   path: string;
+
   socket: any;
 
   constructor(creatingBoard: CreatingBoard) {
@@ -118,10 +119,9 @@ export default class Board {
 
   onShowTaskInfo(event: Event) {
     const target = event.currentTarget as HTMLElement;
-    const { title } = target.dataset;
-    if (title) {
-      this.taskInfo.taskInfo.classList.add('active');
-      this.taskInfo.init(title);
+    const { id } = target.dataset;
+    if (id) {
+      this.taskInfo.init(id);
     }
   }
 
@@ -173,13 +173,11 @@ export default class Board {
     draggableElements.forEach((task) => {
       const { top, height } = task.getBoundingClientRect();
       const offset = mousePosition - top - height / 2;
-
       if (offset < 0 && offset > closestOffset) {
         closestOffset = offset;
         closestTask = task;
       }
     });
-
     return closestTask;
   }
 }

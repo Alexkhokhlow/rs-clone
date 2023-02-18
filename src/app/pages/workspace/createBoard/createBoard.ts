@@ -73,7 +73,9 @@ export default class CreatingBoard {
   private privateIcon: HTMLElement;
 
   private publicIcon: HTMLElement;
+
   private server: Server;
+
   private token: string | null;
 
   constructor() {
@@ -126,7 +128,6 @@ export default class CreatingBoard {
     this.createBackgrounds();
     this.token = localStorage.getItem('token');
     this.bindEvents();
-
   }
 
   public append() {
@@ -164,7 +165,6 @@ export default class CreatingBoard {
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
     this.overlay.addEventListener('click', this.closeModal.bind(this));
     this.createButton.addEventListener('click', this.createBoard.bind(this));
-
   }
 
   private setDisabled() {
@@ -244,7 +244,7 @@ export default class CreatingBoard {
         const dashboard: IBoard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
         this.closeModal(event);
         this.boardTitleInput.value = '';
-        window.location.pathname = `board/${dashboard.pathName}`
+        window.location.pathname = `board/${dashboard.pathName}`;
       } catch (error) {
         console.log(error);
       }

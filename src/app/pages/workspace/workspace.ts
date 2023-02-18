@@ -78,5 +78,4 @@ export default class Workspace {
       window.location.pathname = `board/${pathname}`;
     }
   }
-
 }
