@@ -32,7 +32,6 @@ export default class TasksList {
     this.titleText = title;
     this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
     this.tasksList = Common.createDomNode('div', ['tasks-list']);
-    this.tasksList.draggable = true;
     this.title = Common.createDomNode('span', ['tasks-list__title'], title);
     this.title.contentEditable = 'true';
     this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
@@ -48,6 +47,7 @@ export default class TasksList {
     );
     this.headerTaskList.append(this.title, this.deleteButton);
     this.tasksList.append(this.headerTaskList, this.tasksWrapper, this.addCardButton.container);
+    this.deleteButton.addEventListener('click', this.removeList.bind(this));
   }
 
   async onAddTask() {
@@ -62,4 +62,9 @@ export default class TasksList {
       this.tasksWrapper.append(task.task);
     }
   }
+
+  private removeList() {
+    this.tasksList.remove();
+  }
+
 }
