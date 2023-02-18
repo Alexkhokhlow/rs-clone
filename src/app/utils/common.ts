@@ -89,7 +89,7 @@ export default class Common {
   public static setLocalEmail(button: HTMLButtonElement, input: HTMLInputElement) {
     button.addEventListener('click', () => {
       if (input.value) {
-        localStorage.setItem('email', input.value);
+        localStorage.setItem('data', input.value);
         input.value = '';
       }
       window.location.href = '/signup';

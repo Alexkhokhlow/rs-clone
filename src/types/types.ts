@@ -26,3 +26,35 @@ export interface ITask {
   index: string;
   name: string;
 }
+
+export interface ICommentInfo {
+  createdAt: string;
+  id: string;
+  taskinfoId: string | null;
+  text: string;
+  updatedAt: string;
+  userId: string;
+  userName: string;
+}
+
+export type TLabels = {
+  color: string;
+  id: string;
+  text: string;
+  title: string;
+};
+
+export type TComments = {
+  id: string;
+  text: string;
+  userName: string;
+};
+
+export type TTask = {
+  task: {
+    id: string;
+    index: string;
+    name: string;
+    updateAt: string;
+  };
+};

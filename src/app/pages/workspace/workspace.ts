@@ -1,4 +1,4 @@
-import { IBoard, IResponseBoards } from '../../../types/types';
+import { IResponseBoards } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -46,7 +46,7 @@ export default class Workspace {
   private async getDashboards() {
     if (this.token) {
       try {
-        const dashboards: IResponseBoards = await this.server.getDashboards(this.token);
+        const dashboards = (await this.server.getDashboards(this.token)) as IResponseBoards;
         const { availableDashboards, createdDashboards } = dashboards;
         createdDashboards.forEach((dashboard) => {
           this.renderBoard(dashboard.name, dashboard.color, dashboard.pathName);
@@ -68,7 +68,7 @@ export default class Workspace {
     const boardTitle = Common.createDOMNode('h3', ['board__preview__title'], name);
     boardPreview.append(boardTitle);
     this.main.boardsLayout.append(boardPreview);
-    boardPreview.addEventListener('click', this.onOpenBoard);
+    boardPreview.addEventListener('click', this.onOpenBoard.bind(this));
   }
 
   onOpenBoard(event: Event) {

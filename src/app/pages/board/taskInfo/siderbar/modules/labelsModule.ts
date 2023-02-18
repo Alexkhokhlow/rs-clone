@@ -1,6 +1,6 @@
 import Common from '../../../../../utils/common';
-import ModuleForm from './moduleForm';
 import labels from '../../../common/constants';
+import ModuleForm from './moduleForm';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -66,14 +66,15 @@ export default class LabelsModule {
   private bindEvents() {
     this.labelsContainer.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;
-      if(target.closest('.label__edit__wrapper')) {
+      if (target.closest('.label__edit__wrapper')) {
         this.openLabelTitleEditor();
         this.save.addEventListener('click', () => {
-          (target.closest('.label__edit__wrapper')?.previousElementSibling as HTMLInputElement).value = this.input.value;
+          (target.closest('.label__edit__wrapper')?.previousElementSibling as HTMLInputElement).value =
+            this.input.value;
           this.wrapper.classList.add('hidden');
-        })
+        });
       }
-    })
+    });
     this.cancel.addEventListener('click', this.closeLabelTitleEditor.bind(this));
   }
 

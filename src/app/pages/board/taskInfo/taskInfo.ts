@@ -1,3 +1,4 @@
+import { TComments, TLabels } from '../../../../types/types';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import Checklist from './checklist/checklist';
@@ -78,14 +79,13 @@ export default class TaskInfo {
       const { taskInfo, comments, user, labels } = await this.server.getTaskInfo(this.token, id);
       this.taskId = taskInfo.taskId;
       this.comment.init(user);
-      console.log(labels);
       this.labels.labels.innerHTML = '';
       this.labels.labels.append(this.labels.addButton);
       this.hideLabels();
       this.sidebar.modalLabels.labelsContainer.innerHTML = '';
       this.sidebar.modalLabels.createLabels();
 
-      labels.forEach((data: { color: string; text: string; title: string; id: string }) => {
+      (labels as TLabels[]).forEach((data: { color: string; id: string; text: string; title: string }) => {
         Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
           if ((item.children[1] as HTMLInputElement).title === data.title) {
             (item.children[0] as HTMLInputElement).checked = true;
@@ -100,7 +100,7 @@ export default class TaskInfo {
         labelColor.value = data.text;
         this.labels.labels.insertBefore(labelColor, this.labels.addButton);
       });
-      comments.forEach((data: { id: string; text: string; userName: string }) => {
+      (comments as TComments[]).forEach((data: { id: string; text: string; userName: string }) => {
         this.comment.createComment(data.text, data.userName, data.id);
       });
       this.title.textContent = taskInfo.name;
@@ -139,11 +139,7 @@ export default class TaskInfo {
           (targetColor.previousElementSibling as HTMLInputElement).checked = true;
           this.showLabels();
           if (this.token) {
-            this.server.addLabel(
-              this.token,
-              this.taskId,
-              targetColor.getAttribute('id')!
-            );
+            this.server.addLabel(this.token, this.taskId, targetColor.getAttribute('id')!);
 
             const targetColorCopy = targetColor.cloneNode(true) as HTMLElement;
             this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);
@@ -170,11 +166,7 @@ export default class TaskInfo {
         if (targetCheck.checked) {
           this.showLabels();
           if (this.token) {
-            this.server.addLabel(
-              this.token,
-              this.taskId,
-              elementColor.getAttribute('id')!
-            );
+            this.server.addLabel(this.token, this.taskId, elementColor.getAttribute('id')!);
 
             const targetColorCopy = elementColor.cloneNode(true) as HTMLElement;
             this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);

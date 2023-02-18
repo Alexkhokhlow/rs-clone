@@ -241,7 +241,7 @@ export default class CreatingBoard {
     };
     if (this.token) {
       try {
-        const dashboard: IBoard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
+        const dashboard = (await this.server.createDashboard(this.token, data.name, data.color, data.access)) as IBoard;
         this.closeModal(event);
         this.boardTitleInput.value = '';
         window.location.pathname = `board/${dashboard.pathName}`;

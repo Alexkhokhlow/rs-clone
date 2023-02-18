@@ -1,4 +1,4 @@
-import Common from "../../../../utils/common";
+import Common from '../../../../utils/common';
 
 export default class Labels {
   public labelsWrapper: HTMLElement;
@@ -21,5 +21,4 @@ export default class Labels {
     this.labels.append(this.addButton);
     this.labelsWrapper.append(this.labelsTitle, this.labels);
   }
-
 }

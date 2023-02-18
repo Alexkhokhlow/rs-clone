@@ -11,7 +11,7 @@
   top: 2rem;
   margin: 0 auto;
   background-color: $color-background-feature;
-  padding: 1.5rem;
+  padding: .5rem 1.5rem;
   overflow-y: scroll;
 
   &__header {
@@ -47,6 +47,7 @@
   .description {
     width: 100%;
     margin: 2rem 0;
+    padding-left: .8rem;
 
     .description__title::before {
       content: url('../assets/board/taskInfo/description.svg');
@@ -88,6 +89,7 @@
   .comments {
     margin-top: 20px;
     width: 100%;
+    padding-left: 1rem;
 
     .add-item {
       width: 100%;
@@ -185,7 +187,7 @@
 }
 
 .labels__wrapper {
-  margin-left: 2.6rem;
+  margin-left: 3.8rem;
 }
 
 .labels__info {
