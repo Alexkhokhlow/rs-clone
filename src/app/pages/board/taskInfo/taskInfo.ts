@@ -1,5 +1,6 @@
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
+import Checklist from './checklist/checklist';
 import CommentsForm from './comments/commentsForm';
 import Description from './description/description';
 import Labels from './labels/labels';
@@ -48,13 +49,6 @@ export default class TaskInfo {
     this.main = Common.createDomNode('main', ['task-info__main']);
     this.container = Common.createDOMNode('div', ['task-info__container']);
     this.append();
-    this.close.addEventListener('click', this.onClose.bind(this));
-    this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
-    this.labels.addButton.addEventListener('click', () => {
-      this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
-    })
-    this.server = new Server();
-    this.token = localStorage.getItem('token');
   }
 
   private append() {
@@ -62,7 +56,16 @@ export default class TaskInfo {
     this.header.append(this.title, this.close, this.info);
     this.main.append(this.labels.labelsWrapper, this.description.description, this.comment.commentsForm);
     this.taskInfo.append(this.header, this.container);
+    this.bindEvents();
+  }
+
+  private bindEvents() {
     this.close.addEventListener('click', this.onClose.bind(this));
+    this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
+    this.labels.addButton.addEventListener('click', () => {
+      this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
+    })
+    this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
   }
 
   public async init(id: string) {
@@ -87,6 +90,15 @@ export default class TaskInfo {
 
   private onClose() {
     this.taskInfo.classList.remove('active');
+  }
+
+  private createCheckList(event: Event) {
+    event.preventDefault();
+    const checklist = new Checklist();
+    this.main.insertBefore(checklist.checklist, this.comment.commentsForm);
+    checklist.checklistTitle.textContent = this.sidebar.modalCheckList.inputTitle.value;
+    this.sidebar.modalCheckList.module.onClose();
+    this.sidebar.modalCheckList.inputTitle.value = 'Checklist';
   }
 
   private addLabels(event: Event) {

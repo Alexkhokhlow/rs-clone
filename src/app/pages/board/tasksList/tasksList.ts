@@ -47,6 +47,7 @@ export default class TasksList {
     );
     this.headerTaskList.append(this.title, this.deleteButton);
     this.tasksList.append(this.headerTaskList, this.tasksWrapper, this.addCardButton.container);
+    this.deleteButton.addEventListener('click', this.removeList.bind(this));
   }
 
   async onAddTask() {
@@ -63,4 +64,9 @@ export default class TasksList {
       }
     }
   }
+
+  private removeList() {
+    this.tasksList.remove();
+  }
+
 }

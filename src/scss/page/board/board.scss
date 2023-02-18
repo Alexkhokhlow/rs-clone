@@ -107,6 +107,7 @@
   padding: .7rem;
   border-radius: .3rem;
   background-color: #ebecf0;
+  box-shadow: $color-box-shadow;
 
   & .add-item {
     width: 100%;
@@ -140,7 +141,7 @@
   margin: 4px 0;
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: #091e4240;
+  box-shadow: $color-box-shadow;
   cursor: pointer;
 }
 

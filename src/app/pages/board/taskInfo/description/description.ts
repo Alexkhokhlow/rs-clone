@@ -27,7 +27,7 @@ export default class Description {
     this.data = '';
     this.id = '';
     this.description = Common.createDomNode('div', ['description']);
-    this.title = Common.createDomNode('span', ['description__title'], 'Description');
+    this.title = Common.createDomNode('span', ['description__title', 'title__info'], 'Description');
     this.container = Common.createDomNode('div', ['description__container']);
     this.editButton = Common.createDomNodeButton(['description__edit'], 'Edit');
     this.detailButton = Common.createDomNodeButton(
