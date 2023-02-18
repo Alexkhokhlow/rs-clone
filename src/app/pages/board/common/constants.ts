@@ -21,10 +21,12 @@ const labels = [
   },
   {
     color: '#A86CC1',
-    title: 'purple_dark',
+    title: 'purple dark',
   },
   {
     color: '#5BA4CF',
-    title: 'blue',
-  },
-];
+    title: 'blue'
+  }
+]
+
+export default labels;
