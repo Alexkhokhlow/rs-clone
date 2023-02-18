@@ -1,3 +1,4 @@
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import Checklist from './checklist/checklist';
 import CommentsForm from './comments/commentsForm';
@@ -24,13 +25,20 @@ export default class TaskInfo {
 
   private header: HTMLElement;
 
+  private server: Server;
+
+  private labels: Labels;
+
+  private token: string | null;
+
   private main: HTMLElement;
 
   private container: HTMLElement;
 
-  private labels: Labels;
+  private taskId: string;
 
   constructor() {
+    this.taskId = '';
     this.taskInfo = Common.createDomNode('div', ['task-info']);
     this.title = Common.createDomNode('h2', ['task-info__title'], 'make new Page');
     this.title.contentEditable = 'true';
@@ -43,6 +51,8 @@ export default class TaskInfo {
     this.header = Common.createDomNode('header', ['task-info__header']);
     this.main = Common.createDomNode('main', ['task-info__main']);
     this.container = Common.createDOMNode('div', ['task-info__container']);
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
     this.append();
   }
 
@@ -59,12 +69,51 @@ export default class TaskInfo {
     this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
     this.labels.addButton.addEventListener('click', () => {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
-    })
+    });
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
   }
 
-  public init(title: string) {
-    this.title.textContent = title;
+  public async init(id: string) {
+    if (this.token) {
+      const { taskInfo, comments, user, labels } = await this.server.getTaskInfo(this.token, id);
+      this.taskId = taskInfo.taskId;
+      this.comment.init(user);
+      console.log(labels);
+      this.labels.labels.innerHTML = '';
+      this.labels.labels.append(this.labels.addButton);
+      this.hideLabels();
+      this.sidebar.modalLabels.labelsContainer.innerHTML = '';
+      this.sidebar.modalLabels.createLabels();
+
+      labels.forEach((data: { color: string; text: string; title: string; id: string }) => {
+        Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
+          if ((item.children[1] as HTMLInputElement).title === data.title) {
+            (item.children[0] as HTMLInputElement).checked = true;
+            (item.children[1] as HTMLInputElement).value = data.text;
+          }
+        });
+        this.showLabels();
+        const labelColor = Common.createDomNodeInput('', '', ['label__color']);
+        labelColor.readOnly = true;
+        labelColor.style.background = data.color;
+        labelColor.title = data.title;
+        labelColor.value = data.text;
+        this.labels.labels.insertBefore(labelColor, this.labels.addButton);
+      });
+      comments.forEach((data: { id: string; text: string; userName: string }) => {
+        this.comment.createComment(data.text, data.userName, data.id);
+      });
+      this.title.textContent = taskInfo.name;
+      this.info.textContent = `from ${taskInfo.tasklist}`;
+      this.description.id = id;
+      this.comment.id = id;
+      if (taskInfo.description) {
+        this.description.init(taskInfo.description);
+      } else {
+        this.description.init('');
+      }
+      this.taskInfo.classList.add('active');
+    }
   }
 
   private onClose() {
@@ -80,30 +129,66 @@ export default class TaskInfo {
     this.sidebar.modalCheckList.inputTitle.value = 'Checklist';
   }
 
-  private addLabels(event: Event) {
+  private async addLabels(event: Event) {
     const target = event.target as HTMLElement;
     const targetColor = target.closest('.label__color') as HTMLInputElement;
     const targetCheck = target.closest('.label__checkbox') as HTMLInputElement;
     if (target) {
-      if(targetColor) {
+      if (targetColor) {
         if (!(targetColor.previousElementSibling as HTMLInputElement).checked) {
           (targetColor.previousElementSibling as HTMLInputElement).checked = true;
           this.showLabels();
-          this.labels.labels.insertBefore(targetColor.cloneNode(true), this.labels.addButton);
+          if (this.token) {
+            this.server.addLabel(
+              this.token,
+              this.taskId,
+              targetColor.getAttribute('id')!
+            );
+
+            const targetColorCopy = targetColor.cloneNode(true) as HTMLElement;
+            this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);
+          }
         } else {
           (targetColor.previousElementSibling as HTMLInputElement).checked = false;
-          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find(child => child.title === targetColor.title) as HTMLInputElement;
+          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find((child) => {
+            if (child.title === targetColor.title) {
+              if (this.token) {
+                this.server.deleteLabel(this.token, child.getAttribute('id')!);
+              }
+              return true;
+            }
+            return false;
+          }) as HTMLInputElement;
+
           element.remove();
           this.hideLabels();
         }
       }
 
       if (targetCheck) {
+        const elementColor = targetCheck.nextElementSibling as HTMLInputElement;
         if (targetCheck.checked) {
           this.showLabels();
-          this.labels.labels.insertBefore((targetCheck.nextElementSibling as HTMLInputElement).cloneNode(true), this.labels.addButton);
+          if (this.token) {
+            this.server.addLabel(
+              this.token,
+              this.taskId,
+              elementColor.getAttribute('id')!
+            );
+
+            const targetColorCopy = elementColor.cloneNode(true) as HTMLElement;
+            this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);
+          }
         } else {
-          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find(child => child.title === (targetCheck.nextElementSibling as HTMLInputElement).title) as HTMLInputElement;
+          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find((child) => {
+            if (child.title === elementColor.title) {
+              if (this.token) {
+                this.server.deleteLabel(this.token, child.getAttribute('id')!);
+              }
+              return true;
+            }
+            return false;
+          }) as HTMLInputElement;
           element.remove();
           this.hideLabels();
         }

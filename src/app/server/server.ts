@@ -2,7 +2,7 @@ export default class Server {
   private address: string;
 
   constructor() {
-    this.address = 'https://trello-clone-x3tl.onrender.com/api';
+    this.address = 'http://localhost:3000/api';
   }
 
   async signUp(email: string, password: string, userName: string) {
@@ -16,9 +16,21 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
-    return json;
+    return response;
   }
+
+  // async signGoogle() {
+  //   window.location.replace('http://localhost:3000/auth/google');
+  //   // const response = await fetch(`http://localhost:8081/auth/google`, {
+  //   //   method: 'GET',
+  //   // });
+  //   // console.log(response);
+
+  //   // await this.checkError(response);
+
+  //   // const json = await response.json();
+  //   // return json;
+  // }
 
   async login(email: string, password: string) {
     const response = await fetch(`${this.address}/login`, {
@@ -140,13 +152,118 @@ export default class Server {
     return json;
   }
 
-  async updateTask(token: string, id: string,  taskListId: string, name: string, index: string) {
+  async updateTask(token: string, id: string, taskListId: string, name: string, index: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token, id, taskListId, name, index }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async getTaskInfo(token: string, id: string) {
+    const response = await fetch(`${this.address}/taskInfo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateTaskInfo(token: string, id: string, description: string) {
+    const response = await fetch(`${this.address}/taskInfo`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, description }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async createComment(token: string, id: string, comment: string) {
+    const response = await fetch(`${this.address}/comment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, comment }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateComment(token: string, userId: string, id: string, comment: string) {
+    const response = await fetch(`${this.address}/comment`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userId, id, comment }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async deleteComment(token: string, userId: string, id: string) {
+    const response = await fetch(`${this.address}/comment`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userId, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async addLabel(token: string, taskId: string, labelId: string) {
+    const response = await fetch(`${this.address}/label`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({token, labelId, taskId}),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async deleteLabel(token: string, id: string) {
+    const response = await fetch(`${this.address}/label`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
     });
 
     await this.checkError(response);
