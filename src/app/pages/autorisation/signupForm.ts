@@ -89,14 +89,7 @@ export default class SignupForm {
       if (this.loginInput instanceof HTMLInputElement && this.btnSubmit instanceof HTMLInputElement) {
         if (this.btnSubmit.value === 'Continue') {
           const mail = this.loginInput.value.trim();
-          if (this.checkMail(mail)) {
-            this.passwordInput.classList.remove('invisible');
-            this.nameInput.classList.remove('invisible');
-            this.btnSubmit.value = 'Sign up';
-            this.deleteErrorMessage();
-          } else {
-            this.showErrorMessage();
-          }
+          this.checkMail(mail);
         } else if (
           this.btnSubmit.value === 'Sign up' &&
           this.passwordInput instanceof HTMLInputElement &&
@@ -124,7 +117,7 @@ export default class SignupForm {
   }
 
   private isValidMail(mail: string) {
-    const regExp = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{1,6}$/;
+    const regExp = /^([a-zA-Z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{1,6}$/;
     return regExp.test(mail);
   }
 
@@ -142,7 +135,7 @@ export default class SignupForm {
         this.errorMessage.innerHTML = 'Invalid email address and/or password and/or name.';
       } else {
         this.errorMessage.innerHTML =
-          'It looks like you have already registered an account using this email address. <a href=/signup class="message__link">Sign in</a>.';
+          'It looks like you have already registered an account using this email address. <a href=/login class="message__link">Log in</a>.';
       }
     }
 
@@ -153,20 +146,24 @@ export default class SignupForm {
     this.errorMessage.classList.add('invisible');
   }
 
-  private checkMail(mail: string) {
-    // когда добавится на сервер запрос на провеку адреса почты, раскомментить
-    // this.btnSubmit.setAttribute('disabled', 'disabled');
-    if (mail !== '1') {
-      return true;
+  private async checkMail(mail: string) {
+    this.btnSubmit.setAttribute('disabled', 'disabled');
+    try {
+      await server.checkEmail(mail);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message !== 'An error has occurred: This mail is busy') {
+          this.passwordInput.classList.remove('invisible');
+          this.nameInput.classList.remove('invisible');
+          (this.btnSubmit as HTMLButtonElement).value = 'Sign up';
+          this.deleteErrorMessage();
+        } else {
+          this.showErrorMessage();
+        }
+      }
+    } finally {
+      this.btnSubmit.removeAttribute('disabled');
     }
-    return false;
-    // try {
-    //   await server.checkEmail(mail);
-    //   return true;
-    // } catch (e) {
-    //   return false;
-    // }
-    // this.btnSubmit.removeAttribute('disabled');
   }
 
   private async singUp(mail: string, password: string, name: string) {
