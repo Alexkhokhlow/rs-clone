@@ -48,6 +48,8 @@ export default class TaskInfo {
     this.header = Common.createDomNode('header', ['task-info__header']);
     this.main = Common.createDomNode('main', ['task-info__main']);
     this.container = Common.createDOMNode('div', ['task-info__container']);
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
     this.append();
   }
 
@@ -64,7 +66,7 @@ export default class TaskInfo {
     this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
     this.labels.addButton.addEventListener('click', () => {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
-    })
+    });
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
   }
 
@@ -106,14 +108,16 @@ export default class TaskInfo {
     const targetColor = target.closest('.label__color') as HTMLInputElement;
     const targetCheck = target.closest('.label__checkbox') as HTMLInputElement;
     if (target) {
-      if(targetColor) {
+      if (targetColor) {
         if (!(targetColor.previousElementSibling as HTMLInputElement).checked) {
           (targetColor.previousElementSibling as HTMLInputElement).checked = true;
           this.showLabels();
           this.labels.labels.insertBefore(targetColor.cloneNode(true), this.labels.addButton);
         } else {
           (targetColor.previousElementSibling as HTMLInputElement).checked = false;
-          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find(child => child.title === targetColor.title) as HTMLInputElement;
+          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find(
+            (child) => child.title === targetColor.title
+          ) as HTMLInputElement;
           element.remove();
           this.hideLabels();
         }
@@ -122,9 +126,14 @@ export default class TaskInfo {
       if (targetCheck) {
         if (targetCheck.checked) {
           this.showLabels();
-          this.labels.labels.insertBefore((targetCheck.nextElementSibling as HTMLInputElement).cloneNode(true), this.labels.addButton);
+          this.labels.labels.insertBefore(
+            (targetCheck.nextElementSibling as HTMLInputElement).cloneNode(true),
+            this.labels.addButton
+          );
         } else {
-          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find(child => child.title === (targetCheck.nextElementSibling as HTMLInputElement).title) as HTMLInputElement;
+          const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find(
+            (child) => child.title === (targetCheck.nextElementSibling as HTMLInputElement).title
+          ) as HTMLInputElement;
           element.remove();
           this.hideLabels();
         }
