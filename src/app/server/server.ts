@@ -242,6 +242,36 @@ export default class Server {
     return json;
   }
 
+  async addLabel(token: string, taskId: string, labelId: string) {
+    const response = await fetch(`${this.address}/label`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({token, labelId, taskId}),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async deleteLabel(token: string, id: string) {
+    const response = await fetch(`${this.address}/label`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async checkError(response: Response) {
     if (!response.ok) {
       const message = `An error has occurred: ${await response.text()}`;
