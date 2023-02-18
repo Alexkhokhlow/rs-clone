@@ -8,7 +8,11 @@
 
 // board
 @import './page/board/board.scss';
+
+//taskInfo
 @import './page/board/taskInfo.scss';
+@import './page/board/taskInfo/sidebar.scss';
+@import './page/board/taskInfo/checklist.scss';
 
 //authorization
 @import './page/autorisation.scss';
