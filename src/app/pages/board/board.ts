@@ -74,7 +74,6 @@ export default class Board {
       const response: IResponseBoard = await this.server.getDashboard(this.token, path);
       this.listsContainer.innerHTML = '';
       this.path = path;
-      console.log(response);
       this.board.style.background = response.dashboard.color;
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach(async (taskList) => {

@@ -20,17 +20,19 @@ export default class TaskInfo {
 
   private close: HTMLImageElement;
 
-  sidebar: Sidebar;
+  private sidebar: Sidebar;
 
-  header: HTMLElement;
+  private header: HTMLElement;
 
   private server: Server;
 
   private labels: Labels;
 
-  server: Server;
+  private token: string | null;
 
-  token: string | null;
+  private main: HTMLElement;
+
+  private container: HTMLElement;
 
   constructor() {
     this.taskInfo = Common.createDomNode('div', ['task-info']);
@@ -51,6 +53,8 @@ export default class TaskInfo {
     this.labels.addButton.addEventListener('click', () => {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
     })
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
   }
 
   private append() {
@@ -59,8 +63,6 @@ export default class TaskInfo {
     this.main.append(this.labels.labelsWrapper, this.description.description, this.comment.commentsForm);
     this.taskInfo.append(this.header, this.container);
     this.close.addEventListener('click', this.onClose.bind(this));
-    this.server = new Server();
-    this.token = localStorage.getItem('token');
   }
 
   public async init(id: string) {

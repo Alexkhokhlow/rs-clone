@@ -20,6 +20,7 @@ export default class InputComment {
   }
 
   onShowButton() {
+    console.log('piu')
     this.form.container.classList.remove('hidden');
   }
 
