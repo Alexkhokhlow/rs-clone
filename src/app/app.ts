@@ -3,7 +3,6 @@ import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
 import Workspace from './pages/workspace/workspace';
-import Server from './server/server';
 
 export default class App {
   body: HTMLElement;
@@ -29,9 +28,6 @@ export default class App {
 
   async start() {
     await this.openPage();
-    const server = new Server();
-    const data = await server.signGoogle();
-    console.log(data);
   }
 
   async openPage() {

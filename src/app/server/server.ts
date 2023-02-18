@@ -19,21 +19,18 @@ export default class Server {
     return response;
   }
 
-  async signGoogle() {
-    const response = await fetch(`https://trello-clone-x3tl.onrender.com/auth/google`, {
-      method: 'GET',
-      mode: 'no-cors',
-      headers: {
-        'Access-Control-Allow-Origin': 'https://polite-platypus-de6805.netlify.app/',
-      },
-    });
-    console.log(response);
+  // async signGoogle() {
+  //   window.location.replace('http://localhost:3000/auth/google');
+  //   // const response = await fetch(`http://localhost:8081/auth/google`, {
+  //   //   method: 'GET',
+  //   // });
+  //   // console.log(response);
 
-    await this.checkError(response);
+  //   // await this.checkError(response);
 
-    const json = await response.json();
-    return json;
-  }
+  //   // const json = await response.json();
+  //   // return json;
+  // }
 
   async login(email: string, password: string) {
     const response = await fetch(`${this.address}/login`, {
