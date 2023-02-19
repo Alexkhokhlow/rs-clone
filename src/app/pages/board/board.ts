@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import IResponseBoard, { ITaskList } from '../../../types/types';
+import IResponseBoard, { ITaskList, TLabel } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -41,13 +41,13 @@ export default class Board {
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
-    this.taskInfo = new TaskInfo();
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
     this.server = new Server();
     this.token = localStorage.getItem('token');
     this.path = '';
-    this.socket = io(`https://trello-clone-x3tl.onrender.com`);
+    this.socket = io(`http://localhost:3000`);
+    this.taskInfo = new TaskInfo(this.socket);
 
     this.addListButton = new AddItemButton(
       'Add another list',
@@ -73,22 +73,26 @@ export default class Board {
     if (this.token) {
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.listsContainer.innerHTML = '';
+      console.log(response.dashboard);
       this.path = path;
       this.board.style.background = response.dashboard.color;
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach(async (taskList) => {
           const list = this.createTaskList(taskList.name, taskList.id);
-          if (taskList.tasks) {
-            taskList.tasks.forEach((task) => {
-              const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
-              list.tasksWrapper.append(taskInfo.task);
-            });
-          }
+          taskList.tasks.forEach((task) => {
+            console.log(task.labels)
+            const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
+            list.tasksWrapper.append(taskInfo.task);
+          });
         });
       }
     } else {
       window.location.pathname = 'error';
     }
+  }
+
+  createTaskLabel(label: TLabel){
+    
   }
 
   async onAddList(event: Event) {

@@ -1,3 +1,5 @@
+import { ITaskInfo } from '../../types/types';
+
 export default class Server {
   private address: string;
 
@@ -178,7 +180,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json: ITaskInfo = await response.json();
     return json;
   }
 
@@ -272,6 +274,21 @@ export default class Server {
     return json;
   }
 
+  async getLabel(token: string, taskId: string) {
+    const response = await fetch(`${this.address}/label/${taskId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async updateLabel(token: string, id: string, text: string) {
     const response = await fetch(`${this.address}/label`, {
       method: 'PUT',
@@ -288,6 +305,7 @@ export default class Server {
   }
 
   async deleteLabel(token: string, taskId: string, labelId: string) {
+    console.log('delete');
     const response = await fetch(`${this.address}/label`, {
       method: 'DELETE',
       headers: {
