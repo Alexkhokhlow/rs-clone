@@ -65,12 +65,12 @@
 
   &:hover {
 
-    &::before {
-      opacity: 0;
-    }
-
     &::after {
       background: url('../assets/workspace/header/logo_anim.gif') center center/contain no-repeat;
+    }
+
+    &::before {
+      display: none;
     }
   }
 }
