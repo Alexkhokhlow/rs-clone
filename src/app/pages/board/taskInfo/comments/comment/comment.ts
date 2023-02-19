@@ -61,10 +61,14 @@ export default class Comment {
 
     this.input.button.setAttribute('value', this.input.form.data);
     this.input.onClose();
+    this.edit.classList.remove('hidden');
+    this.delete.classList.remove('hidden');
   }
 
   onEdit() {
     this.input.form.initData(this.data);
     this.input.onActivate();
+    this.edit.classList.add('hidden');
+    this.delete.classList.add('hidden');
   }
 }

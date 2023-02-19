@@ -1,7 +1,7 @@
 import Common from '../../../../../utils/common';
-import ModuleForm from './moduleForm';
 import labels from '../../../common/constants';
 import Server from '../../../../../server/server';
+import ModuleForm from './moduleForm';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -69,8 +69,6 @@ export default class LabelsModule {
       this.labelsContainer.append(labelLi);
     });
   }
-
- 
 
   private bindEvents() {
     this.labelsContainer.addEventListener('click', (event: Event) => {

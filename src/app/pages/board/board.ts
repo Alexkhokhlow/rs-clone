@@ -1,4 +1,4 @@
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import IResponseBoard, { ITaskList } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
@@ -35,7 +35,7 @@ export default class Board {
 
   path: string;
 
-  socket: any;
+  socket: Socket;
 
   constructor(creatingBoard: CreatingBoard) {
     this.board = Common.createDOMNode('section', ['board']);
@@ -71,7 +71,7 @@ export default class Board {
 
   async printBoard(path: string) {
     if (this.token) {
-      const response: IResponseBoard = await this.server.getDashboard(this.token, path);
+      const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.listsContainer.innerHTML = '';
       this.path = path;
       this.board.style.background = response.dashboard.color;
@@ -97,7 +97,7 @@ export default class Board {
     this.socket.emit('message', 'change');
     if (this.token) {
       target.disabled = true;
-      const data: ITaskList = await this.server.createTaskList(this.token, name, this.path);
+      const data = (await this.server.createTaskList(this.token, name, this.path)) as ITaskList;
       this.createTaskList(name, data.id);
       target.disabled = false;
     } else {
