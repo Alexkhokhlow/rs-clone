@@ -145,7 +145,7 @@
 }
 
 .tasks-list {
-  @include flex($align: flex-start);
+  @include flex();
   width: fit-content;
   width: 25rem;
   flex-direction: column;
@@ -165,7 +165,8 @@
   }
 
   & .add-item {
-    width: 100%;
+    width: calc(100% - 1.6rem);
+    margin-top: 0.5rem;
 
     & .add-item__form {
       width: 100%;
@@ -202,7 +203,7 @@
   padding: 6px 8px 2px;
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: $color-box-shadow;
+  box-shadow: $color-box-shadow-task;
   cursor: pointer;
 
   &__title {
