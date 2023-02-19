@@ -248,7 +248,7 @@ export default class Server {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, labelId, taskId }),
+      body: JSON.stringify({token, labelId, taskId}),
     });
 
     await this.checkError(response);
