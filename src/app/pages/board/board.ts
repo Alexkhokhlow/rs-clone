@@ -23,6 +23,12 @@ export default class Board {
 
   container: HTMLElement;
 
+  private subheader: HTMLElement;
+
+  private title: HTMLElement;
+
+  private main: HTMLElement;
+
   taskInfo: TaskInfo;
 
   footer: StartPageFooter;
@@ -41,6 +47,9 @@ export default class Board {
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
+    this.subheader = Common.createDomNode('div', ['subheader']);
+    this.title = Common.createDomNode('h1', ['board__title']);
+    this.main = Common.createDomNode('div', ['board__main__wrapper']);
     this.taskInfo = new TaskInfo();
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
@@ -56,8 +65,16 @@ export default class Board {
       this.onAddList.bind(this)
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container', 'hidden']);
+    this.buildBoard(creatingBoard);
+  }
+
+  private buildBoard(creatingBoard: CreatingBoard) {
+    this.header.header.classList.add('board__header');
+    this.footer.footer.classList.add('board__footer');
+    this.subheader.append(this.title);
     this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
-    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
+    this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo)
+    this.board.append(this.subheader, this.main);
   }
 
   async init(path: string) {
@@ -75,6 +92,9 @@ export default class Board {
       this.listsContainer.innerHTML = '';
       this.path = path;
       this.board.style.background = response.dashboard.color;
+      this.header.header.style.background = response.dashboard.color;
+      this.footer.footer.style.background = response.dashboard.color;
+      this.title.textContent = response.dashboard.name;
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach(async (taskList) => {
           const list = this.createTaskList(taskList.name, taskList.id);

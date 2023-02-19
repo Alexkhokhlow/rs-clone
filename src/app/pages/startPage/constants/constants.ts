@@ -133,7 +133,7 @@ const backgrounds = [
   },
   {
     title: 'Yellow',
-    color: 'rgb(233 208 2)',
+    color: 'rgb(226, 201, 2)',
   },
 ];
 

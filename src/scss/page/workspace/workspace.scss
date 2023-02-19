@@ -87,18 +87,22 @@
 }
 
 .boards__layout {
-  @include flex($justify: flex-start);
-  flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: .7rem;
+  grid-column-gap: .7rem;
   width: 100%;
-  gap: 1rem;
 
   @media (max-width: 650px) {
-    flex-wrap: wrap;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 470px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .board__button {
-  width: 25%;
   height: 9.5rem;
   border-radius: .3rem;
   background-color: $color-hr;
@@ -106,18 +110,6 @@
 
   &:hover {
     background-color: $color-pagination;
-  }
-
-  @media (max-width: 650px) {
-    width: 32%;
-  }
-
-  @media (max-width: 530px) {
-    width: 48%;
-  }
-
-  @media (max-width: 350px) {
-    width: 100%;
   }
 }
 
@@ -195,7 +187,6 @@
 }
 
 .board__preview {
-  width: 25%;
   height: 9.5rem;
   border-radius: .3rem;
   padding: .6rem .8rem;
@@ -203,19 +194,7 @@
   transition: .3s;
 
   &:hover {
-    filter: brightness(90%);
-  }
-
-  @media (max-width: 650px) {
-    width: 32%;
-  }
-
-  @media (max-width: 530px) {
-    width: 48%;
-  }
-
-  @media (max-width: 350px) {
-    width: 100%;
+    background: $color-header-board-hover;
   }
 }
 
