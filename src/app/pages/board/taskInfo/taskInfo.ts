@@ -82,13 +82,12 @@ export default class TaskInfo {
       this.labels.labels.append(this.labels.addButton);
       this.hideLabels();
       this.sidebar.modalLabels.labelsContainer.innerHTML = '';
-      this.sidebar.modalLabels.createLabels();
+      await this.sidebar.modalLabels.createLabels();
 
       labels.forEach((data: { color: string; text: string; title: string; id: string }) => {
         Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
           if ((item.children[1] as HTMLInputElement).title === data.title) {
             (item.children[0] as HTMLInputElement).checked = true;
-            (item.children[1] as HTMLInputElement).value = data.text;
           }
         });
         this.showLabels();
@@ -138,11 +137,7 @@ export default class TaskInfo {
           (targetColor.previousElementSibling as HTMLInputElement).checked = true;
           this.showLabels();
           if (this.token) {
-            this.server.addLabel(
-              this.token,
-              this.taskId,
-              targetColor.getAttribute('id')!
-            );
+            this.server.addLabel(this.token, this.taskId, targetColor.getAttribute('id')!);
 
             const targetColorCopy = targetColor.cloneNode(true) as HTMLElement;
             this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);
@@ -152,7 +147,7 @@ export default class TaskInfo {
           const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find((child) => {
             if (child.title === targetColor.title) {
               if (this.token) {
-                this.server.deleteLabel(this.token, child.getAttribute('id')!);
+                this.server.deleteLabel(this.token, this.taskId, targetColor.getAttribute('id')!);
               }
               return true;
             }
@@ -169,11 +164,7 @@ export default class TaskInfo {
         if (targetCheck.checked) {
           this.showLabels();
           if (this.token) {
-            this.server.addLabel(
-              this.token,
-              this.taskId,
-              elementColor.getAttribute('id')!
-            );
+            this.server.addLabel(this.token, this.taskId, elementColor.getAttribute('id')!);
 
             const targetColorCopy = elementColor.cloneNode(true) as HTMLElement;
             this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);
@@ -182,7 +173,8 @@ export default class TaskInfo {
           const element = (Array.from(this.labels.labels.children) as HTMLElement[]).find((child) => {
             if (child.title === elementColor.title) {
               if (this.token) {
-                this.server.deleteLabel(this.token, child.getAttribute('id')!);
+                console.log(child);
+                this.server.deleteLabel(this.token, this.taskId, elementColor.getAttribute('id')!);
               }
               return true;
             }

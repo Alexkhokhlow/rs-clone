@@ -1,7 +1,7 @@
 import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
-import labels from '../../../common/constants';
 import Server from '../../../../../server/server';
+import { ILabel } from '../../../../../../types/types';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -53,40 +53,44 @@ export default class LabelsModule {
     this.bindEvents();
   }
 
-  public createLabels() {
-    labels.forEach((label, index) => {
-      const labelLi = Common.createDomNode('li', ['label']);
-      const checkbox = Common.createDomNodeInput('', '', ['label__checkbox'], 'checkbox');
-      const editWrapper = Common.createDomNode('div', ['label__edit__wrapper']);
-      const labelColor = Common.createDomNodeInput('', '', ['label__color']);
-      labelColor.readOnly = true;
-      labelColor.style.background = `${label.color}`;
-      labelColor.title = label.title;
-      labelColor.setAttribute('id', String(index + 1));
-      const edit = Common.createDomNode('div', ['label__edit']);
-      editWrapper.append(edit);
-      labelLi.append(checkbox, labelColor, editWrapper);
-      this.labelsContainer.append(labelLi);
-    });
+  public async createLabels() {
+    if (this.token) {
+      const labels = (await this.server.getLabels(this.token)).labelsInfo as ILabel[];
+      labels.forEach((label) => {
+        const labelLi = Common.createDomNode('li', ['label']);
+        const checkbox = Common.createDomNodeInput('', '', ['label__checkbox'], 'checkbox');
+        const editWrapper = Common.createDomNode('div', ['label__edit__wrapper']);
+        const labelColor = Common.createDomNodeInput('', '', ['label__color']);
+        labelColor.readOnly = true;
+        labelColor.style.background = `${label.color}`;
+        labelColor.title = label.title;
+        labelColor.value = label.text;
+        labelColor.setAttribute('id', String(label.index));
+        const edit = Common.createDomNode('div', ['label__edit']);
+        editWrapper.append(edit);
+        labelLi.append(checkbox, labelColor, editWrapper);
+        this.labelsContainer.append(labelLi);
+
+        editWrapper.addEventListener('click', (event: Event) => {
+          const target = event.currentTarget as HTMLElement;
+          const label = target.previousElementSibling as HTMLElement;
+          this.openLabelTitleEditor();
+          this.wrapper.setAttribute('id', label.getAttribute('id')!);
+        });
+      });
+    }
   }
 
- 
-
   private bindEvents() {
-    this.labelsContainer.addEventListener('click', (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (target.closest('.label__edit__wrapper')) {
-        this.openLabelTitleEditor();
-        this.save.addEventListener('click', () => {
-          const text = this.input.value;
-          const labelColor = target.closest('.label__edit__wrapper')?.previousElementSibling as HTMLInputElement;
-          labelColor.value = text;
-          if (this.token) {
-            console.log('test');
-            this.server.updateLabel(this.token, labelColor.getAttribute('id')!, text);
-          }
-          this.wrapper.classList.add('hidden');
-        });
+    this.save.addEventListener('click', async () => {
+      const text = this.input.value;
+      const id = this.wrapper.getAttribute('id')!;
+      const colorLabel = this.labelsContainer.children[Number(id)].children[1] as HTMLInputElement;
+      colorLabel.value = text;
+      this.wrapper.classList.add('hidden');
+      this.input.value = '';
+      if (this.token) {
+        await this.server.updateLabel(this.token, id, text);
       }
     });
     this.cancel.addEventListener('click', this.closeLabelTitleEditor.bind(this));

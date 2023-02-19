@@ -13,6 +13,7 @@ export interface IBoard {
   name: string;
   pathName: string;
   tasklists: ITaskList[];
+  public: boolean;
 }
 
 export interface ITaskList {
@@ -25,4 +26,11 @@ export interface ITask {
   id: string;
   index: string;
   name: string;
+}
+
+export interface ILabel {
+  text: string;
+  title: string;
+  color: string;
+  index: string;
 }

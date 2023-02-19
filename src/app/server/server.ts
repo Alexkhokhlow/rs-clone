@@ -2,7 +2,7 @@ export default class Server {
   private address: string;
 
   constructor() {
-    this.address = 'https://trello-clone-x3tl.onrender.com/api';
+    this.address = 'http://localhost:3000/api';
   }
 
   async signUp(email: string, password: string, userName: string) {
@@ -248,7 +248,7 @@ export default class Server {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token, labelId, taskId}),
+      body: JSON.stringify({ token, labelId, taskId }),
     });
 
     await this.checkError(response);
@@ -257,13 +257,28 @@ export default class Server {
     return json;
   }
 
-  async updateLabel(token: string, id: string, title: string) {
+  async getLabels(token: string) {
+    const response = await fetch(`${this.address}/labels`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateLabel(token: string, id: string, text: string) {
     const response = await fetch(`${this.address}/label`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token, id, title}),
+      body: JSON.stringify({ token, id, text }),
     });
 
     await this.checkError(response);
@@ -272,13 +287,13 @@ export default class Server {
     return json;
   }
 
-  async deleteLabel(token: string, id: string) {
+  async deleteLabel(token: string, taskId: string, labelId: string) {
     const response = await fetch(`${this.address}/label`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, id }),
+      body: JSON.stringify({ token, labelId, taskId }),
     });
 
     await this.checkError(response);
