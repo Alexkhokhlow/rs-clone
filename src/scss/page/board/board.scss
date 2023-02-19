@@ -2,68 +2,69 @@
   @include flex($align: stretch);
   flex-direction: column;
   min-height: 100vh;
-}
 
-.add-item {
-  &__button {
-    box-sizing: border-box;
-    min-height: 3.5rem;
-    width: 25rem;
-    padding: .5rem 1.5rem;
-    text-align: left;
-    background: #ffffff3d;
-    color: $color-background;
-    cursor: pointer;
+  .add-item {
+    &__button {
+      box-sizing: border-box;
+      min-height: 3.5rem;
+      width: 25rem;
+      padding: .5rem 1.5rem;
+      text-align: left;
+      background: #ffffff3d;
+      color: $color-background;
+      cursor: pointer;
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    &:before {
-      content: '+';
-      margin-right: 0.5rem;
-    }
-  }
-
-  &__form {
-    background-color: gainsboro;
-    width: 25rem;
-    padding: 4px;
-    border-radius: 3px;
-
-    &__input {
-      box-shadow: inset 0 0 0 2px #0079bf;
-      padding: 8px 12px;
-      width: 100%;
-      font-size: 14px;
-    }
-
-    &__container {
-      @include flex($justify: flex-start);
-      gap: .5rem;
-      margin-top: 8px;
-
-      &__button {
-        background-color: #0079bf;
-        padding: 4px 12px;
-        font-size: 14px;
-        color: white;
-        transition: .3s;
-
-        &:hover {
-          background: $color-brand-hover;
-        }
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
       }
 
-      &__close {
-        cursor: pointer;
-        padding: .4rem 1.2rem;
-        background: transparent;
-        transition: .3s;
-        border-radius: .3rem;
+      &:before {
+        content: '+';
+        margin-right: 0.5rem;
+      }
+    }
 
-        &:hover {
-          background: $color-pagination;
+    &__form {
+      background-color: gainsboro;
+      width: 25rem;
+      padding: 4px;
+      border-radius: 3px;
+
+      &__input {
+        box-shadow: inset 0 0 0 2px #0079bf;
+        padding: 8px 12px;
+        width: 100%;
+        font-size: 14px;
+      }
+
+      &__container {
+        @include flex($justify: flex-start);
+        gap: .5rem;
+        margin-top: 8px;
+
+        &__button {
+          background-color: #0079bf;
+          padding: 4px 12px;
+          font-size: 14px;
+          color: white;
+          transition: .3s;
+
+          &:hover {
+            background: $color-brand-hover;
+          }
+        }
+
+        &__close {
+          cursor: pointer;
+          padding: .4rem 1.2rem;
+          background: transparent;
+          transition: .3s;
+          border-radius: .3rem;
+          font-size: 1.4rem;
+
+          &:hover {
+            background: $color-pagination;
+          }
         }
       }
     }
@@ -73,7 +74,6 @@
 .board {
   @include flex($align: stretch);
   flex-direction: column;
-  gap: 1rem;
   flex: auto;
 }
 
@@ -91,6 +91,7 @@
   background: $color-background;
   padding: .5rem 1rem;
   transition: .3s;
+  font-size: 1.4rem;
 
   &:hover {
     background: $color-share;
@@ -115,7 +116,7 @@
 }
 
 .board__main__wrapper {
-  padding: 2rem;
+  padding: 1rem 2rem;
   flex: auto;
   display: flex;
   overflow-x: scroll;
@@ -129,6 +130,10 @@
   &::-webkit-scrollbar-thumb {
     border-radius: 1rem;
     background-color: $color-scroll;
+  }
+
+  .add-item__button {
+    font-size: 1.4rem;
   }
 }
 
@@ -145,10 +150,19 @@
   width: 25rem;
   flex-direction: column;
   height: fit-content;
-  padding: .7rem;
+  max-height: 100%;
+  padding: .7rem 0;
   border-radius: .3rem;
   background-color: #ebecf0;
   box-shadow: $color-box-shadow;
+
+  &__title {
+    font-size: 1.4rem;
+  }
+
+  &__header {
+    padding: 0 .8rem .6rem;
+  }
 
   & .add-item {
     width: 100%;
@@ -162,6 +176,7 @@
     color: $color-create-text;
     transition: .3s linear;
     width: 100%;
+    font-size: 1.4rem;
 
     &:hover {
       background: $color-pagination;
@@ -170,8 +185,14 @@
 }
 
 .tasks__wrapper {
+  @include flex($align: stretch);
+  flex-direction: column;
+  gap: .4rem;
   width: 100%;
   min-height: 2rem;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 0 .8rem;
 }
 
 .task {
@@ -179,11 +200,14 @@
   background: #ebecf0;
   color: #5e6c84;
   padding: 6px 8px 2px;
-  margin: 4px 0;
   background-color: #fff;
   border-radius: 3px;
   box-shadow: $color-box-shadow;
   cursor: pointer;
+
+  &__title {
+    font-size: 1.4rem;
+  }
 }
 
 .description {
@@ -208,23 +232,28 @@
   @include flex;
   background: #ffffff3d;
   border-radius: .3rem;
-  padding: 0.1rem 1rem;
+  padding: 0.6rem 1rem;
   width: fit-content;
   color: $color-background;
+  font-size: 1.4rem;
 }
 
 .board__public::before,
 .board__private::before {
-  content: url('../assets/workspace/create/globe.svg');
-  margin-top: 0.4rem;
+  content: '';
+  background: url('../assets/workspace/create/globe.svg') center/contain no-repeat;
+  width: 1.5rem;
+  height: 1.5rem;
   margin-right: .5rem;
-  padding: .2rem 0;
   filter: invert(95%) sepia(93%) saturate(0%) hue-rotate(284deg) brightness(1200%) contrast(108%);
 }
 
 .board__private::before {
-  content: url('../assets/workspace/create/lock.svg');
-  margin-top: 0;
-  margin-right: .3rem;
-  height: 2.6rem;
+  content: '';
+  background: url('../assets/workspace/create/lock.svg') top/contain no-repeat;
+  width: 1.8rem;
+  height: 2rem;
 }
+
+
+

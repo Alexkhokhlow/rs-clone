@@ -93,10 +93,10 @@ export default class Board {
       this.footer.footer.style.background = response.dashboard.color;
       this.subheader.title.textContent = response.dashboard.name;
       if (response.dashboard.public) {
-        this.subheader.visibility.textContent = `Board public`;
+        this.subheader.visibility.textContent = `Public`;
         this.subheader.visibility.classList.add('board__public');
       } else {
-        this.subheader.visibility.textContent = `Board private`;
+        this.subheader.visibility.textContent = `Private`;
         this.subheader.visibility.classList.add('board__private');
       }
       if (response.dashboard.tasklists) {
