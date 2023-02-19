@@ -1,6 +1,7 @@
 import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
 import labels from '../../../common/constants';
+import Server from '../../../../../server/server';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -23,6 +24,10 @@ export default class LabelsModule {
 
   private cancel: HTMLButtonElement;
 
+  token: string | null;
+
+  server: Server;
+
   constructor() {
     this.module = new ModuleForm();
     this.labels = Common.createDomNode('div', ['labels']);
@@ -36,6 +41,8 @@ export default class LabelsModule {
     this.cancel = Common.createDomNodeButton(['button', 'cancel'], 'Cancel');
     this.createLabels();
     this.append();
+    this.server = new Server();
+    this.token = localStorage.getItem('token');
   }
 
   private append() {
@@ -63,17 +70,25 @@ export default class LabelsModule {
     });
   }
 
+ 
+
   private bindEvents() {
     this.labelsContainer.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;
-      if(target.closest('.label__edit__wrapper')) {
+      if (target.closest('.label__edit__wrapper')) {
         this.openLabelTitleEditor();
         this.save.addEventListener('click', () => {
-          (target.closest('.label__edit__wrapper')?.previousElementSibling as HTMLInputElement).value = this.input.value;
+          const text = this.input.value;
+          const labelColor = target.closest('.label__edit__wrapper')?.previousElementSibling as HTMLInputElement;
+          labelColor.value = text;
+          if (this.token) {
+            console.log('test');
+            this.server.updateLabel(this.token, labelColor.getAttribute('id')!, text);
+          }
           this.wrapper.classList.add('hidden');
-        })
+        });
       }
-    })
+    });
     this.cancel.addEventListener('click', this.closeLabelTitleEditor.bind(this));
   }
 

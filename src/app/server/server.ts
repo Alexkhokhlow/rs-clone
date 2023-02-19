@@ -2,7 +2,7 @@ export default class Server {
   private address: string;
 
   constructor() {
-    this.address = 'http://localhost:3000/api';
+    this.address = 'https://trello-clone-x3tl.onrender.com/api';
   }
 
   async signUp(email: string, password: string, userName: string) {
@@ -249,6 +249,21 @@ export default class Server {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({token, labelId, taskId}),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateLabel(token: string, id: string, title: string) {
+    const response = await fetch(`${this.address}/label`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({token, id, title}),
     });
 
     await this.checkError(response);
