@@ -134,6 +134,7 @@
 }
 
 .task {
+  position: relative;
   width: 100%;
   background: #ebecf0;
   color: #5e6c84;
@@ -143,7 +144,43 @@
   border-radius: 3px;
   box-shadow: $color-box-shadow;
   cursor: pointer;
+
+  &:hover {
+    background-color: #f8f8fa;
+
+    & .task__interaction {
+      visibility: visible;
+    }
+  }
+
+  & .task__title {
+    word-wrap: break-word;
+    overflow: hidden;
+    clear: both;
+    max-width: 85%;
+    display: block;
+  }
+
+  & .task__interaction {
+    position: absolute;
+    top: 3px;
+    right: 10px;
+    opacity: .8;
+    padding: 0 5px;
+    border-radius: 3px;
+    visibility: hidden;
+
+    &::before {
+      content: '...'; 
+    }
+
+    &:hover {
+      background-color: #e8e8ec;
+    }
+  }
+
 }
+
 
 .description {
   &__edit {
