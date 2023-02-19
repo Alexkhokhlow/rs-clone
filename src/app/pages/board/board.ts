@@ -6,6 +6,7 @@ import StartPageFooter from '../startPage/sections/footer';
 import CreatingBoard from '../workspace/createBoard/createBoard';
 import Header from '../workspace/header/header';
 import AddItemButton from './common/addItemButton';
+import Subheader from './subheader/subheader';
 import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
 import TasksList from './tasksList/tasksList';
@@ -22,6 +23,10 @@ export default class Board {
   header: Header;
 
   container: HTMLElement;
+
+  private subheader: Subheader;
+
+  private main: HTMLElement;
 
   taskInfo: TaskInfo;
 
@@ -41,6 +46,8 @@ export default class Board {
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
+    this.subheader = new Subheader();
+    this.main = Common.createDomNode('div', ['board__main__wrapper']);
     this.taskInfo = new TaskInfo();
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
@@ -56,8 +63,15 @@ export default class Board {
       this.onAddList.bind(this)
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container', 'hidden']);
+    this.buildBoard(creatingBoard);
+  }
+
+  private buildBoard(creatingBoard: CreatingBoard) {
+    this.header.header.classList.add('board__header');
+    this.footer.footer.classList.add('board__footer');
     this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
-    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
+    this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo)
+    this.board.append(this.subheader.subheader, this.main);
   }
 
   async init(path: string) {
@@ -75,6 +89,16 @@ export default class Board {
       this.listsContainer.innerHTML = '';
       this.path = path;
       this.board.style.background = response.dashboard.color;
+      this.header.header.style.background = response.dashboard.color;
+      this.footer.footer.style.background = response.dashboard.color;
+      this.subheader.title.textContent = response.dashboard.name;
+      if (response.dashboard.public) {
+        this.subheader.visibility.textContent = `Public`;
+        this.subheader.visibility.classList.add('board__public');
+      } else {
+        this.subheader.visibility.textContent = `Private`;
+        this.subheader.visibility.classList.add('board__private');
+      }
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach(async (taskList) => {
           const list = this.createTaskList(taskList.name, taskList.id);

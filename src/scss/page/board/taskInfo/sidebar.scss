@@ -144,6 +144,7 @@
   @include flex($align: stretch);
   flex-direction: column;
   gap: .5rem;
+  position: relative;
 }
 
 .label {
@@ -192,8 +193,8 @@
   padding: .7rem;
   box-shadow: $color-box-shadow;
   border-radius: .3rem;
-  top: .5rem;
   left: 0;
+  z-index: 10;
 }
 
 .buttons {
