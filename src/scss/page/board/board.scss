@@ -7,7 +7,6 @@
 .add-item {
   &__button {
     box-sizing: border-box;
-    border-radius: .3rem;
     min-height: 3.5rem;
     width: 25rem;
     padding: .5rem 1.5rem;
@@ -48,7 +47,6 @@
         background-color: #0079bf;
         padding: 4px 12px;
         font-size: 14px;
-        border-radius: 3px;
         color: white;
         transition: .3s;
 
@@ -80,7 +78,28 @@
 }
 
 .subheader {
-  padding: .5rem 1.5rem 0;
+  @include flex;
+  padding: 1rem 1.5rem 0;
+}
+
+.subheader__wrapper {
+  @include flex($justify: flex-start);
+}
+
+.share {
+  @include flex;
+  background: $color-background;
+  padding: .5rem 1rem;
+  transition: .3s;
+
+  &:hover {
+    background: $color-header-board-hover;
+  }
+
+  &::before {
+    content: url('../assets/board/share.svg');
+    margin-right: 0.5rem;
+  }
 }
 
 .board__title {
@@ -89,6 +108,10 @@
   line-height: 3.2rem;
   padding: 0 1.2rem;
   color: $color-background;
+
+  @media (max-width: 340px) {
+    padding: 0 .5rem;
+  }
 }
 
 .board__main__wrapper {
@@ -179,4 +202,29 @@
   background: url('../assets/workspace/create/x.svg') center center/contain no-repeat;
   width: 1rem;
   height: 1rem;
+}
+
+.board__visibility {
+  @include flex;
+  background: #ffffff3d;
+  border-radius: .3rem;
+  padding: 0.1rem 1rem;
+  width: fit-content;
+  color: $color-background;
+}
+
+.board__public::before,
+.board__private::before {
+  content: url('../assets/workspace/create/globe.svg');
+  margin-top: 0.4rem;
+  margin-right: .5rem;
+  padding: .2rem 0;
+  filter: invert(95%) sepia(93%) saturate(0%) hue-rotate(284deg) brightness(1200%) contrast(108%);
+}
+
+.board__private::before {
+  content: url('../assets/workspace/create/lock.svg');
+  margin-top: 0;
+  margin-right: .3rem;
+  height: 2.6rem;
 }
