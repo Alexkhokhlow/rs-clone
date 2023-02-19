@@ -13,22 +13,25 @@ export default class Checklist {
 
   private addItemButton: AddItemButton;
 
-  private checkpoints: HTMLElement;
+  private checkpointsWrapper: HTMLElement;
+
+  public checkpoints: Checkpoint[];
 
   constructor() {
     this.checklist = Common.createDomNode('div', ['checklist__info']);
     this.checklistHeader = Common.createDomNode('div', ['checklist__header__wrapper']);
     this.checklistTitle = Common.createDomNode('h4', ['checklist__title__info', 'title__info']);
     this.checklistDelete = Common.createDomNodeButton(['checklist__delete'], 'Delete');
-    this.checkpoints = Common.createDomNode('div', ['checkpoints__wrapper']);
+    this.checkpointsWrapper = Common.createDomNode('div', ['checkpoints__wrapper']);
     this.addItemButton = new AddItemButton('Add an item', 'Add an item', 'Add', this.onSave.bind(this));
+    this.checkpoints = [];
 
     this.append();
   }
 
   private append() {
     this.checklistHeader.append(this.checklistTitle, this.checklistDelete);
-    this.checklist.append(this.checklistHeader, this.checkpoints, this.addItemButton.container);
+    this.checklist.append(this.checklistHeader, this.checkpointsWrapper, this.addItemButton.container);
     this.bindEvents();
   }
 
@@ -44,8 +47,9 @@ export default class Checklist {
     if (this.addItemButton.form.input.value.trim()) {
       const checkpoint = new Checkpoint();
       checkpoint.input.value = this.addItemButton.form.input.value;
-      this.checkpoints.append(checkpoint.point);
+      this.checkpointsWrapper.append(checkpoint.point);
       this.addItemButton.onClose();
+      this.checkpoints.push(checkpoint);
     }
   }
 }

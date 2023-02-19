@@ -9,6 +9,7 @@ export interface IResponseBoards {
 }
 export interface IBoard {
   color: string;
+  public: boolean;
   id: string;
   name: string;
   pathName: string;

@@ -51,11 +51,13 @@ export default class CommentsForm {
   async onSave(event: Event) {
     event.stopPropagation();
     const text = this.input.form.input.value;
-    this.input.form.container.classList.add('hidden');
-    this.input.form.input.value = '';
-    if (this.token) {
-      const { commentInfo } = await this.server.createComment(this.token, this.id, text);
-      this.createComment(text, this.user.name, commentInfo.id);
+    if (text) {
+      this.input.form.container.classList.add('hidden');
+      this.input.form.input.value = '';
+      if (this.token) {
+        const { commentInfo } = await this.server.createComment(this.token, this.id, text);
+        this.createComment(text, this.user.name, commentInfo.id);
+      }
     }
   }
 
