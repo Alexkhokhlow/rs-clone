@@ -70,8 +70,6 @@ export default class LabelsModule {
     });
   }
 
- 
-
   private bindEvents() {
     this.labelsContainer.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;
