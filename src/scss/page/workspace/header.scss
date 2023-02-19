@@ -63,14 +63,19 @@
     display: block;
   }
 
+  &::after {
+    background: url('../assets/workspace/header/logo_anim.gif') center center/contain no-repeat;
+    opacity: 0;
+  }
+
   &:hover {
 
     &::after {
-      background: url('../assets/workspace/header/logo_anim.gif') center center/contain no-repeat;
+      opacity: 1;
     }
 
     &::before {
-      display: none;
+      opacity: 0;
     }
   }
 }
