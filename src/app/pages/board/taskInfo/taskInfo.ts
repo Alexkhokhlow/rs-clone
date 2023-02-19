@@ -78,7 +78,6 @@ export default class TaskInfo {
       const { taskInfo, comments, user, labels } = await this.server.getTaskInfo(this.token, id);
       this.taskId = taskInfo.taskId;
       this.comment.init(user);
-      console.log(labels);
       this.labels.labels.innerHTML = '';
       this.labels.labels.append(this.labels.addButton);
       this.hideLabels();

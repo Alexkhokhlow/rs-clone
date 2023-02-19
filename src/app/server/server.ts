@@ -257,6 +257,21 @@ export default class Server {
     return json;
   }
 
+  async updateLabel(token: string, id: string, title: string) {
+    const response = await fetch(`${this.address}/label`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({token, id, title}),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async deleteLabel(token: string, id: string) {
     const response = await fetch(`${this.address}/label`, {
       method: 'DELETE',
