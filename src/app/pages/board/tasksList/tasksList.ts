@@ -1,3 +1,5 @@
+import { Socket } from 'socket.io-client';
+import { TTask } from '../../../../types/types';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
@@ -20,13 +22,13 @@ export default class TasksList {
 
   token: string | null;
 
-  socket: any;
+  socket: Socket;
 
   private deleteButton: HTMLElement;
 
   private headerTaskList: HTMLElement;
 
-  constructor(title: string, onClick: (event: Event) => void, socket: any) {
+  constructor(title: string, onClick: (event: Event) => void, socket: Socket) {
     this.socket = socket;
     this.onClick = onClick;
     this.titleText = title;
@@ -58,7 +60,7 @@ export default class TasksList {
       const { id } = this.tasksWrapper.dataset;
       this.socket.emit('message', 'change');
       if (this.token && id) {
-        const data = await this.server.createTask(this.token, id, name, index);
+        const data = (await this.server.createTask(this.token, id, name, index)) as TTask;
         const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
         this.tasksWrapper.append(task.task);
       }
@@ -68,5 +70,4 @@ export default class TasksList {
   private removeList() {
     this.tasksList.remove();
   }
-
 }

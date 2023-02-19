@@ -1,7 +1,6 @@
 import Common from '../../utils/common';
 import Footer from '../autorisation/footer';
 import StartPageHeader from '../startPage/sections/header';
-import createBoard from '../workspace/createBoard/createBoard';
 import CreatingBoard from '../workspace/createBoard/createBoard';
 import Header from '../workspace/header/header';
 

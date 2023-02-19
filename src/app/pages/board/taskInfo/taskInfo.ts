@@ -1,3 +1,4 @@
+import { TComments, TLabels } from '../../../../types/types';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import Checklist from './checklist/checklist';
@@ -84,7 +85,7 @@ export default class TaskInfo {
       this.sidebar.modalLabels.labelsContainer.innerHTML = '';
       await this.sidebar.modalLabels.createLabels();
 
-      labels.forEach((data: { color: string; text: string; title: string; id: string }) => {
+      (labels as TLabels[]).forEach((data: { color: string; id: string; text: string; title: string }) => {
         Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
           if ((item.children[1] as HTMLInputElement).title === data.title) {
             (item.children[0] as HTMLInputElement).checked = true;
@@ -98,7 +99,7 @@ export default class TaskInfo {
         labelColor.value = data.text;
         this.labels.labels.insertBefore(labelColor, this.labels.addButton);
       });
-      comments.forEach((data: { id: string; text: string; userName: string }) => {
+      (comments as TComments[]).forEach((data: { id: string; text: string; userName: string }) => {
         this.comment.createComment(data.text, data.userName, data.id);
       });
       this.title.textContent = taskInfo.name;

@@ -53,7 +53,10 @@ export default class LoginForm {
 
   public render() {
     this.form.append(this.formTitle, this.errorMessage, this.inputsContainer, this.seperetor);
-    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Continue';
+    if (this.btnSubmit instanceof HTMLInputElement) {
+      this.btnSubmit.value = 'Continue';
+      this.btnSubmit.setAttribute('disabled', 'disabled');
+    }
     this.inputsContainer.append(this.loginInput, this.passwordInput, this.btnSubmit);
     this.entryWays.forEach((way) => {
       this.form.append(way);
@@ -65,6 +68,7 @@ export default class LoginForm {
     const mailFromLocalStorage = localStorage.getItem('data');
     if (mailFromLocalStorage && this.loginInput instanceof HTMLInputElement) {
       this.loginInput.value = mailFromLocalStorage;
+      this.btnSubmit.removeAttribute('disabled');
       this.openPasswordInput();
     }
 
@@ -72,6 +76,12 @@ export default class LoginForm {
   }
 
   private addHandlers() {
+    this.loginInput.addEventListener('input', (e) => {
+      if (e.target) {
+        this.changeActivityofBtn(this.isValidMail((e.target as HTMLInputElement).value), this.btnSubmit);
+      }
+    });
+
     this.btnSubmit.addEventListener('click', (e) => {
       e.preventDefault();
       this.mailToLocalStorage();
@@ -119,5 +129,18 @@ export default class LoginForm {
 
   private mailToLocalStorage() {
     localStorage.setItem('data', (this.loginInput as HTMLInputElement).value);
+  }
+
+  private isValidMail(mail: string) {
+    const regExp = /^([a-zA-Z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{1,6}$/;
+    return regExp.test(mail);
+  }
+
+  private changeActivityofBtn(condition: boolean, btn: HTMLElement) {
+    if (condition) {
+      btn.removeAttribute('disabled');
+    } else {
+      btn.setAttribute('disabled', 'disabled');
+    }
   }
 }

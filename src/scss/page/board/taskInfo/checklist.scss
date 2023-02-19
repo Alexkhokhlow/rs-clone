@@ -1,0 +1,98 @@
+.checklist__header__wrapper {
+  @include flex;
+  margin-bottom: 1rem;
+  padding-left: .8rem;
+}
+
+.checklist__delete {
+  border-radius: .3rem;
+  padding: .5rem 1.5rem;
+
+  &:hover {
+    background: $color-pagination;
+  }
+}
+
+.checklist__title__info::before,
+.description__title::before,
+.comments__title::before {
+  margin-right: 1rem;
+}
+
+.checklist__info {
+  .add-item {
+
+    .add-item__form {
+      width: 100%;
+      background: $color-button-taskInfo;
+    }
+
+    .add-item__button {
+      color: #172b4d;
+      background: $color-button-taskInfo;
+      width: 25%;
+      margin-left: 1rem;
+    }
+  }
+}
+
+.checkpoint {
+  @include flex($align: flex-start);
+  width: 100%;
+  padding: .3rem 1rem;
+  transition: .3s;
+  border-radius: .3rem;
+
+  &:hover {
+    background: $color-button-taskInfo;
+  }
+}
+
+.checkpoints__wrapper {
+  @include flex($align: stretch);
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.checkpoint__buttons {
+  @include flex;
+  margin-top: 0.2rem;
+}
+
+.checkpoint__delete {
+  background: url('../assets/workspace/create/x.svg') center/contain no-repeat;
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.checkpoint__edit {
+  background: url('../assets/workspace/main/pencil.svg') center/contain no-repeat;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-right: 0.7rem;
+}
+
+.checkpoint__save {
+  background: url('../assets/board/taskInfo/save.svg') center/contain no-repeat;
+}
+
+.checkpoint__text {
+  flex: auto;
+  margin: 0 1rem;
+  background: transparent;
+  padding: 0 .5rem;
+
+  &.active {
+    background: $color-background;
+    border: .1rem solid $color-border-comment;
+  }
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.checkpoint__checkbox {
+  margin-top: 0.2rem;
+}
+
