@@ -6,6 +6,7 @@ import StartPageFooter from '../startPage/sections/footer';
 import CreatingBoard from '../workspace/createBoard/createBoard';
 import Header from '../workspace/header/header';
 import AddItemButton from './common/addItemButton';
+import Subheader from './subheader/subheader';
 import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
 import TasksList from './tasksList/tasksList';
@@ -22,6 +23,10 @@ export default class Board {
   header: Header;
 
   container: HTMLElement;
+
+  private subheader: Subheader;
+
+  private main: HTMLElement;
 
   taskInfo: TaskInfo;
 
@@ -41,6 +46,8 @@ export default class Board {
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
+    this.subheader = new Subheader();
+    this.main = Common.createDomNode('div', ['board__main__wrapper']);
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
     this.server = new Server();
@@ -56,12 +63,19 @@ export default class Board {
       this.onAddList.bind(this)
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container', 'hidden']);
+    this.buildBoard(creatingBoard);
+  }
+
+  private buildBoard(creatingBoard: CreatingBoard) {
+    this.header.header.classList.add('board__header');
+    this.footer.footer.classList.add('board__footer');
     this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
-    this.board.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
+    this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
+    this.board.append(this.subheader.subheader, this.main);
   }
 
   async init(path: string) {
-    this.socket.on('answer', () => {
+    this.socket.on('board', () => {
       this.printBoard(path);
     });
     await this.printBoard(path);
@@ -73,32 +87,63 @@ export default class Board {
     if (this.token) {
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.listsContainer.innerHTML = '';
-      console.log(response.dashboard);
       this.path = path;
       this.board.style.background = response.dashboard.color;
+      this.header.header.style.background = response.dashboard.color;
+      this.footer.footer.style.background = response.dashboard.color;
+      this.subheader.title.textContent = response.dashboard.name;
+      if (response.dashboard.public) {
+        this.subheader.visibility.textContent = `Public`;
+        this.subheader.visibility.classList.add('board__public');
+      } else {
+        this.subheader.visibility.textContent = `Private`;
+        this.subheader.visibility.classList.add('board__private');
+      }
       if (response.dashboard.tasklists) {
-        response.dashboard.tasklists.forEach(async (taskList) => {
-          const list = this.createTaskList(taskList.name, taskList.id);
-          taskList.tasks.forEach((task) => {
-            console.log(task.labels)
-            const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
-            list.tasksWrapper.append(taskInfo.task);
-          });
-        });
+        this.renderTaskList(response.dashboard.tasklists);
       }
     } else {
       window.location.pathname = 'error';
     }
   }
 
-  createTaskLabel(label: TLabel){
-    
+  renderTaskList(taskLists: ITaskList[]) {
+    taskLists.forEach(async (taskList) => {
+      const list = this.createTaskList(taskList.name, taskList.id);
+      taskList.tasks.forEach((task) => {
+        const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
+        task.labels.forEach((label) => {
+          taskInfo.labelContainer.append(this.createTaskLabel(label));
+        });
+        list.tasksWrapper.append(taskInfo.task);
+      });
+    });
+  }
+
+  createTaskLabel(label: TLabel) {
+    const labelElement = Common.createDomNode('span', ['task__label']);
+    labelElement.setAttribute('text', label.text);
+    labelElement.title = `Color: ${label.title}, title: ${label.text ? label.text : 'none'}`;
+    labelElement.style.background = label.color;
+    const info = localStorage.getItem('label_view');
+    labelElement.textContent = info ? label.text : '';
+
+    labelElement.addEventListener('click', (event: Event) => {
+      event.stopPropagation();
+      const info = localStorage.getItem('label_view');
+      info ? localStorage.removeItem('label_view') : localStorage.setItem('label_view', 'true');
+      const labels = document.querySelectorAll('.task__label');
+      labels.forEach((data) => {
+        data.textContent = data.textContent ? '' : data.getAttribute('text');
+      });
+    });
+    return labelElement;
   }
 
   async onAddList(event: Event) {
     const target = event.target as HTMLButtonElement;
     const name = this.addListButton.form.data;
-    this.socket.emit('message', 'change');
+    this.socket.emit('board', 'change');
     if (this.token) {
       target.disabled = true;
       const data = (await this.server.createTaskList(this.token, name, this.path)) as ITaskList;
@@ -149,7 +194,7 @@ export default class Board {
         const { id, title } = element.dataset;
         if (this.token && id && parentId && title) {
           await this.server.updateTask(this.token, id, parentId, title, String(index));
-          this.socket.emit('message', 'change');
+          this.socket.emit('board', 'change');
         }
       });
 

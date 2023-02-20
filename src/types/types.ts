@@ -62,6 +62,7 @@ export type TLabel = {
   title: string;
   color: string;
   index: string;
+  updatedAt: string;
 };
 
 export type TComment = {

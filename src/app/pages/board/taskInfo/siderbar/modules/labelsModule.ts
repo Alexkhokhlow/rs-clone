@@ -48,6 +48,7 @@ export default class LabelsModule {
     this.append();
     this.server = new Server();
     this.token = localStorage.getItem('token')!;
+    this.createLabels();
   }
 
   private append() {
@@ -62,6 +63,14 @@ export default class LabelsModule {
     const labels = (await this.server.getLabels(this.token)).labelsInfo as TLabel[];
     labels.forEach((label) => {
       this.createLabel(label);
+    });
+  }
+
+  public async changeLabels() {
+    const labels = (await this.server.getLabels(this.token)).labelsInfo as TLabel[];
+    (Array.from(this.labelsContainer.children) as HTMLInputElement[]).forEach((label, index) => {
+      const colorInput = label.children[1] as HTMLInputElement;
+      colorInput.value = labels[index].text;
     });
   }
 
@@ -108,7 +117,6 @@ export default class LabelsModule {
     if (this.token) {
       await this.server.updateLabel(this.token, id, text);
       this.emitLabelSocked();
-      this.saveLabel();
     }
   }
 

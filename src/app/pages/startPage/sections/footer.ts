@@ -6,7 +6,7 @@ const iconRss = require('../../../../assets/rs_school_js.svg') as string;
 const trello = require('../../../../assets/startPage/svg/trello.svg') as string;
 
 export default class StartPageFooter {
-  private footer: HTMLElement;
+  public footer: HTMLElement;
 
   private wrapper: HTMLElement;
 

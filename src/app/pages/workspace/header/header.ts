@@ -24,7 +24,7 @@ export default class Header {
   private userImg: HTMLElement;
 
   constructor() {
-    this.header = Common.createDomNode('header', ['header', 'workspace__header']);
+    this.header = Common.createDomNode('header', ['header', 'main__header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'wrapper__header']);
     this.logo = Common.createDomNodeLink(['logo', 'header__logo'], '/');
     this.logoImg = Common.createDomNode('div', ['header__logo__img']);

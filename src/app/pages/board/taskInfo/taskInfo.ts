@@ -96,39 +96,45 @@ export default class TaskInfo {
   }
 
   public async init(id: string) {
-      const response = await this.server.getTaskInfo(this.token, id);
-      this.title.textContent = response.taskInfo.name;
-      this.info.textContent = `from ${response.taskInfo.tasklist}`;
-      this.taskId = response.taskInfo.taskId;
-      this.comment.init(response.user, response.comments, id);
-      this.initLabels(response.labels);
-      this.initDescription(id, response.taskInfo.description);
-      this.taskInfo.classList.add('active');
+    const response = await this.server.getTaskInfo(this.token, id);
+    this.title.textContent = response.taskInfo.name;
+    this.info.textContent = `from ${response.taskInfo.tasklist}`;
+    this.taskId = response.taskInfo.taskId;
+    this.comment.init(response.user, response.comments, id);
+    this.initLabels(response.labels);
+    this.initDescription(id, response.taskInfo.description);
+    this.taskInfo.classList.add('active');
   }
 
   private initDescription(id: string, description: string) {
     this.description.id = id;
-    if (description) {
-      this.description.init(description);
-    } else {
-      this.description.init('');
-    }
+    description ? this.description.init(description) : this.description.init('');
   }
 
   private async initLabels(labels: TLabel[]) {
-    this.labels.labels.innerHTML = '';
-    this.labels.labels.append(this.labels.addButton);
-    this.sidebar.modalLabels.labelsContainer.innerHTML = '';
-    await this.sidebar.modalLabels.createLabels();
+    let labelsCopy = labels.slice() as TLabel[];
+    (Array.from(this.labels.labels.children) as HTMLInputElement[]).forEach((label) => {
+      const item = labelsCopy.find((item) => item.title === label.title);
+      if (item) {
+        label.value = item.text;
+        labelsCopy = labelsCopy.filter((item1) => item1.title !== item.title);
+      } else {
+        label.remove();
+      }
+    });
 
-    labels.forEach((data: TLabel) => {
-      Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
-        if ((item.children[1] as HTMLInputElement).title === data.title) {
-          (item.children[0] as HTMLInputElement).checked = true;
-        }
-      });
+    labels.length ? this.showLabels() : this.hideLabels();
+
+    labelsCopy.forEach((data) => {
       this.showLabels();
-      this.labels.labels.insertBefore(this.sidebar.modalLabels.createLabelColor(data), this.labels.addButton);
+      this.labels.labels.append(this.sidebar.modalLabels.createLabelColor(data));
+    });
+
+    await this.sidebar.modalLabels.changeLabels();
+    Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
+      (item.children[0] as HTMLInputElement).checked = Boolean(
+        labels.find((label) => (item.children[1] as HTMLInputElement).title === label.title)
+      );
     });
   }
 
@@ -158,7 +164,6 @@ export default class TaskInfo {
         await this.removeLabel(targetColor);
       }
       this.socket.emit('taskInfo', this.taskId);
-
     }
 
     if (targetCheck) {
@@ -170,12 +175,7 @@ export default class TaskInfo {
 
   async addLabel(element: HTMLInputElement) {
     this.showLabels();
-
-    if (this.token) {
-      await this.server.addLabel(this.token, this.taskId, element.getAttribute('id')!);
-      const targetColorCopy = element.cloneNode(true) as HTMLElement;
-      this.labels.labels.insertBefore(targetColorCopy, this.labels.addButton);
-    }
+    await this.server.addLabel(this.token, this.taskId, element.getAttribute('id')!);
   }
 
   async removeLabel(element: HTMLInputElement) {
@@ -183,11 +183,9 @@ export default class TaskInfo {
       (Array.from(this.labels.labels.children) as HTMLElement[]).map(async (child) => {
         if (child.title === element.title) {
           await this.server.deleteLabel(this.token, this.taskId, element.getAttribute('id')!);
-          child.remove();
         }
       })
     );
-    this.hideLabels();
   }
 
   private showLabels() {
@@ -195,8 +193,6 @@ export default class TaskInfo {
   }
 
   private hideLabels() {
-    if (this.labels.labels.children.length === 1) {
-      this.labels.labelsWrapper.classList.add('hidden');
-    }
+    this.labels.labelsWrapper.classList.add('hidden');
   }
 }
