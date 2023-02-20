@@ -10,6 +10,7 @@ import Subheader from './subheader/subheader';
 import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
 import TasksList from './tasksList/tasksList';
+import Share from './modalShare/share';
 
 let draggedEl: HTMLElement | null;
 
@@ -27,6 +28,8 @@ export default class Board {
   private subheader: Subheader;
 
   private main: HTMLElement;
+
+  private share: Share;
 
   taskInfo: TaskInfo;
 
@@ -51,6 +54,7 @@ export default class Board {
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
     this.server = new Server();
+    this.share = new Share();
     this.token = localStorage.getItem('token');
     this.path = '';
     this.socket = io(`http://localhost:3000`);
@@ -72,6 +76,7 @@ export default class Board {
     this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
     this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
     this.board.append(this.subheader.subheader, this.main);
+    this.subheader.share.addEventListener('click', this.share.buildModal.bind(this.share));
   }
 
   async init(path: string) {
