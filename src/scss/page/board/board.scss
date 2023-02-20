@@ -178,7 +178,10 @@
       background-color: #e8e8ec;
     }
   }
+}
 
+.task_selected {
+  z-index: 101;
 }
 
 
@@ -198,4 +201,20 @@
   background: url('../assets/workspace/create/x.svg') center center/contain no-repeat;
   width: 1rem;
   height: 1rem;
+}
+
+.backdrop {
+  background: #0009;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+
+  // background: rgba(41, 41, 41, 0.6);
+  // position: fixed;
+  // width: 100%;
+  // height: 100%;
+  transition: 1s;
 }
