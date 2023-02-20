@@ -20,5 +20,14 @@ export default class Task {
     this.task.setAttribute('data-id', id);
     this.task.addEventListener('click', onClick);
     this.task.append(this.title, this.priority.priority, this.interaction);
+
+    this.addHandlers();
+  }
+
+  private addHandlers() {
+    this.interaction.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // TODO: открыть модальное окно
+    });
   }
 }
