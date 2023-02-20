@@ -48,7 +48,6 @@ export default class LabelsModule {
     this.append();
     this.server = new Server();
     this.token = localStorage.getItem('token')!;
-    this.createLabels();
   }
 
   private append() {

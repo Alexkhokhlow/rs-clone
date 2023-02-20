@@ -83,6 +83,7 @@ export default class Board {
     this.socket.on('board', () => {
       this.printBoard(path);
     });
+    this.taskInfo.sidebar.modalLabels.createLabels();
     await this.printBoard(path);
 
     return this.container;

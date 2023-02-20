@@ -23,7 +23,7 @@ export default class TaskInfo {
 
   private close: HTMLImageElement;
 
-  private sidebar: Sidebar;
+  public sidebar: Sidebar;
 
   private header: HTMLElement;
 
