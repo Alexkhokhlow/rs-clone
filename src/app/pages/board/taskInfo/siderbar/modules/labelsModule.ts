@@ -79,11 +79,11 @@ export default class LabelsModule {
           const text = this.input.value;
           const labelColor = target.closest('.label__edit__wrapper')?.previousElementSibling as HTMLInputElement;
           labelColor.value = text;
+          this.input.value = '';
           if (this.token) {
-            console.log('test');
             this.server.updateLabel(this.token, labelColor.getAttribute('id')!, text);
           }
-          this.wrapper.classList.add('hidden');
+          this.closeLabelTitleEditor();
         });
       }
     });
