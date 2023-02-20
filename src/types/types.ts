@@ -26,26 +26,46 @@ export interface ITask {
   id: string;
   index: string;
   name: string;
+  labels: TLabel[]
 }
 
 export interface ICommentInfo {
   createdAt: string;
   id: string;
-  taskinfoId: string | null;
   text: string;
   updatedAt: string;
   userId: string;
   userName: string;
 }
 
-export type TLabels = {
-  color: string;
+export interface ITaskInfo {
+  labels: TLabel[];
+  comments: TComment[];
+  taskInfo: TTaskInfo;
+  user: TUser;
+}
+
+export type TUser = {
   id: string;
-  text: string;
-  title: string;
+  name: string;
 };
 
-export type TComments = {
+export type TTaskInfo = {
+  taskId: string;
+  name: string;
+  tasklist: string;
+  description: string;
+};
+
+export type TLabel = {
+  text: string;
+  title: string;
+  color: string;
+  index: string;
+  updatedAt: string;
+};
+
+export type TComment = {
   id: string;
   text: string;
   userName: string;
@@ -59,3 +79,4 @@ export type TTask = {
     updateAt: string;
   };
 };
+

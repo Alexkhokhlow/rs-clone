@@ -18,7 +18,6 @@ export default class Labels {
   }
 
   private append() {
-    this.labels.append(this.addButton);
-    this.labelsWrapper.append(this.labelsTitle, this.labels);
+    this.labelsWrapper.append(this.labelsTitle, this.labels, this.addButton);
   }
 }
