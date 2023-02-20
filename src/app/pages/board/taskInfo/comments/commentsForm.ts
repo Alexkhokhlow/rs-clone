@@ -1,3 +1,4 @@
+import { TComment, TUser } from '../../../../../types/types';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
 import Comment from './comment/comment';
@@ -43,9 +44,13 @@ export default class CommentsForm {
     this.container.insertBefore(comment.comment, this.container.children[0]);
   }
 
-  init(user: { id: string; name: string }) {
+  init(user: TUser, comments: TComment[], id: string) {
     this.user = user;
     this.container.innerHTML = '';
+    comments.forEach((data: { id: string; text: string; userName: string }) => {
+      this.createComment(data.text, data.userName, data.id);
+    });
+    this.id = id;
   }
 
   async onSave(event: Event) {
