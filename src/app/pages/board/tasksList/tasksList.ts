@@ -75,6 +75,7 @@ export default class TasksList {
 
   private removeList() {
     if (this.token) {
+      this.socket.emit('board', 'change');
       this.server.deleteTaskList(this.token, this.id, this.path);
     }
     this.tasksList.remove();
