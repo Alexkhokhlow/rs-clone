@@ -23,7 +23,7 @@ export default class Sidebar {
 
   checkList: HTMLButtonElement;
 
-  constructor(emitLabelSocket: () => void, saveLabel: () => void) {
+  constructor(emitLabelSocket: () => void) {
     this.sidebar = Common.createDomNode('sidebar', ['sidebar']);
     this.title = Common.createDomNode('span', ['sidebar__title'], 'Add to card');
     this.modules = Common.createDomNode('div', ['sidebar__modules']);
@@ -31,7 +31,7 @@ export default class Sidebar {
     this.labels = Common.createDomNodeButton(['sidebar__modules__labels', 'module__button'], 'Labels');
     this.checkList = Common.createDomNodeButton(['sidebar__modules__check', 'module__button'], 'Checklist');
     this.modalMembers = new MembersModule();
-    this.modalLabels = new LabelsModule(emitLabelSocket, saveLabel);
+    this.modalLabels = new LabelsModule(emitLabelSocket);
     this.modalCheckList = new CheckListModule();
 
     this.sidebar.append(this.title, this.modules);

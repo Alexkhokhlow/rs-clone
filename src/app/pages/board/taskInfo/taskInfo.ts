@@ -41,9 +41,12 @@ export default class TaskInfo {
 
   private socket: Socket;
 
+  private dashboardId: string;
+
   constructor(socket: Socket) {
     this.socket = socket;
     this.taskId = '';
+    this.dashboardId = '';
     this.taskInfo = Common.createDomNode('div', ['task-info']);
     this.title = Common.createDomNode('h2', ['task-info__title'], 'make new Page');
     this.title.contentEditable = 'true';
@@ -52,7 +55,7 @@ export default class TaskInfo {
     this.labels = new Labels();
     this.description = new Description();
     this.comment = new CommentsForm();
-    this.sidebar = new Sidebar(this.emitLabelSocket.bind(this), this.getLabel.bind(this));
+    this.sidebar = new Sidebar(this.emitLabelSocket.bind(this));
     this.header = Common.createDomNode('header', ['task-info__header']);
     this.main = Common.createDomNode('main', ['task-info__main']);
     this.container = Common.createDOMNode('div', ['task-info__container']);
@@ -91,12 +94,14 @@ export default class TaskInfo {
   }
 
   private async getLabel() {
-    const labels: TLabel[] = await this.server.getLabel(this.token, this.taskId);
+    const labels: TLabel[] = await this.server.getLabel(this.token, this.taskId, this.dashboardId);
     this.initLabels(labels);
   }
 
-  public async init(id: string) {
+  public async init(id: string, dashboardId: string) {
+    this.dashboardId = dashboardId;
     const response = await this.server.getTaskInfo(this.token, id);
+    console.log(response);
     this.title.textContent = response.taskInfo.name;
     this.info.textContent = `from ${response.taskInfo.tasklist}`;
     this.taskId = response.taskInfo.taskId;
@@ -130,7 +135,6 @@ export default class TaskInfo {
       this.labels.labels.append(this.sidebar.modalLabels.createLabelColor(data));
     });
 
-    await this.sidebar.modalLabels.changeLabels();
     Array.from(this.sidebar.modalLabels.labelsContainer.children).forEach((item) => {
       (item.children[0] as HTMLInputElement).checked = Boolean(
         labels.find((label) => (item.children[1] as HTMLInputElement).title === label.title)
@@ -175,17 +179,28 @@ export default class TaskInfo {
 
   async addLabel(element: HTMLInputElement) {
     this.showLabels();
-    await this.server.addLabel(this.token, this.taskId, element.getAttribute('id')!);
+    const copyElement = element.cloneNode(true) as HTMLElement;
+    const id = element.getAttribute('id')!;
+    copyElement.setAttribute('id', id);
+    await this.server.addLabel(this.token, this.taskId, id, this.dashboardId);
+    const item = (Array.from(this.labels.labels.children) as HTMLElement[]).find((child) => {
+      return Number(child.getAttribute('id')!) > Number(id);
+    });
+    item ? this.labels.labels.insertBefore(copyElement, item) : this.labels.labels.append(copyElement);
   }
 
   async removeLabel(element: HTMLInputElement) {
     await Promise.all(
       (Array.from(this.labels.labels.children) as HTMLElement[]).map(async (child) => {
         if (child.title === element.title) {
-          await this.server.deleteLabel(this.token, this.taskId, element.getAttribute('id')!);
+          await this.server.deleteLabel(this.token, this.taskId, element.getAttribute('id')!, this.dashboardId);
+          child.remove();
         }
       })
     );
+    if (!this.labels.labels.children.length) {
+      this.hideLabels();
+    }
   }
 
   private showLabels() {

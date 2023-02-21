@@ -4,7 +4,23 @@ export default class Server {
   private address: string;
 
   constructor() {
-    this.address = 'https://trello-clone-x3tl.onrender.com/api';
+    this.address = 'http://localhost:3000/api';
+  }
+
+  async checkToken(token: string) {
+    const response = await fetch(`${this.address}/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+    try {
+      await this.checkError(response);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   async signUp(email: string, password: string, userName: string) {
@@ -139,6 +155,21 @@ export default class Server {
     return json;
   }
 
+  async deleteTaskList(token: string, id: string, boardId: string) {
+    const response = await fetch(`${this.address}/tasklist`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, boardId }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async createTask(token: string, id: string, name: string, index: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'POST',
@@ -244,13 +275,13 @@ export default class Server {
     return json;
   }
 
-  async addLabel(token: string, taskId: string, labelId: string) {
+  async addLabel(token: string, taskId: string, labelId: string, dashboardId: string) {
     const response = await fetch(`${this.address}/label`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, labelId, taskId }),
+      body: JSON.stringify({ token, labelId, taskId, dashboardId }),
     });
 
     await this.checkError(response);
@@ -259,13 +290,13 @@ export default class Server {
     return json;
   }
 
-  async getLabels(token: string) {
+  async getLabels(token: string, boardId: string) {
     const response = await fetch(`${this.address}/labels`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({ token, boardId }),
     });
 
     await this.checkError(response);
@@ -274,13 +305,13 @@ export default class Server {
     return json;
   }
 
-  async getLabel(token: string, taskId: string) {
+  async getLabel(token: string, taskId: string, dashboardId: string) {
     const response = await fetch(`${this.address}/label/${taskId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({ token, dashboardId }),
     });
 
     await this.checkError(response);
@@ -289,13 +320,13 @@ export default class Server {
     return json;
   }
 
-  async updateLabel(token: string, id: string, text: string) {
+  async updateLabel(token: string, id: string, text: string, dashboardId: string) {
     const response = await fetch(`${this.address}/label`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, id, text }),
+      body: JSON.stringify({ token, id, text, dashboardId }),
     });
 
     await this.checkError(response);
@@ -304,14 +335,14 @@ export default class Server {
     return json;
   }
 
-  async deleteLabel(token: string, taskId: string, labelId: string) {
+  async deleteLabel(token: string, taskId: string, labelId: string, dashboardId: string) {
     console.log('delete');
     const response = await fetch(`${this.address}/label`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token, labelId, taskId }),
+      body: JSON.stringify({ token, labelId, taskId, dashboardId }),
     });
 
     await this.checkError(response);
