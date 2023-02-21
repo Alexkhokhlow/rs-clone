@@ -80,7 +80,7 @@ export default class TaskInfo {
   private bindEvents() {
     this.close.addEventListener('click', this.onClose.bind(this));
     this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
-    this.labels.addButton.addEventListener('click', () => {
+    this.labels.labels.addEventListener('click', () => {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
     });
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));

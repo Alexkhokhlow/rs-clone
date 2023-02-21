@@ -35,7 +35,6 @@ export default class TasksList {
     this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
     this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.title = Common.createDomNode('span', ['tasks-list__title'], title);
-    this.title.contentEditable = 'true';
     this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
     this.server = new Server();
     this.token = localStorage.getItem('token');

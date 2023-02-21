@@ -115,6 +115,7 @@ export default class Board {
 
   renderTaskList(taskLists: ITaskList[]) {
     taskLists.forEach(async (taskList) => {
+      console.log(taskList)
       const list = this.createTaskList(taskList.name, taskList.id);
       taskList.tasks.forEach((task) => {
         const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
