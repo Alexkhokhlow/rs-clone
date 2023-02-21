@@ -4,6 +4,7 @@ import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
 import UserPage from './pages/user/user';
 import Workspace from './pages/workspace/workspace';
+import Server from './server/server';
 
 export default class App {
   body: HTMLElement;
@@ -20,6 +21,8 @@ export default class App {
 
   user: UserPage;
 
+  server: Server;
+
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
@@ -28,6 +31,7 @@ export default class App {
     this.user = new UserPage();
     this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
+    this.server = new Server();
   }
 
   async start() {

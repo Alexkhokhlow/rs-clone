@@ -1,6 +1,8 @@
 export default interface IResponseBoard {
   access: boolean;
   dashboard: IBoard;
+  labels: TLabel[];
+  id: string;
 }
 
 export interface IResponseBoards {
@@ -26,7 +28,7 @@ export interface ITask {
   id: string;
   index: string;
   name: string;
-  labels: TLabel[]
+  labels: TLabel[];
 }
 
 export interface ICommentInfo {
@@ -79,4 +81,3 @@ export type TTask = {
     updateAt: string;
   };
 };
-

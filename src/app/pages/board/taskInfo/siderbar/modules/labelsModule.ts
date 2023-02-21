@@ -30,11 +30,11 @@ export default class LabelsModule {
 
   private emitLabelSocked: () => void;
 
-  private saveLabel: () => void;
+  private dashboardId: string;
 
-  constructor(emitLabelSocked: () => void, saveLabel: () => void) {
+  constructor(emitLabelSocked: () => void) {
+    this.dashboardId = '';
     this.emitLabelSocked = emitLabelSocked;
-    this.saveLabel = saveLabel;
     this.module = new ModuleForm();
     this.labels = Common.createDomNode('div', ['labels']);
     this.title = Common.createDomNode('span', ['labels__title'], 'Labels');
@@ -58,15 +58,14 @@ export default class LabelsModule {
     this.bindEvents();
   }
 
-  public async createLabels() {
-    const labels = (await this.server.getLabels(this.token)).labelsInfo as TLabel[];
+  public async createLabels(labels: TLabel[], dashboardId: string) {
+    this.dashboardId = dashboardId;
     labels.forEach((label) => {
       this.createLabel(label);
     });
   }
 
-  public async changeLabels() {
-    const labels = (await this.server.getLabels(this.token)).labelsInfo as TLabel[];
+  public async changeLabels(labels: TLabel[]) {
     (Array.from(this.labelsContainer.children) as HTMLInputElement[]).forEach((label, index) => {
       const colorInput = label.children[1] as HTMLInputElement;
       colorInput.value = labels[index].text;
@@ -114,7 +113,7 @@ export default class LabelsModule {
     this.wrapper.classList.add('hidden');
     this.input.value = '';
     if (this.token) {
-      await this.server.updateLabel(this.token, id, text);
+      await this.server.updateLabel(this.token, id, text, this.dashboardId);
       this.emitLabelSocked();
     }
   }
