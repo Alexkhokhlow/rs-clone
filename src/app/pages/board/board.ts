@@ -45,7 +45,10 @@ export default class Board {
 
   socket: Socket;
 
+  id: string;
+
   constructor(creatingBoard: CreatingBoard) {
+    this.id = ''
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
@@ -80,36 +83,43 @@ export default class Board {
   }
 
   async init(path: string) {
-    this.socket.on('board', () => {
-      this.printBoard(path);
-    });
-    this.taskInfo.sidebar.modalLabels.createLabels();
-    await this.printBoard(path);
+    if (this.token) {
+      this.socket.on('board', async () => {
+        if (this.token) {
+          const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
+          this.printBoard(response);
+        }
+      });
+      this.path = path;
+      const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
+      this.id = response.id;
+      this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
+      await this.printBoard(response);
+    } else {
+      window.location.pathname = 'error';
+    }
 
     return this.container;
   }
 
-  async printBoard(path: string) {
-    if (this.token) {
-      const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
-      this.listsContainer.innerHTML = '';
-      this.path = path;
-      this.board.style.background = response.dashboard.color;
-      this.header.header.style.background = response.dashboard.color;
-      this.footer.footer.style.background = response.dashboard.color;
-      this.subheader.title.textContent = response.dashboard.name;
-      if (response.dashboard.public) {
-        this.subheader.visibility.textContent = `Public`;
-        this.subheader.visibility.classList.add('board__public');
-      } else {
-        this.subheader.visibility.textContent = `Private`;
-        this.subheader.visibility.classList.add('board__private');
-      }
-      if (response.dashboard.tasklists) {
-        this.renderTaskList(response.dashboard.tasklists);
-      }
+  async printBoard(response: IResponseBoard) {
+    console.log(response);
+    this.listsContainer.innerHTML = '';
+    this.board.style.background = response.dashboard.color;
+    this.header.header.style.background = response.dashboard.color;
+    this.footer.footer.style.background = response.dashboard.color;
+    this.subheader.title.textContent = response.dashboard.name;
+    if (response.dashboard.public) {
+      this.subheader.visibility.textContent = `Public`;
+      this.subheader.visibility.classList.add('board__public');
     } else {
-      window.location.pathname = 'error';
+      this.subheader.visibility.textContent = `Private`;
+      this.subheader.visibility.classList.add('board__private');
+    }
+    this.taskInfo.sidebar.modalLabels.changeLabels(response.labels);
+
+    if (response.dashboard.tasklists) {
+      this.renderTaskList(response.dashboard.tasklists);
     }
   }
 
@@ -150,10 +160,10 @@ export default class Board {
   async onAddList(event: Event) {
     const target = event.target as HTMLButtonElement;
     const name = this.addListButton.form.data;
-    this.socket.emit('board', 'change');
     if (this.token) {
       target.disabled = true;
       const data = (await this.server.createTaskList(this.token, name, this.path)) as ITaskList;
+      this.socket.emit('board', 'change');
       this.createTaskList(name, data.id);
       target.disabled = false;
     } else {
@@ -162,7 +172,7 @@ export default class Board {
   }
 
   createTaskList(name: string, id: string) {
-    const list = new TasksList(name, this.onShowTaskInfo.bind(this), this.socket);
+    const list = new TasksList(name, this.onShowTaskInfo.bind(this), this.socket, id, this.id);
     list.tasksWrapper.setAttribute('data-id', id);
     this.tasksListArray.push(list);
     this.addListButton.onClose();
@@ -177,7 +187,7 @@ export default class Board {
     const target = event.currentTarget as HTMLElement;
     const { id } = target.dataset;
     if (id) {
-      this.taskInfo.init(id);
+      this.taskInfo.init(id, this.id);
     }
   }
 
@@ -196,14 +206,15 @@ export default class Board {
       const parent = target.parentNode as HTMLElement;
       const parentId = parent.dataset.id;
 
-      [...parent.children].forEach(async (item, index) => {
+      for (const [index, item] of [...parent.children].entries()) {
         const element = item as HTMLElement;
         const { id, title } = element.dataset;
         if (this.token && id && parentId && title) {
+          console.log(title, index);
           await this.server.updateTask(this.token, id, parentId, title, String(index));
-          this.socket.emit('board', 'change');
         }
-      });
+      }
+      this.socket.emit('board', 'change');
 
       target.classList.remove('dragging');
     });

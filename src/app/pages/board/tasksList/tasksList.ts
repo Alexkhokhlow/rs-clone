@@ -28,8 +28,14 @@ export default class TasksList {
 
   private headerTaskList: HTMLElement;
 
-  constructor(title: string, onClick: (event: Event) => void, socket: Socket) {
+  private id: string;
+
+  private path: string;
+
+  constructor(title: string, onClick: (event: Event) => void, socket: Socket, id: string, path: string) {
     this.socket = socket;
+    this.id = id;
+    this.path = path;
     this.onClick = onClick;
     this.titleText = title;
     this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
@@ -57,7 +63,7 @@ export default class TasksList {
       const index = String(this.tasksWrapper.children.length);
       this.addCardButton.onClose();
       const { id } = this.tasksWrapper.dataset;
-      this.socket.emit('message', 'change');
+      this.socket.emit('board', 'change');
       if (this.token && id) {
         const data = (await this.server.createTask(this.token, id, name, index)) as TTask;
         const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
@@ -67,6 +73,10 @@ export default class TasksList {
   }
 
   private removeList() {
+    if (this.token) {
+      this.socket.emit('board', 'change');
+      this.server.deleteTaskList(this.token, this.id, this.path);
+    }
     this.tasksList.remove();
   }
 }
