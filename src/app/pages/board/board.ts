@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import IResponseBoard, { ITaskList, TLabel } from '../../../types/types';
+import IResponseBoard, { ITaskList, TLabel, TTaskInfo } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -103,7 +103,6 @@ export default class Board {
   }
 
   async printBoard(response: IResponseBoard) {
-    console.log(response);
     this.listsContainer.innerHTML = '';
     this.board.style.background = response.dashboard.color;
     this.header.header.style.background = response.dashboard.color;
@@ -125,7 +124,6 @@ export default class Board {
 
   renderTaskList(taskLists: ITaskList[]) {
     taskLists.forEach(async (taskList) => {
-      console.log(taskList)
       const list = this.createTaskList(taskList.name, taskList.id);
       taskList.tasks.forEach((task) => {
         const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
@@ -133,7 +131,10 @@ export default class Board {
           taskInfo.labelContainer.append(this.createTaskLabel(label));
         });
         list.tasksWrapper.append(taskInfo.task);
+
+        this.createTaskDescription(task.id);
       });
+
     });
   }
 
@@ -155,6 +156,11 @@ export default class Board {
       });
     });
     return labelElement;
+  }
+
+  private createTaskDescription(id: string) {
+    // const description = Common.createDomNode('span', ['task__description']);
+
   }
 
   async onAddList(event: Event) {

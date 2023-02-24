@@ -77,7 +77,7 @@ export default class LabelsModule {
     const checkbox = Common.createDomNodeInput('', '', ['label__checkbox'], 'checkbox');
     const editWrapper = Common.createDomNode('div', ['label__edit__wrapper']);
     const labelColor = this.createLabelColor(label);
-    const edit = Common.createDomNode('div', ['label__edit']);
+    const edit = Common.createDomNode('div', ['label__edit']);  
     editWrapper.append(edit);
     labelLi.append(checkbox, labelColor, editWrapper);
     this.labelsContainer.append(labelLi);
@@ -91,11 +91,10 @@ export default class LabelsModule {
   }
 
   public createLabelColor(label: TLabel) {
-    const labelColor = Common.createDomNodeInput('', '', ['label__color']);
-    labelColor.readOnly = true;
+    const labelColor = Common.createDomNode('span', ['label__color']);
     labelColor.style.background = `${label.color}`;
     labelColor.title = label.title;
-    labelColor.value = label.text;
+    labelColor.textContent = label.text;
     labelColor.setAttribute('id', String(label.index));
     return labelColor;
   }

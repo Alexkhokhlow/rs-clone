@@ -202,15 +202,21 @@
 }
 
 .labels__info {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-row-gap: .5rem;
+  @include flex($justify: flex-start);
+  flex-wrap: wrap;
   width: 100%;
-  min-height: 5rem;
+  gap:.4rem;
 
   .label__color {
-    width: 95%;
+    @include flex;
+    min-width: 5rem;
+    max-width: 100%;
     height: 2.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: .5rem;
+    padding: 0 1rem;
   }
 }
 

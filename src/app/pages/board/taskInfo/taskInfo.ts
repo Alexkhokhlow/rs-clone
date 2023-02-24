@@ -101,7 +101,6 @@ export default class TaskInfo {
   public async init(id: string, dashboardId: string) {
     this.dashboardId = dashboardId;
     const response = await this.server.getTaskInfo(this.token, id);
-    console.log(response);
     this.title.textContent = response.taskInfo.name;
     this.info.textContent = `from ${response.taskInfo.tasklist}`;
     this.taskId = response.taskInfo.taskId;

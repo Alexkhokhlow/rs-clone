@@ -42,7 +42,7 @@ export default class SignupForm {
       'Enter password'
     );
     this.nameInput = Common.createDOMNodeInput('name', ['input_name', 'invisible'], 'text', 'Enter your name');
-    this.btnSubmit = Common.createDOMNodeInput('submit', ['input_sublit', 'btn', 'btn_submit'], 'submit');
+    this.btnSubmit = Common.createDOMNodeInput('submit', ['input_submit', 'btn', 'btn_submit'], 'submit');
     this.seperetor = Common.createDomNode('div', ['form__separator'], 'OR');
     this.entryWays = SignupForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
