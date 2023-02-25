@@ -156,8 +156,15 @@
   background-color: #ebecf0;
   box-shadow: $color-box-shadow;
 
-  &__title {
+  &__title,
+  &__title__input {
     font-size: 1.4rem;
+    padding: 0.3rem 0.8rem;
+    width: 21.5rem;
+  }
+
+  &__title__input {
+    box-shadow: $color-border-input;
   }
 
   &__header {
@@ -192,7 +199,25 @@
   width: 100%;
   min-height: 2rem;
   max-height: 52vh;
+  overflow-y: auto;
   padding: 0 0.8rem;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: $color-background-feature;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: $color-create-button;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 2px;
+    height: 3rem;
+    background-color: $color-background-feature;
+  }
 }
 
 .task {
@@ -240,17 +265,23 @@
     }
   }
   &__label {
-    width: 3.5rem;
+    min-width: 4rem;
+    max-width: 100%;
     min-height: 0.8rem;
+    max-height: 2rem;
+    padding: 0 .4rem;
+    font-size: 1.2rem;
     border-radius: 0.4rem;
     display: inline-block;
     margin: 0.3rem 0.2rem;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__label-container {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px;
   }
 
 }
@@ -259,11 +290,8 @@
   z-index: 101;
 }
 
-
-.description {
-  &__edit {
-    display: none;
-  }
+.description__edit {
+  display: none;
 }
 
 .tasks-list__header {

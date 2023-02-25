@@ -39,7 +39,7 @@
 }
 
 .module {
-  min-width: 240px;
+  width: 240px;
   position: absolute;
   right: 0;
   top: 0;
@@ -96,8 +96,7 @@
   content: url('../assets/board/taskInfo/label.svg');
 }
 
-.sidebar__modules__check::before,
-.checklist__title__info::before {
+.sidebar__modules__check::before {
   content: url('../assets/board/taskInfo/check.svg');
 }
 
@@ -159,18 +158,23 @@
   height: 1.6rem;
 }
 
-.label__color {
+.label .label__color {
+  @include flex;
   padding: .3rem 1rem;
   border-radius: .3rem;
-  width: 75%;
+  width: 80%;
+  height: 2.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .label__edit__wrapper {
   @include flex($justify: center);
   transition: .3s;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
+  width: 2.7rem;
+  height: 2.7rem;
   border-radius: .3rem;
 
   &:hover {

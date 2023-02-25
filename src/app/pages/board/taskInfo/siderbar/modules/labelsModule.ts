@@ -95,11 +95,10 @@ export default class LabelsModule {
   }
 
   public createLabelColor(label: TLabel) {
-    const labelColor = Common.createDomNodeInput('', '', ['label__color']);
-    labelColor.readOnly = true;
+    const labelColor = Common.createDomNode('span', ['label__color']);
     labelColor.style.background = `${label.color}`;
     labelColor.title = label.title;
-    labelColor.value = label.text;
+    labelColor.textContent = label.text;
     labelColor.setAttribute('id', String(label.index));
     return labelColor;
   }
@@ -114,7 +113,7 @@ export default class LabelsModule {
     const id = this.wrapper.getAttribute('id')!;
     const colorLabel = this.labelsContainer.children[Number(id)].children[1] as HTMLInputElement;
     colorLabel.value = text;
-    this.wrapper.classList.add('hidden');
+    this.closeLabelTitleEditor();
     this.input.value = '';
     if (this.token) {
       await this.server.updateLabel(this.token, id, text, this.dashboardId);

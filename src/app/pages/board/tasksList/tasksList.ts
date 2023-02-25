@@ -10,6 +10,8 @@ export default class TasksList {
 
   private title: HTMLElement;
 
+  private titleInput: HTMLInputElement;
+
   public addCardButton: AddItemButton;
 
   private onClick: (event: Event) => void;
@@ -51,7 +53,7 @@ export default class TasksList {
     this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
     this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.title = Common.createDomNode('span', ['tasks-list__title'], title);
-    this.title.contentEditable = 'true';
+    this.titleInput = Common.createDomNodeInput("Enter task's list title", '', ['tasks-list__title__input']);
     this.deleteButton = Common.createDomNodeButton(['tasks-list__delete']);
     this.server = new Server();
     this.token = localStorage.getItem('token');
@@ -65,7 +67,17 @@ export default class TasksList {
     );
     this.headerTaskList.append(this.title, this.deleteButton);
     this.tasksList.append(this.headerTaskList, this.tasksWrapper, this.addCardButton.container);
+    this.bindEvents();
+  }
+
+  private bindEvents() {
     this.deleteButton.addEventListener('click', this.removeList.bind(this));
+    this.title.addEventListener('click', () => {
+      Common.clickTitle(this.headerTaskList, this.title, this.titleInput)
+    });
+    this.titleInput.addEventListener('focusout', () => {
+      Common.changeTitle(this.headerTaskList, this.title, this.titleInput);
+    });
   }
 
   async onAddTask() {
