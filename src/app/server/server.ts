@@ -3,9 +3,9 @@ import { ITaskInfo } from '../../types/types';
 
 export default class Server {
   private address: string;
-
+  //https://trello-clone-x3tl.onrender.com
   constructor() {
-    this.address = 'https://trello-clone-x3tl.onrender.com/api';
+    this.address = 'http://localhost:3000/api';
   }
 
   async checkToken(token: string) {
