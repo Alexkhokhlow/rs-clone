@@ -3,29 +3,29 @@ import Server from '../../../server/server';
 import Common from '../../../utils/common';
 
 export default class UserModal {
-  modal: HTMLElement;
+  private modal: HTMLElement;
 
-  title: HTMLElement;
+  private title: HTMLElement;
 
-  userInfo: HTMLElement;
+  private userInfo: HTMLElement;
 
-  userImg: HTMLElement;
+  private userImg: HTMLElement;
 
-  userDescription: HTMLElement;
+  private userDescription: HTMLElement;
 
-  name: HTMLElement;
+  private name: HTMLElement;
 
-  mail: HTMLElement;
+  private mail: HTMLElement;
 
-  accountSwitcher: HTMLButtonElement;
+  private accountSwitcher: HTMLButtonElement;
 
-  profileBtn: HTMLButtonElement;
+  private profileBtn: HTMLButtonElement;
 
-  logOutBtn: HTMLButtonElement;
+  private logOutBtn: HTMLButtonElement;
 
-  server: Server;
+  private server: Server;
 
-  token: string;
+  private token: string;
 
   constructor() {
     this.modal = Common.createDomNode('div', ['user__modal', 'hidden']);
@@ -35,7 +35,6 @@ export default class UserModal {
     this.userDescription = Common.createDomNode('div', ['user__description']);
     this.server = new Server();
     this.token = localStorage.getItem('token')!;
-    // получать по токену информацию (name, mail);
     this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
     this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
 
