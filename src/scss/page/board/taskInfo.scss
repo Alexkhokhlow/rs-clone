@@ -12,15 +12,23 @@
   margin: 0 auto;
   background-color: $color-background-feature;
   padding: .5rem 1.5rem;
-  overflow-y: auto;
+  overflow-y: scroll;
+  // scrollbar-width: thin;
+  // scrollbar-color: $color-create-button $color-background-feature;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: $color-background-feature;
+  }
 
   &::-webkit-scrollbar-thumb {
-    width: 2px;
+    width: 4px;
     background-color: $color-create-button;
+    border-radius: 5px;
   }
 
   &::-webkit-scrollbar-track {
-    width: 2px;
+    width: 4px;
     height: 3rem;
     background-color: $color-background-feature;
   }

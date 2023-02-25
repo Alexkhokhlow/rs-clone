@@ -101,7 +101,6 @@ export default class Board {
       this.taskInfo.comment.path = path;
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
-      console.log(response);
       this.id = response.id;
       this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);

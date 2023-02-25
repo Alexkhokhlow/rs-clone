@@ -199,11 +199,28 @@
   width: 100%;
   min-height: 2rem;
   max-height: 52vh;
+  overflow-y: auto;
   padding: 0 0.8rem;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: $color-background-feature;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: $color-create-button;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 2px;
+    height: 3rem;
+    background-color: $color-background-feature;
+  }
 }
 
 .task {
-  position: relative;
   width: 100%;
   background: #ebecf0;
   color: #5e6c84;
@@ -272,11 +289,8 @@
   z-index: 101;
 }
 
-
-.description {
-  &__edit {
-    display: none;
-  }
+.description__edit {
+  display: none;
 }
 
 .tasks-list__header {

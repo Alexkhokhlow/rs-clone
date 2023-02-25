@@ -1,5 +1,3 @@
-import { TLabel } from '../../../../../../types/types';
-import Server from '../../../../../server/server';
 import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
 import Server from '../../../../../server/server';
