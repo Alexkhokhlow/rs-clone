@@ -2,6 +2,7 @@ import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
 import Server from '../../../../../server/server';
 import { TLabel } from '../../../../../../types/types';
+import { Socket } from 'socket.io-client';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -28,13 +29,16 @@ export default class LabelsModule {
 
   private server: Server;
 
-  private emitLabelSocked: () => void;
-
   private dashboardId: string;
 
-  constructor(emitLabelSocked: () => void) {
+  private socket: Socket;
+
+  public path: string;
+
+  constructor(socket: Socket) {
+    this.socket = socket;
     this.dashboardId = '';
-    this.emitLabelSocked = emitLabelSocked;
+    this.path = '';
     this.module = new ModuleForm();
     this.labels = Common.createDomNode('div', ['labels']);
     this.title = Common.createDomNode('span', ['labels__title'], 'Labels');
@@ -114,7 +118,7 @@ export default class LabelsModule {
     this.input.value = '';
     if (this.token) {
       await this.server.updateLabel(this.token, id, text, this.dashboardId);
-      this.emitLabelSocked();
+      this.socket.emit('label', this.path);
     }
   }
 

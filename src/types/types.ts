@@ -45,11 +45,26 @@ export interface ITaskInfo {
   comments: TComment[];
   taskInfo: TTaskInfo;
   user: TUser;
+  checkLists: ICheckList[];
+}
+
+export interface ICheckList {
+  name: string;
+  id: string;
+  todo : ITodo[]
+}
+
+export interface ITodo{
+  text: string;
+  id: string;
+  checked: boolean;
 }
 
 export type TUser = {
   id: string;
   name: string;
+  info: string;
+  email: string;
 };
 
 export type TTaskInfo = {
@@ -71,6 +86,7 @@ export type TComment = {
   id: string;
   text: string;
   userName: string;
+  userId:string;
 };
 
 export type TTask = {

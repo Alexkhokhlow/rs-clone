@@ -43,12 +43,12 @@ export default class Board {
 
   path: string;
 
-  socket: Socket;
-
   id: string;
 
+  socket: Socket;
+
   constructor(creatingBoard: CreatingBoard) {
-    this.id = ''
+    this.id = '';
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
@@ -84,6 +84,7 @@ export default class Board {
 
   async init(path: string) {
     if (this.token) {
+      this.socket.emit('boardConnection', path);
       this.socket.on('board', async () => {
         if (this.token) {
           const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
@@ -91,7 +92,12 @@ export default class Board {
         }
       });
       this.path = path;
+      this.taskInfo.path = path;
+      this.taskInfo.description.path = path;
+      this.taskInfo.comment.path = path;
+      this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
+      console.log(response);
       this.id = response.id;
       this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);
@@ -103,7 +109,6 @@ export default class Board {
   }
 
   async printBoard(response: IResponseBoard) {
-    console.log(response);
     this.listsContainer.innerHTML = '';
     this.board.style.background = response.dashboard.color;
     this.header.header.style.background = response.dashboard.color;
@@ -117,15 +122,22 @@ export default class Board {
       this.subheader.visibility.classList.add('board__private');
     }
     this.taskInfo.sidebar.modalLabels.changeLabels(response.labels);
-
+    if (!response.access) {
+      this.share.submit.disabled = true;
+      this.addListButton.button.disabled = true;
+      this.taskInfo.container.style.pointerEvents = 'none';
+    }
     if (response.dashboard.tasklists) {
-      this.renderTaskList(response.dashboard.tasklists);
+      this.renderTaskList(response);
     }
   }
 
-  renderTaskList(taskLists: ITaskList[]) {
+  renderTaskList(response: IResponseBoard) {
+    const taskLists = response.dashboard.tasklists;
     taskLists.forEach(async (taskList) => {
       const list = this.createTaskList(taskList.name, taskList.id);
+      list.addCardButton.button.disabled = !response.access;
+      list.deleteButton.disabled = !response.access;
       taskList.tasks.forEach((task) => {
         const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
         task.labels.forEach((label) => {
@@ -162,8 +174,8 @@ export default class Board {
     if (this.token) {
       target.disabled = true;
       const data = (await this.server.createTaskList(this.token, name, this.path)) as ITaskList;
-      this.socket.emit('board', 'change');
       this.createTaskList(name, data.id);
+      this.socket.emit('board', this.path);
       target.disabled = false;
     } else {
       window.location.pathname = 'error';
@@ -171,7 +183,7 @@ export default class Board {
   }
 
   createTaskList(name: string, id: string) {
-    const list = new TasksList(name, this.onShowTaskInfo.bind(this), this.socket, id, this.id);
+    const list = new TasksList(name, this.onShowTaskInfo.bind(this), this.socket, id, this.path, this.id);
     list.tasksWrapper.setAttribute('data-id', id);
     this.tasksListArray.push(list);
     this.addListButton.onClose();
@@ -209,11 +221,10 @@ export default class Board {
         const element = item as HTMLElement;
         const { id, title } = element.dataset;
         if (this.token && id && parentId && title) {
-          console.log(title, index);
           await this.server.updateTask(this.token, id, parentId, title, String(index));
         }
       }
-      this.socket.emit('board', 'change');
+      this.socket.emit('board', this.path);
 
       target.classList.remove('dragging');
     });
