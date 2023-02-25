@@ -22,6 +22,8 @@ export class TaskModal {
 
   backdrop: HTMLElement;
 
+  token: string | null;
+
   constructor() {
     this.modal = Common.createDomNode('ul', ['task__modal']);
     this.btnDelete = Common.createDomNode('li', ['modal__btn', 'btn-delete'], 'Delete');
@@ -31,6 +33,7 @@ export class TaskModal {
     this.selectedTask = undefined;
     this.moveModal = Common.createDomNode('div', []);
     this.backdrop = Common.createDOMNode('div', ['backdrop']);
+    this.token = localStorage.getItem('token');
 
     this.render();
   }
@@ -47,9 +50,9 @@ export class TaskModal {
       e.stopImmediatePropagation();
 
       this.selectedTask?.remove();
-      this.removeModalWindow();
+      if (this.selectedTask?.dataset.id) this.deleteTask(this.selectedTask?.dataset.id);
 
-      // TODO: добавить удаление из базы данных
+      this.removeModalWindow();
     });
 
     this.btnOpen.addEventListener('click', (e) => {
@@ -77,9 +80,8 @@ export class TaskModal {
     const taskListsNames: ITaskList[] = [];
     const path = window.location.pathname.replace('/board/', '');
 
-    const token = localStorage.getItem('token');
-    if (token) {
-      const response = (await server.getDashboard(token, path)) as IResponseBoard;
+    if (this.token) {
+      const response = (await server.getDashboard(this.token, path)) as IResponseBoard;
 
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach((taskList) => {
@@ -114,6 +116,12 @@ export class TaskModal {
     });
 
     this.modal.append(this.moveModal);
+  }
+
+  async deleteTask(id: string) {
+    if (this.token && id) {
+      await server.deleteTask(this.token, id);
+    }
   }
 }
 
