@@ -12,6 +12,7 @@ import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
 import taskModal, { TaskModal } from './tasksList/task/TaskModal';
 import TasksList from './tasksList/tasksList';
+import UserInfo from './userInfo/userInfo';
 
 let draggedEl: HTMLElement | null;
 
@@ -50,6 +51,8 @@ export default class Board {
 
   taskModal: TaskModal;
 
+  private userInfo: UserInfo;
+
   constructor(creatingBoard: CreatingBoard) {
     this.taskModal = taskModal;
     this.id = '';
@@ -62,6 +65,7 @@ export default class Board {
     this.tasksListArray = [];
     this.server = new Server();
     this.share = new Share();
+    this.userInfo = new UserInfo();
     this.token = localStorage.getItem('token');
     this.path = '';
     this.socket = io(`https://trello-clone-x3tl.onrender.com`);
@@ -80,7 +84,7 @@ export default class Board {
   private buildBoard(creatingBoard: CreatingBoard) {
     this.header.header.classList.add('board__header');
     this.footer.footer.classList.add('board__footer');
-    this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
+    this.container.append(this.header.append(creatingBoard), this.userInfo.container, this.board, creatingBoard.append(), this.footer.append());
     this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
     this.board.append(this.subheader.subheader, this.main);
     this.subheader.share.addEventListener('click', this.share.buildModal.bind(this.share));
@@ -164,8 +168,6 @@ export default class Board {
           taskInfo.labelContainer.append(this.createTaskLabel(label));
         });
         list.tasksWrapper.append(taskInfo.task);
-
-        this.createTaskDescription(task.id);
       });
     });
   }
@@ -188,10 +190,6 @@ export default class Board {
       });
     });
     return labelElement;
-  }
-
-  private createTaskDescription(id: string) {
-    // const description = Common.createDomNode('span', ['task__description']);
   }
 
   async onAddList(event: Event) {

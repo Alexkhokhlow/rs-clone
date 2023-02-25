@@ -18,6 +18,8 @@ export default class Task {
 
   private modal: TaskModal;
 
+  public comments: HTMLElement;
+
   public checklist: HTMLElement;
 
   constructor(title: string, onClick: (event: Event) => void, listName: string, index: string, id: string) {
@@ -29,6 +31,7 @@ export default class Task {
     this.taskInfo = Common.createDomNode('div', ['task__info__container']);
     this.description = Common.createDomNode('div', ['task__description']);
     this.checklist = Common.createDomNode('div', ['task__checklist']);
+    this.comments = Common.createDomNode('div', ['task__comments']);
     this.task.setAttribute('data-title', title);
     this.task.setAttribute('data-id', id);
     this.modal = taskModal;
@@ -39,7 +42,7 @@ export default class Task {
   }
 
   private append() {
-    this.taskInfo.append(this.description, this.checklist);
+    this.taskInfo.append(this.description, this.checklist, this.comments);
     this.task.append(this.labelContainer, this.title, this.interaction, this.taskInfo);
   }
 
