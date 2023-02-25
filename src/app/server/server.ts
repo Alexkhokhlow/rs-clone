@@ -1,3 +1,4 @@
+import { io, Socket } from 'socket.io-client';
 import { ITaskInfo } from '../../types/types';
 
 export default class Server {
@@ -37,18 +38,39 @@ export default class Server {
     return response;
   }
 
-  // async signGoogle() {
-  //   window.location.replace('http://localhost:3000/auth/google');
-  //   // const response = await fetch(`http://localhost:8081/auth/google`, {
-  //   //   method: 'GET',
-  //   // });
-  //   // console.log(response);
+  async updateUserInfo(token: string, userName: string, info: string) {
+    const response = await fetch(`${this.address}/user`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userName, info }),
+    });
 
-  //   // await this.checkError(response);
+    await this.checkError(response);
 
-  //   // const json = await response.json();
-  //   // return json;
-  // }
+    const json = await response.json();
+    return json;
+  }
+
+  async getUserInfo(token: string) {
+    const response = await fetch(`${this.address}/user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async signGoogle() {
+    window.location.replace('https://trello-clone-x3tl.onrender.com/auth/google');
+  }
 
   async login(email: string, password: string) {
     const response = await fetch(`${this.address}/login`, {
@@ -267,6 +289,96 @@ export default class Server {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token, userId, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async createCheckList(token: string, id: string, name: string) {
+    const response = await fetch(`${this.address}/checkList`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, name }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateCheckList(token: string, id: string, name: string) {
+    const response = await fetch(`${this.address}/checkList`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, name }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async deleteCheckList(token: string, id: string) {
+    const response = await fetch(`${this.address}/checkList`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async createTodo(token: string, id: string, text: string) {
+    const response = await fetch(`${this.address}/todo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, text }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateTodo(token: string, id: string, text: string, checked: boolean) {
+    const response = await fetch(`${this.address}/todo`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, text, checked }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async deleteTodo(token: string, id: string) {
+    const response = await fetch(`${this.address}/todo`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
     });
 
     await this.checkError(response);

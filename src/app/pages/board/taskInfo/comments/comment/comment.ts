@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io-client';
 import Server from '../../../../../server/server';
 import Common from '../../../../../utils/common';
 import AddItemButton from '../../../common/addItemButton';
@@ -25,7 +26,25 @@ export default class Comment {
 
   commentId: string;
 
-  constructor(text: string, userName: string, onDelete: (event: Event) => void, id: number, commentId: string) {
+  socket: Socket;
+
+  path: string;
+
+  answer: HTMLButtonElement;
+
+  constructor(
+    text: string,
+    userName: string,
+    onDelete: (event: Event) => void,
+    onAnswer: (event: Event) => void,
+    id: number,
+    commentId: string,
+    socket: Socket,
+    path: string,
+    flag: boolean
+  ) {
+    this.socket = socket;
+    this.path = path;
     this.data = text;
     this.id = id;
     this.commentId = commentId;
@@ -35,13 +54,21 @@ export default class Comment {
     this.input = new AddItemButton(text, text, 'save', this.onSave.bind(this));
     this.edit = Common.createDomNodeButton(['comment__edit'], 'Edit');
     this.delete = Common.createDomNodeButton(['comment__delete'], 'Delete');
+    this.answer = Common.createDomNodeButton(['comment__answer'], 'Answer');
+    this.answer.setAttribute('user', userName);
 
     this.edit.addEventListener('click', this.onEdit.bind(this));
+    this.answer.addEventListener('click', onAnswer);
     this.delete.addEventListener('click', onDelete);
     this.delete.setAttribute('id', String(this.id));
     this.delete.setAttribute('comment-id', commentId);
 
-    this.comment.append(this.userName, this.input.container, this.edit, this.delete);
+    if (flag) {
+      this.comment.append(this.userName, this.input.container, this.edit, this.delete);
+    } else {
+      this.comment.append(this.userName, this.input.container, this.answer);
+    }
+
     this.input.button.disabled = true;
     this.server = new Server();
     this.token = localStorage.getItem('token');
@@ -57,6 +84,7 @@ export default class Comment {
     }
     if (this.token) {
       this.server.updateComment(this.token, this.userId.id, this.commentId, this.data);
+      this.socket.emit('taskInfo', this.path);
     }
 
     this.input.button.setAttribute('value', this.input.form.data);

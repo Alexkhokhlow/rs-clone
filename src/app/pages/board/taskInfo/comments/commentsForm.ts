@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io-client';
 import { TComment, TUser } from '../../../../../types/types';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
@@ -23,8 +24,14 @@ export default class CommentsForm {
 
   user: { id: string; name: string };
 
-  constructor() {
+  private socket: Socket;
+
+  public path: string;
+
+  constructor(socket: Socket) {
+    this.socket = socket;
     this.id = '';
+    this.path = '';
     this.user = { name: '', id: '' };
     this.comments = [];
     this.commentsForm = Common.createDomNode('div', ['comments']);
@@ -37,8 +44,18 @@ export default class CommentsForm {
     this.commentsForm.append(this.title, this.input.container, this.container);
   }
 
-  createComment(text: string, userName: string, id: string) {
-    const comment = new Comment(text, userName, this.onDelete.bind(this), this.comments.length + 1, id);
+  createComment(text: string, userName: string, id: string, flag:boolean) {
+    const comment = new Comment(
+      text,
+      userName,
+      this.onDelete.bind(this),
+      this.onAnswer.bind(this),
+      this.comments.length + 1,
+      id,
+      this.socket,
+      this.path,
+      flag
+    );
     comment.userId = this.user;
     this.comments.push(comment);
     this.container.insertBefore(comment.comment, this.container.children[0]);
@@ -47,8 +64,8 @@ export default class CommentsForm {
   init(user: TUser, comments: TComment[], id: string) {
     this.user = user;
     this.container.innerHTML = '';
-    comments.forEach((data: { id: string; text: string; userName: string }) => {
-      this.createComment(data.text, data.userName, data.id);
+    comments.forEach((data) => {
+      this.createComment(data.text, data.userName, data.id, data.userId == user.id);
     });
     this.id = id;
   }
@@ -61,19 +78,30 @@ export default class CommentsForm {
       this.input.form.input.value = '';
       if (this.token) {
         const { commentInfo } = await this.server.createComment(this.token, this.id, text);
-        this.createComment(text, this.user.name, commentInfo.id);
+        this.createComment(text, this.user.name, commentInfo.id, true);
+        this.socket.emit('taskInfo', this.path);
       }
     }
   }
 
-  onDelete(event: Event) {
+  onAnswer(event: Event) {
+    const target = event.target as HTMLElement;
+    const name = target.getAttribute('user');
+    if (name && this.token) {
+      this.input.form.input.value = `@${name}, `;
+      this.input.form.input.focus();
+    }
+  }
+
+  async onDelete(event: Event) {
     const target = event.target as HTMLElement;
     const id = target.getAttribute('id');
     const commentId = target.getAttribute('comment-id');
 
     if (id && commentId && this.token) {
       this.container.removeChild(this.comments[Number(id) - 1].comment);
-      this.server.deleteComment(this.token, this.user.id, commentId);
+      await this.server.deleteComment(this.token, this.user.id, commentId);
+      this.socket.emit('taskInfo', this.path);
     }
   }
 }
