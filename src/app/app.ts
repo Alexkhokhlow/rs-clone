@@ -8,21 +8,21 @@ import Workspace from './pages/workspace/workspace';
 import Server from './server/server';
 
 export default class App {
-  body: HTMLElement;
+  private body: HTMLElement;
 
-  startPage: StartPage;
+  private startPage: StartPage;
 
-  autorisation: Autorisation;
+  private autorisation: Autorisation;
 
-  workspace: Workspace;
+  private workspace: Workspace;
 
-  board: Board;
+  private board: Board;
 
-  errorPage: ErrorPage;
+  private errorPage: ErrorPage;
 
-  user: UserPage;
+  private user: UserPage;
 
-  server: Server;
+  private server: Server;
 
   constructor() {
     this.body = document.body;
@@ -35,11 +35,11 @@ export default class App {
     this.server = new Server();
   }
 
-  async start() {
+  public async start() {
     await this.openPage();
   }
 
-  async openPage() {
+  private async openPage() {
     let path = window.location.pathname;
     if (path[path.length - 1] === '/') {
       path = path.slice(0, -1);
@@ -110,7 +110,7 @@ export default class App {
             if (hash.includes('token=')) {
               localStorage.setItem('token', hash.replace(/#token=/, ''));
               window.location.hash = '';
-              window.location.pathname = '/workspace'
+              window.location.pathname = '/workspace';
             } else {
               window.location.pathname = '/home';
             }

@@ -222,6 +222,21 @@ export default class Server {
     return json;
   }
 
+  async deleteTask(token: string,id: string) {
+    const response = await fetch(`${this.address}/task`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async getTaskInfo(token: string, id: string) {
     const response = await fetch(`${this.address}/taskInfo`, {
       method: 'POST',

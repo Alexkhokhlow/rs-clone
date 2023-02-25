@@ -19,7 +19,7 @@ export default class Header {
 
   public user: HTMLButtonElement;
 
-  userModal: HTMLElement;
+  private userModal: HTMLElement;
 
   private userImg: HTMLElement;
 
