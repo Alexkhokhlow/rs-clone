@@ -1,6 +1,6 @@
 import Common from '../../../../utils/common';
 import Priority from './priority/priority';
-import TaskModal from './TaskModal';
+import taskModal, { TaskModal } from './TaskModal';
 
 export default class Task {
   task: HTMLElement;
@@ -11,13 +11,9 @@ export default class Task {
 
   interaction: HTMLElement;
 
-  backdrop: HTMLElement;
+  selectedTask: HTMLElement | undefined;
 
   modal: TaskModal;
-
-  modalWindow: HTMLElement;
-
-  selectedTask: HTMLElement | undefined;
 
   constructor(title: string, onClick: (event: Event) => void, listName: string, index: string, id: string) {
     this.task = Common.createDOMNode('div', ['task']);
@@ -30,9 +26,7 @@ export default class Task {
     this.task.addEventListener('click', onClick);
     this.task.append(this.title, this.priority.priority, this.interaction);
 
-    this.backdrop = Common.createDOMNode('div', ['backdrop']);
-    this.modal = new TaskModal();
-    this.modalWindow = this.modal.render();
+    this.modal = taskModal;
     this.selectedTask = undefined;
 
     this.addHandlers();
@@ -44,20 +38,18 @@ export default class Task {
       this.selectedTask = (e.target as HTMLElement).closest('.task') as HTMLElement;
 
       if (this.selectedTask?.classList.contains('task_selected')) {
-        this.backdrop.remove();
-        this.modalWindow.remove();
+        this.modal.removeModalWindow();
       } else {
-        document.body.append(this.backdrop);
-        this.selectedTask?.append(this.modalWindow);
-        this.modal.setSelectedTask(this.selectedTask.dataset.id || '');
+        document.body.append(this.modal.backdrop);
+        this.selectedTask?.append(this.modal.modal);
+        this.modal.setSelectedTask(this.selectedTask);
       }
 
       this.selectedTask?.classList.toggle('task_selected');
     });
 
-    this.backdrop.addEventListener('click', () => {
-      this.backdrop.remove();
-      this.modalWindow.remove();
+    this.modal.backdrop.addEventListener('click', () => {
+      this.modal.removeModalWindow();
       this.selectedTask?.classList.remove('task_selected');
     });
   }

@@ -1,7 +1,11 @@
+import IResponseBoard, { ITaskList } from '../../../../../types/types';
+import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
 import TaskInfo from '../../taskInfo/taskInfo';
 
-export default class TaskModal {
+const server = new Server();
+
+export class TaskModal {
   modal: HTMLElement;
 
   btnDelete: HTMLElement;
@@ -12,7 +16,11 @@ export default class TaskModal {
 
   taskInfo: TaskInfo;
 
-  selectedTask: string;
+  selectedTask: HTMLElement | undefined;
+
+  moveModal: HTMLElement;
+
+  backdrop: HTMLElement;
 
   constructor() {
     this.modal = Common.createDomNode('ul', ['task__modal']);
@@ -20,7 +28,9 @@ export default class TaskModal {
     this.btnOpen = Common.createDomNode('li', ['modal__btn', 'btn-open'], 'Open task');
     this.btnMove = Common.createDomNode('li', ['modal__btn', 'btn-move'], 'Move');
     this.taskInfo = new TaskInfo();
-    this.selectedTask = '';
+    this.selectedTask = undefined;
+    this.moveModal = Common.createDomNode('div', []);
+    this.backdrop = Common.createDOMNode('div', ['backdrop']);
 
     this.render();
   }
@@ -36,23 +46,77 @@ export default class TaskModal {
     this.btnDelete.addEventListener('click', (e) => {
       e.stopImmediatePropagation();
 
-      console.log('delete');
+      this.selectedTask?.remove();
+      this.removeModalWindow();
+
+      // TODO: добавить удаление из базы данных
     });
 
     this.btnOpen.addEventListener('click', (e) => {
       e.stopImmediatePropagation();
-      this.taskInfo.init(this.selectedTask);
+      if (this.selectedTask?.dataset.id) {
+        this.taskInfo.init(this.selectedTask?.dataset.id);
+      }
       document.body.append(this.taskInfo.taskInfo);
-    });
 
-    this.btnMove.addEventListener('click', (e) => {
-      e.stopImmediatePropagation();
-
-      console.log('move');
+      this.removeModalWindow();
     });
   }
 
-  setSelectedTask(id: string) {
-    this.selectedTask = id;
+  public setSelectedTask(task: HTMLElement) {
+    this.selectedTask = task;
+  }
+
+  public removeModalWindow() {
+    this.backdrop.remove();
+    this.modal.remove();
+    this.moveModal?.remove();
+  }
+
+  async getTasksLists() {
+    const taskListsNames: ITaskList[] = [];
+    const path = window.location.pathname.replace('/board/', '');
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = (await server.getDashboard(token, path)) as IResponseBoard;
+
+      if (response.dashboard.tasklists) {
+        response.dashboard.tasklists.forEach((taskList) => {
+          taskListsNames.push(taskList);
+        });
+      }
+    }
+
+    return taskListsNames;
+  }
+
+  createMoveModal(tasksLists: ITaskList[], cb: (taskList: HTMLElement) => void) {
+    this.moveModal = Common.createDomNode('div', ['move__modal'], 'Move card');
+    const subtitle = Common.createDomNode('p', ['modal__title'], 'Select a list');
+    this.moveModal.append(subtitle);
+    tasksLists.forEach((tasksList) => {
+      const way = Common.createDomNode('button', ['way__btn'], `${tasksList.name}`);
+
+      way.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const targetList = document.querySelector(`.tasks__wrapper[data-id="${tasksList.id}"]`) as HTMLElement;
+        if (this.selectedTask) targetList.append(this.selectedTask);
+        cb(targetList);
+        this.removeModalWindow();
+      });
+
+      this.moveModal?.append(way);
+    });
+
+    this.moveModal.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    this.modal.append(this.moveModal);
   }
 }
+
+const taskModal = new TaskModal();
+
+export default taskModal;

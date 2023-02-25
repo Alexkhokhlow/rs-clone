@@ -256,3 +256,37 @@
 .btn-delete::before { 
   content: url('../assets/board/taskInfo/bin.png');
 }
+
+.move__modal {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+  overflow: hidden;
+  position: absolute;
+  width: 250px;
+  margin: 0 12px;
+  overflow: hidden;
+  padding: 10px 15px;
+  line-height: 30px;
+  color: #5e6c84;
+  text-align: center;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+    & .modal__title {
+    border-top: 1px solid #091e4221;
+    padding-top: 10px;
+    }
+
+    & button {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 25px;
+      border-radius: 3px;
+      padding: 0 10px;
+      background-color: rgba(9, 30, 66, 0.0392156863);
+      color: #172b4d;
+    }
+}

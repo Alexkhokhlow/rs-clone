@@ -248,7 +248,7 @@ export default class Server {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token, labelId, taskId}),
+      body: JSON.stringify({ token, labelId, taskId }),
     });
 
     await this.checkError(response);
@@ -263,7 +263,7 @@ export default class Server {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token, id, title}),
+      body: JSON.stringify({ token, id, title }),
     });
 
     await this.checkError(response);
