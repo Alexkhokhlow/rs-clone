@@ -1,4 +1,4 @@
-import Common from "../../../utils/common";
+import Common from '../../../utils/common';
 
 export default class Subheader {
   public subheader: HTMLElement;

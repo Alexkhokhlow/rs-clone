@@ -1,8 +1,8 @@
 export default interface IResponseBoard {
   access: boolean;
   dashboard: IBoard;
-  labels: TLabel[];
   id: string;
+  labels: TLabel[];
 }
 
 export interface IResponseBoards {
@@ -11,10 +11,10 @@ export interface IResponseBoards {
 }
 export interface IBoard {
   color: string;
-  public: boolean;
   id: string;
   name: string;
   pathName: string;
+  public: boolean;
   tasklists: ITaskList[];
 }
 
@@ -27,8 +27,8 @@ export interface ITaskList {
 export interface ITask {
   id: string;
   index: string;
-  name: string;
   labels: TLabel[];
+  name: string;
 }
 
 export interface ICommentInfo {
@@ -41,8 +41,8 @@ export interface ICommentInfo {
 }
 
 export interface ITaskInfo {
-  labels: TLabel[];
   comments: TComment[];
+  labels: TLabel[];
   taskInfo: TTaskInfo;
   user: TUser;
   checkLists: ICheckList[];
@@ -68,17 +68,17 @@ export type TUser = {
 };
 
 export type TTaskInfo = {
-  taskId: string;
-  name: string;
-  tasklist: string;
   description: string;
+  name: string;
+  taskId: string;
+  tasklist: string;
 };
 
 export type TLabel = {
-  text: string;
-  title: string;
   color: string;
   index: string;
+  text: string;
+  title: string;
   updatedAt: string;
 };
 

@@ -84,20 +84,15 @@ export default class TaskInfo {
   private append() {
     this.container.append(this.main, this.sidebar.sidebar);
     this.header.append(this.title, this.close, this.info);
-    this.main.append(
-      this.labels.labelsWrapper,
-      this.description.description,
-      this.checkListContainer,
-      this.comment.commentsForm
-    );
-    this.taskInfo.append(this.header, this.container);
+    this.main.append(this.description.description, this.checkListContainer, this.comment.commentsForm);
+    this.taskInfo.append(this.header, this.labels.labelsWrapper, this.container);
     this.bindEvents();
   }
 
   private bindEvents() {
     this.close.addEventListener('click', this.onClose.bind(this));
     this.sidebar.modalLabels.labelsContainer.addEventListener('click', this.addLabels.bind(this));
-    this.labels.addButton.addEventListener('click', () => {
+    this.labels.labels.addEventListener('click', () => {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
     });
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
@@ -119,7 +114,6 @@ export default class TaskInfo {
     this.sidebar.modalLabels.path = this.path;
     this.dashboardId = dashboardId;
     const response = await this.server.getTaskInfo(this.token, id);
-    console.log(response);
     this.title.textContent = response.taskInfo.name;
     this.info.textContent = `from ${response.taskInfo.tasklist}`;
     this.taskId = response.taskInfo.taskId;
@@ -153,7 +147,7 @@ export default class TaskInfo {
   }
 
   private async initLabels(labels: TLabel[]) {
-    let labelsCopy = labels.slice() as TLabel[];
+    let labelsCopy = labels.slice();
     (Array.from(this.labels.labels.children) as HTMLInputElement[]).forEach((label) => {
       const item = labelsCopy.find((item) => item.title === label.title);
       if (item) {

@@ -87,7 +87,6 @@ export default class Share {
     }, 2000);
   }
 
-  //отправить запрос на сервер
   private async sendToEmail(event: Event) {
     event.preventDefault();
     const email = this.input.value;

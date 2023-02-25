@@ -7,24 +7,24 @@ export default class StartPageHeader {
 
   private wrapper: HTMLElement;
 
-  public logo: HTMLAnchorElement;
+  public logo: HTMLElement;
 
   private logoImg: HTMLImageElement;
 
   public links: HTMLElement;
 
-  private logIn: HTMLAnchorElement;
+  private logIn: HTMLElement;
 
-  private trelloFree: HTMLAnchorElement;
+  private trelloFree: HTMLElement;
 
   constructor() {
     this.header = Common.createDomNode('header', ['header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'header__wrapper']);
-    this.logo = Common.createDomNodeLink(['logo', 'logo__start'], 'home');
+    this.logo = Common.createDomNode('span', ['logo', 'logo__start']);
     this.logoImg = Common.createDomNodeImg(['logo__img'], logo);
     this.links = Common.createDomNode('div', ['links']);
-    this.logIn = Common.createDomNodeLink(['login', 'login__start'], 'login', 'Log In');
-    this.trelloFree = Common.createDomNodeLink(['signup__header'], 'signup', 'Get Trello for free');
+    this.logIn = Common.createDomNode('span', ['login', 'login__start'], 'Log In');
+    this.trelloFree = Common.createDomNode('span', ['signup__header'], 'Get Trello for free');
   }
 
   public append() {
@@ -32,7 +32,22 @@ export default class StartPageHeader {
     this.links.append(this.logIn, this.trelloFree);
     this.wrapper.append(this.logo, this.links);
     this.header.append(this.wrapper);
+    this.addHandlers();
 
     return this.header;
+  }
+
+  private addHandlers() {
+    this.logIn.addEventListener('click', () => {
+      window.location.href = '/login';
+    });
+
+    this.trelloFree.addEventListener('click', () => {
+      window.location.href = '/signup';
+    });
+
+    this.logo.addEventListener('click', () => {
+      window.location.href = '/home';
+    })
   }
 }
