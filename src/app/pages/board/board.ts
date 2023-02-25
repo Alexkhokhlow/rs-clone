@@ -142,6 +142,14 @@ export default class Board {
           this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this));
         });
       }
+      if ((e.target as HTMLElement).classList.contains('btn-open')) {
+        if (this.taskModal.selectedTask?.dataset.id) {
+          this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id);
+        }
+        document.body.append(this.taskInfo.taskInfo);
+
+        this.taskModal.removeModalWindow();
+      }
     });
   }
 
