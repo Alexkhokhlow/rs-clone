@@ -1,7 +1,8 @@
 .checklist__header__wrapper {
-  @include flex;
+  @include flex($align: flex-start);
   margin-bottom: 1rem;
   padding-left: .8rem;
+  gap: .5rem;
 }
 
 .checklist__delete {
@@ -12,13 +13,30 @@
   }
 }
 
-.checklist__title__info::before,
 .description__title::before,
 .comments__title::before {
   margin-right: 1rem;
 }
 
+.checklist__title__info,
+.checklist__title__input {
+  flex: auto;
+  padding: .6rem;
+}
+
+.checklist__title__input {
+  box-shadow: $color-border-input;
+}
+
+.checklist__icon {
+  background: url('../assets/board/taskInfo/check.svg') center center/contain no-repeat;
+  width: 2rem;
+  height: 2.6rem;
+}
+
 .checklist__info {
+  margin-bottom: 1rem;
+
   .add-item {
 
     .add-item__form {

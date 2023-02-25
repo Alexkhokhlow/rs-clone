@@ -43,7 +43,7 @@ export default class TasksList {
     this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
     this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.title = Common.createDomNode('span', ['tasks-list__title'], title);
-    this.titleInput = Common.createDomNodeInput('Enter task\'s list title', '', ['tasks-list__title__input']);
+    this.titleInput = Common.createDomNodeInput("Enter task's list title", '', ['tasks-list__title__input']);
     this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
     this.server = new Server();
     this.token = localStorage.getItem('token');
@@ -62,8 +62,12 @@ export default class TasksList {
 
   private bindEvents() {
     this.deleteButton.addEventListener('click', this.removeList.bind(this));
-    this.title.addEventListener('click', this.clickTitle.bind(this));
-    this.titleInput.addEventListener('focusout', this.changeTitle.bind(this));
+    this.title.addEventListener('click', () => {
+      Common.clickTitle(this.headerTaskList, this.title, this.titleInput)
+    });
+    this.titleInput.addEventListener('focusout', () => {
+      Common.changeTitle(this.headerTaskList, this.title, this.titleInput);
+    });
   }
 
   async onAddTask() {
@@ -87,18 +91,5 @@ export default class TasksList {
       this.server.deleteTaskList(this.token, this.id, this.path);
     }
     this.tasksList.remove();
-  }
-
-  private clickTitle() {
-    this.headerTaskList.replaceChild(this.titleInput, this.title);
-    if (this.title.textContent) {
-      this.titleInput.value = this.title.textContent;
-      this.titleInput.focus();
-    }
-  }
-
-  private changeTitle() {
-    this.title.innerText = this.titleInput.value;
-    this.headerTaskList.replaceChild(this.title, this.titleInput);
   }
 }

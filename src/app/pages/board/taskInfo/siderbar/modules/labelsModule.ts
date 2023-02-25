@@ -1,7 +1,7 @@
+import { TLabel } from '../../../../../../types/types';
+import Server from '../../../../../server/server';
 import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
-import Server from '../../../../../server/server';
-import { TLabel } from '../../../../../../types/types';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -77,7 +77,7 @@ export default class LabelsModule {
     const checkbox = Common.createDomNodeInput('', '', ['label__checkbox'], 'checkbox');
     const editWrapper = Common.createDomNode('div', ['label__edit__wrapper']);
     const labelColor = this.createLabelColor(label);
-    const edit = Common.createDomNode('div', ['label__edit']);  
+    const edit = Common.createDomNode('div', ['label__edit']);
     editWrapper.append(edit);
     labelLi.append(checkbox, labelColor, editWrapper);
     this.labelsContainer.append(labelLi);

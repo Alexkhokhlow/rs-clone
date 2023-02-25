@@ -1,16 +1,16 @@
 import { io, Socket } from 'socket.io-client';
-import IResponseBoard, { ITaskList, TLabel, TTaskInfo } from '../../../types/types';
+import IResponseBoard, { ITaskList, TLabel } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
 import CreatingBoard from '../workspace/createBoard/createBoard';
 import Header from '../workspace/header/header';
 import AddItemButton from './common/addItemButton';
+import Share from './modalShare/share';
 import Subheader from './subheader/subheader';
 import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
 import TasksList from './tasksList/tasksList';
-import Share from './modalShare/share';
 
 let draggedEl: HTMLElement | null;
 
@@ -48,7 +48,7 @@ export default class Board {
   id: string;
 
   constructor(creatingBoard: CreatingBoard) {
-    this.id = ''
+    this.id = '';
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
     this.header = new Header();
@@ -134,7 +134,6 @@ export default class Board {
 
         this.createTaskDescription(task.id);
       });
-
     });
   }
 
@@ -160,7 +159,6 @@ export default class Board {
 
   private createTaskDescription(id: string) {
     // const description = Common.createDomNode('span', ['task__description']);
-
   }
 
   async onAddList(event: Event) {

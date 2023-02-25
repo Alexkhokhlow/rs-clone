@@ -156,16 +156,15 @@
   background-color: #ebecf0;
   box-shadow: $color-box-shadow;
 
-  &__title {
+  &__title,
+  &__title__input {
     font-size: 1.4rem;
     padding: 0.3rem 0.8rem;
     width: 21.5rem;
+  }
 
-    &__input {
-      padding: 0.3rem 0.8rem;
-      box-shadow: $color-border-input;
-      width: 21.5rem;
-    }
+  &__title__input {
+    box-shadow: $color-border-input;
   }
 
   &__header {

@@ -95,4 +95,17 @@ export default class Common {
       window.location.href = '/signup';
     });
   }
+
+  public static clickTitle(parent: HTMLElement, title: HTMLElement, input: HTMLInputElement) {
+    parent.replaceChild(input, title);
+    if (title.textContent) {
+      input.value = title.textContent;
+      input.focus();
+    }
+  }
+
+  public static changeTitle(parent: HTMLElement, title: HTMLElement, input: HTMLInputElement) {
+    title.innerText = input.value;
+    parent.replaceChild(title, input);
+  }
 }

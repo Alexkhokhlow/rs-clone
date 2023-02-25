@@ -75,8 +75,8 @@ export default class TaskInfo {
   private append() {
     this.container.append(this.main, this.sidebar.sidebar);
     this.header.append(this.title, this.close, this.info);
-    this.main.append(this.labels.labelsWrapper, this.description.description, this.comment.commentsForm);
-    this.taskInfo.append(this.header, this.container);
+    this.main.append(this.description.description, this.comment.commentsForm);
+    this.taskInfo.append(this.header, this.labels.labelsWrapper, this.container);
     this.bindEvents();
   }
 
@@ -116,7 +116,7 @@ export default class TaskInfo {
   }
 
   private async initLabels(labels: TLabel[]) {
-    let labelsCopy = labels.slice() as TLabel[];
+    let labelsCopy = labels.slice();
     (Array.from(this.labels.labels.children) as HTMLInputElement[]).forEach((label) => {
       const item = labelsCopy.find((item) => item.title === label.title);
       if (item) {

@@ -1,4 +1,4 @@
-import Common from "../../../utils/common";
+import Common from '../../../utils/common';
 
 export default class Share {
   public overlay: HTMLElement;
@@ -28,7 +28,6 @@ export default class Share {
   private link: HTMLElement;
 
   private copied: HTMLElement;
-
 
   constructor() {
     this.overlay = Common.createDomNode('div', ['overlay__share']);
@@ -78,15 +77,15 @@ export default class Share {
     }, 2000);
   }
 
-  //отправить запрос на сервер
+  // отправить запрос на сервер
   private sendToEmail(event: Event) {
     event.preventDefault();
   }
 
   private closeModal(event: Event) {
     const classes = (event.target as HTMLElement).classList;
-      if(classes.contains('overlay__share') || classes.contains('close__button')) {
-        this.overlay.remove();
-      }
+    if (classes.contains('overlay__share') || classes.contains('close__button')) {
+      this.overlay.remove();
+    }
   }
 }
