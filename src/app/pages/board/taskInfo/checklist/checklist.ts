@@ -66,6 +66,7 @@ export default class Checklist {
     });
     this.checklistTitleInput.addEventListener('focusout', () => {
       Common.changeTitle(this.checklistHeader, this.checklistTitle, this.checklistTitleInput);
+      this.server.updateCheckList(this.token, this.id, this.checklistTitleInput.value);
     });
   }
 

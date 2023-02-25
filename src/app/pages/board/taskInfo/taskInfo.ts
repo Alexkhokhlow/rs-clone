@@ -105,7 +105,6 @@ export default class TaskInfo {
       this.initDescription(this.id, response.taskInfo.description);
       this.initCheckLists(response.checkLists);
       this.comment.init(response.user, response.comments, this.id);
-
     }
   }
 

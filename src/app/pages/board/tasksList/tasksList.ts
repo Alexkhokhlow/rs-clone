@@ -16,13 +16,13 @@ export default class TasksList {
 
   private onClick: (event: Event) => void;
 
-  tasksWrapper: HTMLElement;
+  public tasksWrapper: HTMLElement;
 
-  titleText: string;
+  private titleText: string;
 
-  server: Server;
+  private server: Server;
 
-  token: string | null;
+  private token: string;
 
   public deleteButton: HTMLButtonElement;
 
@@ -56,7 +56,7 @@ export default class TasksList {
     this.titleInput = Common.createDomNodeInput("Enter task's list title", '', ['tasks-list__title__input']);
     this.deleteButton = Common.createDomNodeButton(['tasks-list__delete']);
     this.server = new Server();
-    this.token = localStorage.getItem('token');
+    this.token = localStorage.getItem('token')!;
 
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
@@ -77,6 +77,7 @@ export default class TasksList {
     });
     this.titleInput.addEventListener('focusout', () => {
       Common.changeTitle(this.headerTaskList, this.title, this.titleInput);
+      this.server.updateTaskList(this.token, this.id, this.titleInput.value )
     });
   }
 

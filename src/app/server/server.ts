@@ -177,6 +177,21 @@ export default class Server {
     return json;
   }
 
+  async updateTaskList(token: string, id: string, name: string) {
+    const response = await fetch(`${this.address}/tasklist`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, name }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async deleteTaskList(token: string, id: string, boardId: string) {
     const response = await fetch(`${this.address}/tasklist`, {
       method: 'DELETE',
@@ -222,7 +237,7 @@ export default class Server {
     return json;
   }
 
-  async deleteTask(token: string,id: string) {
+  async deleteTask(token: string, id: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'DELETE',
       headers: {
