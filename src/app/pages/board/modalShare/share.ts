@@ -1,3 +1,4 @@
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 
 export default class Share {
@@ -15,7 +16,7 @@ export default class Share {
 
   private input: HTMLInputElement;
 
-  private submit: HTMLButtonElement;
+  public submit: HTMLButtonElement;
 
   private linkWrapper: HTMLElement;
 
@@ -28,6 +29,12 @@ export default class Share {
   private link: HTMLElement;
 
   private copied: HTMLElement;
+
+  private server: Server;
+
+  private token: string;
+
+  public path: string;
 
   constructor() {
     this.overlay = Common.createDomNode('div', ['overlay__share']);
@@ -44,6 +51,9 @@ export default class Share {
     this.text = Common.createDomNode('h4', ['share__text'], 'Anyone with the board share link');
     this.link = Common.createDomNode('span', ['share__link'], 'Copy link');
     this.copied = Common.createDomNode('div', ['share__copied'], 'Link copied');
+    this.server = new Server();
+    this.token = localStorage.getItem('token')!;
+    this.path = '';
   }
 
   public buildModal() {
@@ -77,9 +87,17 @@ export default class Share {
     }, 2000);
   }
 
-  // отправить запрос на сервер
-  private sendToEmail(event: Event) {
+  private async sendToEmail(event: Event) {
     event.preventDefault();
+    const email = this.input.value;
+    if (email) {
+      try {
+        await this.server.addUserToDashboard(this.token, email, this.path);
+        this.overlay.remove();
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   private closeModal(event: Event) {

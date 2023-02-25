@@ -15,6 +15,10 @@ export default class EntryWays {
     const entryWay = Common.createDOMNode('a', [`btn_${this.elem}`, 'btn_way'], content);
     entryWay.addEventListener('click', (e) => {
       e.preventDefault();
+      const target = e.currentTarget as HTMLElement;
+      if (target.classList.contains('btn_google')) {
+        window.location.replace('https://trello-clone-x3tl.onrender.com/api/google');
+      }
       // TODO: добавить авторизацию
     });
     return entryWay;

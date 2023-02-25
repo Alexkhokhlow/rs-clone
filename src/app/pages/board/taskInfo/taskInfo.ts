@@ -1,8 +1,9 @@
 import { Socket } from 'socket.io-client';
-import { TLabel } from '../../../../types/types';
+import { ICheckList, TLabel } from '../../../../types/types';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import Checklist from './checklist/checklist';
+import Checkpoint from './checklist/checkPoint/checkpoint';
 import CommentsForm from './comments/commentsForm';
 import Description from './description/description';
 import Labels from './labels/labels';
@@ -17,9 +18,9 @@ export default class TaskInfo {
 
   private info: HTMLElement;
 
-  private description: Description;
+  public description: Description;
 
-  private comment: CommentsForm;
+  public comment: CommentsForm;
 
   private close: HTMLImageElement;
 
@@ -35,47 +36,55 @@ export default class TaskInfo {
 
   private main: HTMLElement;
 
-  private container: HTMLElement;
+  public container: HTMLElement;
 
   private taskId: string;
 
-  private socket: Socket;
-
   private dashboardId: string;
 
+  private id: string;
+
+  private checkListContainer: HTMLElement;
+
+  private socket: Socket;
+
+  public path: string;
+
   constructor(socket: Socket) {
-    this.socket = socket;
+    this.id = '';
     this.taskId = '';
+    this.socket = socket;
     this.dashboardId = '';
+    this.path = '';
     this.taskInfo = Common.createDomNode('div', ['task-info']);
     this.title = Common.createDomNode('h2', ['task-info__title'], 'make new Page');
     this.title.contentEditable = 'true';
     this.info = Common.createDomNode('h4', ['task-info__info'], 'from list create');
     this.close = Common.createDomNodeImg(['task-info__close'], closeIcon);
     this.labels = new Labels();
-    this.description = new Description();
-    this.comment = new CommentsForm();
-    this.sidebar = new Sidebar(this.emitLabelSocket.bind(this));
+    this.description = new Description(socket);
+    this.comment = new CommentsForm(socket);
+    this.sidebar = new Sidebar(socket);
     this.header = Common.createDomNode('header', ['task-info__header']);
     this.main = Common.createDomNode('main', ['task-info__main']);
     this.container = Common.createDOMNode('div', ['task-info__container']);
+    this.checkListContainer = Common.createDOMNode('div', ['task-info__checkList']);
+
     this.server = new Server();
     this.token = localStorage.getItem('token')!;
     this.append();
     this.socket.on('label', (data) => {
-      this.getLabel();
+      this.getTaskInfo();
     });
     this.socket.on('taskInfo', (data) => {
-      if (data == this.taskId) {
-        this.getLabel();
-      }
+      this.getTaskInfo();
     });
   }
 
   private append() {
     this.container.append(this.main, this.sidebar.sidebar);
     this.header.append(this.title, this.close, this.info);
-    this.main.append(this.description.description, this.comment.commentsForm);
+    this.main.append(this.description.description, this.checkListContainer, this.comment.commentsForm);
     this.taskInfo.append(this.header, this.labels.labelsWrapper, this.container);
     this.bindEvents();
   }
@@ -89,25 +98,47 @@ export default class TaskInfo {
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
   }
 
-  private emitLabelSocket() {
-    this.socket.emit('label', this.taskId);
-  }
+  private async getTaskInfo() {
+    if (this.id) {
+      const response = await this.server.getTaskInfo(this.token, this.id);
+      this.initLabels(response.labels);
+      this.initDescription(this.id, response.taskInfo.description);
+      this.initCheckLists(response.checkLists);
+      this.comment.init(response.user, response.comments, this.id);
 
-  private async getLabel() {
-    const labels: TLabel[] = await this.server.getLabel(this.token, this.taskId, this.dashboardId);
-    this.initLabels(labels);
+    }
   }
 
   public async init(id: string, dashboardId: string) {
+    this.id = id;
+    this.sidebar.modalLabels.path = this.path;
     this.dashboardId = dashboardId;
     const response = await this.server.getTaskInfo(this.token, id);
     this.title.textContent = response.taskInfo.name;
     this.info.textContent = `from ${response.taskInfo.tasklist}`;
     this.taskId = response.taskInfo.taskId;
     this.comment.init(response.user, response.comments, id);
+    this.initCheckLists(response.checkLists);
     this.initLabels(response.labels);
     this.initDescription(id, response.taskInfo.description);
     this.taskInfo.classList.add('active');
+  }
+
+  private initCheckLists(checkLists: ICheckList[]) {
+    this.checkListContainer.innerHTML = '';
+    checkLists.forEach((item) => {
+      const checkList = new Checklist(item.id, item.name, this.path, this.socket);
+      item.todo.forEach((data) => {
+        const checkpoint = new Checkpoint(data.id, this.socket, this.path);
+        checkpoint.input.value = data.text;
+        checkpoint.checkbox.checked = data.checked;
+        if (data.checked) {
+          checkpoint.input.classList.toggle('done');
+        }
+        checkList.checkpointsWrapper.append(checkpoint.point);
+      });
+      this.checkListContainer.append(checkList.checklist);
+    });
   }
 
   private initDescription(id: string, description: string) {
@@ -145,13 +176,15 @@ export default class TaskInfo {
     this.taskInfo.classList.remove('active');
   }
 
-  private createCheckList(event: Event) {
+  private async createCheckList(event: Event) {
     event.preventDefault();
-    const checklist = new Checklist();
-    this.main.insertBefore(checklist.checklist, this.comment.commentsForm);
-    checklist.checklistTitle.textContent = this.sidebar.modalCheckList.inputTitle.value;
+    const name = this.sidebar.modalCheckList.inputTitle.value;
+    const response: { checkList: { id: string } } = await this.server.createCheckList(this.token, this.id, name);
+    const checklist = new Checklist(response.checkList.id, name, this.path, this.socket);
+    this.checkListContainer.append(checklist.checklist);
     this.sidebar.modalCheckList.module.onClose();
     this.sidebar.modalCheckList.inputTitle.value = 'Checklist';
+    this.socket.emit('taskInfo', this.path);
   }
 
   private async addLabels(event: Event) {
@@ -166,13 +199,13 @@ export default class TaskInfo {
         (targetColor.previousElementSibling as HTMLInputElement).checked = false;
         await this.removeLabel(targetColor);
       }
-      this.socket.emit('taskInfo', this.taskId);
+      this.socket.emit('taskInfo', this.path);
     }
 
     if (targetCheck) {
       const elementColor = targetCheck.nextElementSibling as HTMLInputElement;
       targetCheck.checked ? await this.addLabel(elementColor) : await this.removeLabel(elementColor);
-      this.socket.emit('taskInfo', this.taskId);
+      this.socket.emit('taskInfo', this.path);
     }
   }
 
