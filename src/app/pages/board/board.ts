@@ -9,6 +9,7 @@ import AddItemButton from './common/addItemButton';
 import Subheader from './subheader/subheader';
 import TaskInfo from './taskInfo/taskInfo';
 import Task from './tasksList/task/task';
+import taskModal, { TaskModal } from './tasksList/task/TaskModal';
 import TasksList from './tasksList/tasksList';
 import Share from './modalShare/share';
 
@@ -47,7 +48,10 @@ export default class Board {
 
   socket: Socket;
 
+  taskModal: TaskModal;
+
   constructor(creatingBoard: CreatingBoard) {
+    this.taskModal = taskModal;
     this.id = '';
     this.board = Common.createDOMNode('section', ['board']);
     this.container = Common.createDOMNode('div', ['board-page']);
@@ -130,6 +134,15 @@ export default class Board {
     if (response.dashboard.tasklists) {
       this.renderTaskList(response);
     }
+
+    this.taskModal.modal.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).classList.contains('btn-move')) {
+        e.stopImmediatePropagation();
+        this.taskModal.getTasksLists().then((response) => {
+          this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this));
+        });
+      }
+    });
   }
 
   renderTaskList(response: IResponseBoard) {
@@ -237,6 +250,19 @@ export default class Board {
         list.append(draggedEl as HTMLElement);
       } else {
         list.insertBefore(draggedEl as HTMLElement, bottomTask);
+      }
+    });
+  }
+
+  public rewriteTaskList(taskList: HTMLElement) {
+    const parentId = taskList.dataset.id;
+
+    [...taskList.children].forEach(async (item, index) => {
+      const element = item as HTMLElement;
+      const { id, title } = element.dataset;
+      if (this.token && id && parentId && title) {
+        await this.server.updateTask(this.token, id, parentId, title, String(index));
+        this.socket.emit('message', 'change');
       }
     });
   }
