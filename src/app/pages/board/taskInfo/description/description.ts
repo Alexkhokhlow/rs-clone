@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io-client';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
 import Form from '../../common/form';
@@ -23,9 +24,14 @@ export default class Description {
 
   id: string;
 
-  constructor() {
+  private socket: Socket;
+
+  public path: string;
+  constructor(socket: Socket) {
+    this.socket = socket;
     this.data = '';
     this.id = '';
+    this.path = ''
     this.description = Common.createDomNode('div', ['description']);
     this.title = Common.createDomNode('span', ['description__title', 'title__info'], 'Description');
     this.container = Common.createDomNode('div', ['description__container']);
@@ -61,7 +67,8 @@ export default class Description {
       this.detailButton.textContent = 'Add a more detailed description...';
     }
     if (this.token) {
-      this.server.updateTaskInfo(this.token, this.id, this.data);
+      await this.server.updateTaskInfo(this.token, this.id, this.data);
+      this.socket.emit('taskInfo', this.path);
     }
     this.onClose();
   }
