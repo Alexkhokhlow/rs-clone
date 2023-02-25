@@ -1,5 +1,4 @@
 import Common from '../../../../utils/common';
-import Priority from './priority/priority';
 import taskModal, { TaskModal } from './TaskModal';
 
 export default class Task {
@@ -11,13 +10,13 @@ export default class Task {
 
   private taskInfo: HTMLElement;
 
-  priority: Priority;
+  private description: HTMLElement;
 
-  interaction: HTMLElement;
+  private interaction: HTMLElement;
 
-  selectedTask: HTMLElement | undefined;
+  private selectedTask: HTMLElement | undefined;
 
-  modal: TaskModal;
+  private modal: TaskModal;
 
   public checklist: HTMLElement;
 
@@ -32,35 +31,28 @@ export default class Task {
     this.checklist = Common.createDomNode('div', ['task__checklist']);
     this.task.setAttribute('data-title', title);
     this.task.setAttribute('data-id', id);
+    this.modal = taskModal;
+    this.selectedTask = undefined;
+
     this.append();
-    this.listen(onClick);
+    this.addHandlers(onClick);
   }
 
   private append() {
     this.taskInfo.append(this.description, this.checklist);
-    this.task.append(this.labelContainer, this.title, this.taskInfo);
+    this.task.append(this.labelContainer, this.title, this.interaction, this.taskInfo);
   }
 
-  private listen(onClick: (event: Event) => void) {
+  private addHandlers(onClick: (event: Event) => void) {
     this.task.addEventListener('click', onClick);
-    this.task.append(this.labelContainer, this.title, this.priority.priority, this.interaction);
 
-    this.modal = taskModal;
-    this.selectedTask = undefined;
-
-    this.addHandlers();
-  }
-
-  private addHandlers() {
     this.interaction.addEventListener('click', (e) => {
       e.stopPropagation();
       this.selectedTask = (e.target as HTMLElement).closest('.task') as HTMLElement;
-      console.log('here');
 
       if (this.selectedTask?.classList.contains('task_selected')) {
         this.modal.removeModalWindow();
       } else {
-        console.log('hh');
         document.body.append(this.modal.backdrop);
         this.selectedTask?.append(this.modal.modal);
         this.modal.setSelectedTask(this.selectedTask);

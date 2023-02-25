@@ -54,7 +54,7 @@ export default class TasksList {
     this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.title = Common.createDomNode('span', ['tasks-list__title'], title);
     this.titleInput = Common.createDomNodeInput("Enter task's list title", '', ['tasks-list__title__input']);
-    this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
+    this.deleteButton = Common.createDomNodeButton(['tasks-list__delete']);
     this.server = new Server();
     this.token = localStorage.getItem('token');
 
