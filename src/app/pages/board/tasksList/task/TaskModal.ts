@@ -1,7 +1,6 @@
 import IResponseBoard, { ITaskList } from '../../../../../types/types';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
-import TaskInfo from '../../taskInfo/taskInfo';
 
 const server = new Server();
 
@@ -13,8 +12,6 @@ export class TaskModal {
   btnOpen: HTMLElement;
 
   btnMove: HTMLElement;
-
-  taskInfo: TaskInfo;
 
   selectedTask: HTMLElement | undefined;
 
@@ -29,7 +26,6 @@ export class TaskModal {
     this.btnDelete = Common.createDomNode('li', ['modal__btn', 'btn-delete'], 'Delete');
     this.btnOpen = Common.createDomNode('li', ['modal__btn', 'btn-open'], 'Open task');
     this.btnMove = Common.createDomNode('li', ['modal__btn', 'btn-move'], 'Move');
-    this.taskInfo = new TaskInfo();
     this.selectedTask = undefined;
     this.moveModal = Common.createDomNode('div', []);
     this.backdrop = Common.createDOMNode('div', ['backdrop']);
@@ -51,16 +47,6 @@ export class TaskModal {
 
       this.selectedTask?.remove();
       if (this.selectedTask?.dataset.id) this.deleteTask(this.selectedTask?.dataset.id);
-
-      this.removeModalWindow();
-    });
-
-    this.btnOpen.addEventListener('click', (e) => {
-      e.stopImmediatePropagation();
-      if (this.selectedTask?.dataset.id) {
-        this.taskInfo.init(this.selectedTask?.dataset.id);
-      }
-      document.body.append(this.taskInfo.taskInfo);
 
       this.removeModalWindow();
     });
@@ -120,7 +106,7 @@ export class TaskModal {
 
   async deleteTask(id: string) {
     if (this.token && id) {
-      await server.deleteTask(this.token, id);
+      // await server.deleteTask(this.token, id);
     }
   }
 }

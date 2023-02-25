@@ -14,7 +14,7 @@ export default class Task {
   selectedTask: HTMLElement | undefined;
 
   modal: TaskModal;
-  
+
   labelContainer: HTMLElement;
 
   constructor(title: string, onClick: (event: Event) => void, listName: string, index: string, id: string) {
@@ -39,10 +39,12 @@ export default class Task {
     this.interaction.addEventListener('click', (e) => {
       e.stopPropagation();
       this.selectedTask = (e.target as HTMLElement).closest('.task') as HTMLElement;
+      console.log('here');
 
       if (this.selectedTask?.classList.contains('task_selected')) {
         this.modal.removeModalWindow();
       } else {
+        console.log('hh');
         document.body.append(this.modal.backdrop);
         this.selectedTask?.append(this.modal.modal);
         this.modal.setSelectedTask(this.selectedTask);
