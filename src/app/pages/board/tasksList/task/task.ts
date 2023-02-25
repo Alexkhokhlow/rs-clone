@@ -14,17 +14,20 @@ export default class Task {
   selectedTask: HTMLElement | undefined;
 
   modal: TaskModal;
+  
+  labelContainer: HTMLElement;
 
   constructor(title: string, onClick: (event: Event) => void, listName: string, index: string, id: string) {
     this.task = Common.createDOMNode('div', ['task']);
     this.task.draggable = true;
     this.title = Common.createDOMNode('span', ['task__title'], title);
     this.interaction = Common.createDOMNode('div', ['task__interaction']);
+    this.labelContainer = Common.createDomNode('div', ['task__label-container']);
     this.priority = new Priority();
     this.task.setAttribute('data-title', title);
     this.task.setAttribute('data-id', id);
     this.task.addEventListener('click', onClick);
-    this.task.append(this.title, this.priority.priority, this.interaction);
+    this.task.append(this.labelContainer, this.title, this.priority.priority, this.interaction);
 
     this.modal = taskModal;
     this.selectedTask = undefined;

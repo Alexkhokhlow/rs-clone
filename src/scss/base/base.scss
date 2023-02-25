@@ -13,6 +13,7 @@ html {
   outline: none;
   border: none;
   transition: hover 0.3s linear;
+  user-select: none;
   
   @media (max-width: 890px) {
     font-size: 1.4rem;
@@ -40,6 +41,7 @@ textarea {
 
 button {
   cursor: pointer;
+  border-radius: .3rem;
 }
 
 h2 {

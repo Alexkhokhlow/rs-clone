@@ -1,9 +1,11 @@
+import { io } from 'socket.io-client';
 import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
 import StartPage from './pages/startPage/startPage';
 import UserPage from './pages/user/user';
 import Workspace from './pages/workspace/workspace';
+import Server from './server/server';
 
 export default class App {
   body: HTMLElement;
@@ -20,6 +22,8 @@ export default class App {
 
   user: UserPage;
 
+  server: Server;
+
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
@@ -28,6 +32,7 @@ export default class App {
     this.user = new UserPage();
     this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
+    this.server = new Server();
   }
 
   async start() {
@@ -45,9 +50,13 @@ export default class App {
       const routes = ['/workspace', '/board', '/user'];
       if (/\/board\/([\w]+?)\b/g.test(path)) {
         flag = false;
-        this.body.append(await this.board.init(path.replace('/board/', '')));
+        try {
+          this.body.append(await this.board.init(path.replace('/board/', '')));
+        } catch (e) {
+          this.body.append(this.errorPage.render());
+        }
       } else {
-        routes.forEach((route) => {
+        routes.forEach(async (route) => {
           if (route === path) {
             flag = false;
             switch (path) {
@@ -58,7 +67,7 @@ export default class App {
                 this.body.append(this.board.container);
                 break;
               case '/user':
-                this.body.append(this.user.render());
+                this.body.append(await this.user.render());
                 break;
               default:
                 this.body.append(this.errorPage.render());
@@ -96,9 +105,17 @@ export default class App {
       });
       if (flag) {
         switch (path) {
-          case '':
-            window.location.href = 'home';
+          case '': {
+            const hash = window.location.hash;
+            if (hash.includes('token=')) {
+              localStorage.setItem('token', hash.replace(/#token=/, ''));
+              window.location.hash = '';
+              window.location.pathname = '/workspace'
+            } else {
+              window.location.pathname = '/home';
+            }
             break;
+          }
           default:
             this.body.append(this.errorPage.render());
         }

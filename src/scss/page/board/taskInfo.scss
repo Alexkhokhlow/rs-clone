@@ -173,7 +173,8 @@
     }
 
     .comment__edit,
-    .comment__delete {
+    .comment__delete,
+    .comment__answer {
       background: transparent;
       text-decoration: underline;
       font-size: 1.2rem;
@@ -195,9 +196,11 @@
   grid-template-columns: repeat(4, 1fr);
   grid-row-gap: .5rem;
   width: 100%;
+  min-height: 5rem;
 
   .label__color {
     width: 95%;
+    height: 2.7rem;
   }
 }
 
@@ -205,6 +208,7 @@
   width: 35%;
   font-size: 2rem;
   border-radius: .3rem;
+  height: 2.7rem;
   color: $color-create-text;
 }
 

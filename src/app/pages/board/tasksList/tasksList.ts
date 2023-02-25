@@ -22,21 +22,37 @@ export default class TasksList {
 
   token: string | null;
 
-  socket: Socket;
-
-  private deleteButton: HTMLElement;
+  public deleteButton: HTMLButtonElement;
 
   private headerTaskList: HTMLElement;
 
-  constructor(title: string, onClick: (event: Event) => void, socket: Socket) {
+  private id: string;
+
+  private path: string;
+
+  private socket: Socket;
+
+  private boardId: string;
+
+  constructor(
+    title: string,
+    onClick: (event: Event) => void,
+    socket: Socket,
+    id: string,
+    path: string,
+    boardId: string
+  ) {
+    this.id = id;
     this.socket = socket;
+    this.path = path;
+    this.boardId = boardId;
     this.onClick = onClick;
     this.titleText = title;
     this.headerTaskList = Common.createDomNode('header', ['tasks-list__header']);
     this.tasksList = Common.createDomNode('div', ['tasks-list']);
     this.title = Common.createDomNode('span', ['tasks-list__title'], title);
     this.title.contentEditable = 'true';
-    this.deleteButton = Common.createDomNode('div', ['tasks-list__delete']);
+    this.deleteButton = Common.createDomNodeButton(['tasks-list__delete']);
     this.server = new Server();
     this.token = localStorage.getItem('token');
 
@@ -58,16 +74,20 @@ export default class TasksList {
       const index = String(this.tasksWrapper.children.length);
       this.addCardButton.onClose();
       const { id } = this.tasksWrapper.dataset;
-      this.socket.emit('message', 'change');
       if (this.token && id) {
         const data = (await this.server.createTask(this.token, id, name, index)) as TTask;
         const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
+        this.socket.emit('board', this.path);
         this.tasksWrapper.append(task.task);
       }
     }
   }
 
-  private removeList() {
-    this.tasksList.remove();
+  private async removeList() {
+    if (this.token) {
+      this.tasksList.remove();
+      await this.server.deleteTaskList(this.token, this.id, this.boardId);
+      this.socket.emit('board', this.path);
+    }
   }
 }
