@@ -50,6 +50,8 @@ export default class TaskInfo {
 
   public path: string;
 
+  private titleInput: HTMLInputElement;
+
   constructor(socket: Socket) {
     this.id = '';
     this.taskId = '';
@@ -58,7 +60,7 @@ export default class TaskInfo {
     this.path = '';
     this.taskInfo = Common.createDomNode('div', ['task-info']);
     this.title = Common.createDomNode('h2', ['task-info__title'], 'make new Page');
-    this.title.contentEditable = 'true';
+    this.titleInput = Common.createDomNodeInput('Enter title', '', ['task-info__title__input']);
     this.info = Common.createDomNode('h4', ['task-info__info'], 'from list create');
     this.close = Common.createDomNodeImg(['task-info__close'], closeIcon);
     this.labels = new Labels();
@@ -96,6 +98,12 @@ export default class TaskInfo {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
     });
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
+    this.header.addEventListener('click', () => {
+      Common.clickTitle(this.header, this.title, this.titleInput);
+    });
+    this.titleInput.addEventListener('focusout', () => {
+      Common.changeTitle(this.header, this.title, this.titleInput);
+    });
   }
 
   private async getTaskInfo() {
