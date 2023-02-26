@@ -35,9 +35,8 @@ export default class UserModal {
     this.userDescription = Common.createDomNode('div', ['user__description']);
     this.server = new Server();
     this.token = localStorage.getItem('token')!;
-    // получать по токену информацию (name, mail);
-    this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
-    this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
+    this.name = Common.createDomNode('p', ['user__name', 'subtitle']);
+    this.mail = Common.createDomNode('p', ['user__mail', 'subtitle']);
 
     this.accountSwitcher = Common.createDomNodeButton(['user__btn'], 'Switch account');
     this.profileBtn = Common.createDomNodeButton(['user__btn'], 'Profile');
@@ -54,7 +53,7 @@ export default class UserModal {
     this.modal.append(this.title, this.userInfo, this.accountSwitcher, this.profileBtn, this.logOutBtn);
     this.userInfo.append(this.userImg, this.userDescription);
     this.userDescription.append(this.name, this.mail);
-    this.init()
+    this.init();
     this.addHandlers();
     return this.modal;
   }

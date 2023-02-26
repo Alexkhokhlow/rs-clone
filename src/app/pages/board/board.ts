@@ -84,7 +84,13 @@ export default class Board {
   private buildBoard(creatingBoard: CreatingBoard) {
     this.header.header.classList.add('board__header');
     this.footer.footer.classList.add('board__footer');
-    this.container.append(this.header.append(creatingBoard), this.userInfo.container, this.board, creatingBoard.append(), this.footer.append());
+    this.container.append(
+      this.header.append(creatingBoard),
+      this.userInfo.container,
+      this.board,
+      creatingBoard.append(),
+      this.footer.append()
+    );
     this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
     this.board.append(this.subheader.subheader, this.main);
     this.subheader.share.addEventListener('click', this.share.buildModal.bind(this.share));
@@ -141,8 +147,9 @@ export default class Board {
     this.taskModal.modal.addEventListener('click', (e) => {
       if ((e.target as HTMLElement).classList.contains('btn-move')) {
         e.stopImmediatePropagation();
+        const currentTaskList = (e.target as HTMLElement).closest('.tasks__wrapper') as HTMLElement;
         this.taskModal.getTasksLists().then((response) => {
-          this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this));
+          this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this), currentTaskList);
         });
       }
       if ((e.target as HTMLElement).classList.contains('btn-open')) {

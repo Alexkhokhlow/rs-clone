@@ -66,7 +66,6 @@ export default class Task {
 
     this.modal.backdrop.addEventListener('click', () => {
       this.modal.removeModalWindow();
-      this.selectedTask?.classList.remove('task_selected');
     });
   }
 }
