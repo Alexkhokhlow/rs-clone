@@ -57,6 +57,11 @@
             &:hover {
                 background-color: #026aa7;
             }
+
+            &:disabled {
+                background-color: rgb(9 30 66 / 52%);
+                cursor: auto;
+            }
         }
     }
 
@@ -87,6 +92,7 @@
     justify-content: flex-start;
     gap: 8px;
     padding: 30px 30px 0 30px;
+    width: 100%;
 }
 
 .user__mail {
@@ -95,4 +101,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.user__bio {
+    padding: 10px 30px 0 30px;
+    overflow-y: auto;
+    max-width: 600px;
+    max-height: 59px;
+}
+
+.user__description {
+    width: 75%;
+
+    & .subtitle{
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+    }
+}
+
+
 
