@@ -20,12 +20,12 @@ export default class UserInfo {
   constructor() {
     this.container = Common.createDomNode('div', ['about_user']);
     this.closeIcon = Common.createDomNode('span', ['close__button']);
-    this.informationWrapper = Common.createDomNode('div', ['user__information__wrapper']);
-    this.icon = Common.createDomNode('span', ['about_user__icon']);
-    this.information = Common.createDomNode('div', ['user__information']);
-    this.name = Common.createDomNode('h3', ['user__name'], 'Jana');
-    this.email = Common.createDomNode('h4', ['user__email'], 'email');
-    this.description = Common.createDomNode('p', ['user__description'], 'description');
+    this.informationWrapper = Common.createDomNode('div', ['about_user__information__wrapper']);
+    this.icon = Common.createDomNode('div', ['about_user__icon']);
+    this.information = Common.createDomNode('div', ['about_user__information']);
+    this.name = Common.createDomNode('h3', ['user__name']);
+    this.email = Common.createDomNode('h4', ['user__email']);
+    this.description = Common.createDomNode('p', ['user__description']);
 
     this.append();
   }

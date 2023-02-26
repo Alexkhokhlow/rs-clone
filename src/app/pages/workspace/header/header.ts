@@ -1,6 +1,8 @@
+import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import CreatingBoard from '../createBoard/createBoard';
 import UserModal from './userModal';
+
 
 export default class Header {
   public header: HTMLElement;
@@ -17,13 +19,16 @@ export default class Header {
 
   public create: HTMLButtonElement;
 
-  public user: HTMLButtonElement;
+  public user: HTMLElement;
 
   userModal: HTMLElement;
 
-  private userImg: HTMLElement;
+  private server: Server;
+
+  token: string | null;
 
   constructor() {
+    this.token = localStorage.getItem('token');
     this.header = Common.createDomNode('header', ['header', 'main__header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'wrapper__header']);
     this.logo = Common.createDomNodeLink(['logo', 'header__logo'], '/');
@@ -31,21 +36,20 @@ export default class Header {
     this.navigation = Common.createDomNode('nav', ['navigation', 'header__navigation']);
     this.workspace = Common.createDomNodeButton(['header__button'], 'Workspace');
     this.create = Common.createDomNodeButton(['header__button'], 'Create');
-    this.user = Common.createDomNodeButton(['header__button', 'user__button']);
-    this.userImg = Common.createDomNode('div', ['user__image']);
+    this.user = Common.createDomNode('div', ['header__button', 'user__button']);
     this.userModal = new UserModal().render();
+    this.server = new Server();
   }
 
   public append(creatingBoard?: CreatingBoard) {
     this.logo.append(this.logoImg);
     this.navigation.append(this.logo, this.workspace, this.create);
-    this.user.append(this.userImg);
     this.wrapper.append(this.navigation, this.user);
     this.header.append(this.wrapper, this.userModal);
     if (creatingBoard) {
       this.create.addEventListener('click', creatingBoard.openModal.bind(creatingBoard));
     }
-
+    this.getUser();
     this.addHandlers();
     return this.header;
   }
@@ -58,5 +62,13 @@ export default class Header {
     this.user.addEventListener('click', () => {
       this.userModal.classList.toggle('hidden');
     });
+  }
+
+  private async getUser() {
+    if (this.token) {
+      const response = await this.server.getUserInfo(this.token);
+      Common.createUserIcon(this.user, response.name);
+      (this.user.firstChild as HTMLElement).classList.add('user__header');
+    }
   }
 }

@@ -3,12 +3,14 @@ export default interface IResponseBoard {
   dashboard: IBoard;
   id: string;
   labels: TLabel[];
+  users: TUser[];
 }
 
 export interface IResponseBoards {
   availableDashboards: IBoard[];
   createdDashboards: IBoard[];
 }
+
 export interface IBoard {
   color: string;
   id: string;
@@ -62,9 +64,11 @@ export interface ITodo{
 
 export type TUser = {
   id: string;
+  userName: string;
   name: string;
   info: string;
   email: string;
+  color: string | null;
 };
 
 export type TTaskInfo = {

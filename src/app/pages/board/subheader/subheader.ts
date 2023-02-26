@@ -1,4 +1,5 @@
 import Common from '../../../utils/common';
+import Server from '../../../server/server';
 
 export default class Subheader {
   public subheader: HTMLElement;
@@ -15,7 +16,13 @@ export default class Subheader {
 
   public members: HTMLElement;
 
+  private token: string | null;
+
+  private server: Server;
+
   constructor() {
+    this.token = localStorage.getItem('token');
+    this.server = new Server();
     this.subheader = Common.createDomNode('div', ['subheader']);
     this.wrapper = Common.createDomNode('div', ['subheader__wrapper']);
     this.title = Common.createDomNode('h1', ['board__title']);
@@ -31,5 +38,14 @@ export default class Subheader {
     this.wrapper.append(this.title, this.visibility);
     this.shareWrapper.append(this.members, this.share);
     this.subheader.append(this.wrapper, this.shareWrapper);
+    this.getUser();
+  }
+
+  private async getUser() {
+    if (this.token) {
+      const response = await this.server.getUserInfo(this.token);
+      Common.createUserIcon(this.members, response.name);
+      (this.members.firstChild as HTMLElement).classList.add('user__subheader');
+    }
   }
 }

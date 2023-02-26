@@ -84,7 +84,7 @@ export default class Board {
   private buildBoard(creatingBoard: CreatingBoard) {
     this.header.header.classList.add('board__header');
     this.footer.footer.classList.add('board__footer');
-    this.container.append(this.header.append(creatingBoard), this.userInfo.container, this.board, creatingBoard.append(), this.footer.append());
+    this.container.append(this.header.append(creatingBoard), this.board, creatingBoard.append(), this.footer.append());
     this.main.append(this.listsContainer, this.addListButton.container, this.taskInfo.taskInfo);
     this.board.append(this.subheader.subheader, this.main);
     this.subheader.share.addEventListener('click', this.share.buildModal.bind(this.share));
@@ -106,6 +106,9 @@ export default class Board {
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.id = response.id;
+      response.users.forEach(user => {
+      this.getSharedUser(user.userName, user.color!);
+      })
       this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);
     } else {
@@ -223,6 +226,15 @@ export default class Board {
     const { id } = target.dataset;
     if (id) {
       this.taskInfo.init(id, this.id);
+    }
+  }
+
+  private async getSharedUser(name: string, color: string) {
+    if (this.token) {
+      const abbreviation = Common.getAbbreviation(name);
+      const user = Common.createDomNode('div', ['user__wrapper', 'user__subheader'], abbreviation);
+      user.style.background = color;
+      this.subheader.members.append(user);
     }
   }
 

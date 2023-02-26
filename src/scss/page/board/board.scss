@@ -86,6 +86,16 @@
   @include flex($justify: flex-start);
 }
 
+.share__members {
+  @include flex;
+}
+
+.user__subheader {
+  width: 2.8rem;
+  height: 2.8rem;
+  cursor: pointer;
+}
+
 .share {
   @include flex;
   background: $color-background;
@@ -257,7 +267,7 @@
     visibility: hidden;
 
     &::before {
-      content: '...'; 
+      content: '...';
     }
 
     &:hover {

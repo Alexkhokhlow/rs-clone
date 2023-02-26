@@ -108,4 +108,26 @@ export default class Common {
     title.innerText = input.value;
     parent.replaceChild(title, input);
   }
+
+  public static createUserIcon(parent: HTMLElement, name: string, color?: string) {
+    const abbreviation = Common.getAbbreviation(name);
+    const user = Common.createDomNode('span', ['user__wrapper']);
+    user.textContent = abbreviation;
+    if (color) {
+      user.style.background = color;
+    }
+    parent.append(user);
+  }
+
+  public static getAbbreviation(name: string) {
+    const nameArr = name.split(' ');
+    let abbreviation= '';
+    if (nameArr.length > 1) {
+      abbreviation = nameArr[0][0] + nameArr[1][0];
+    } else {
+      abbreviation = nameArr[0][0];
+    }
+
+    return abbreviation;
+  }
 }

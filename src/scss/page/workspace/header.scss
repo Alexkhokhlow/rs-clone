@@ -92,18 +92,21 @@
   }
 }
 
-.user__image {
-  background: url('../assets/workspace/header/user_icon.svg') center center/contain no-repeat;
-  width: 2.6rem;
-  height: 2.6rem;
-
-  @media (max-width: 890px) {
-    width: 2.3rem;
-    height: 2.3rem;
-  }
-}
-
 .user__button {
   border-radius: 50%;
   padding: .3rem;
+
+}
+
+.user__wrapper {
+  @include flex($justify: center);
+  border: .1rem solid $color-background;
+  border-radius: 50%;
+  color: $color-background;
+}
+
+.user__header {
+  font-size: 1.2rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
