@@ -417,3 +417,14 @@
   width: 1.8rem;
   height: 2rem;
 }
+
+.way__btn {
+  &:hover {
+    color: #000000;
+  }
+
+  &:disabled {
+    color: #9fa6b396;
+    cursor: auto;
+  }
+}
