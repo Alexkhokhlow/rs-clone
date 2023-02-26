@@ -110,6 +110,7 @@ export default class TaskInfo {
   private async getTaskInfo() {
     if (this.id) {
       const response = await this.server.getTaskInfo(this.token, this.id);
+      console.log(response.labels);
       this.initLabels(response.labels);
       this.initDescription(this.id, response.taskInfo.description);
       this.initCheckLists(response.checkLists);

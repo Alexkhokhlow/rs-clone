@@ -89,7 +89,7 @@ export default class TasksList {
       const { id } = this.tasksWrapper.dataset;
       if (this.token && id) {
         const data = (await this.server.createTask(this.token, id, name, index)) as TTask;
-        const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
+        const task = new Task(name, this.onClick, data.task.id);
         this.socket.emit('board', this.path);
         this.tasksWrapper.append(task.task);
       }

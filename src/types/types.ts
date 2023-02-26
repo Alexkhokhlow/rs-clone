@@ -30,6 +30,9 @@ export interface ITask {
   index: string;
   labels: TLabel[];
   name: string;
+  description: string;
+  checkLists : [{checked: number, all: number}]
+  comments: number;
 }
 
 export interface ICommentInfo {

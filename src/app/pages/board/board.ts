@@ -105,7 +105,6 @@ export default class Board {
       this.taskInfo.comment.path = path;
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
-      console.log(response);
       this.id = response.id;
       this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);
@@ -164,7 +163,7 @@ export default class Board {
       list.addCardButton.button.disabled = !response.access;
       list.deleteButton.disabled = !response.access;
       taskList.tasks.forEach((task) => {
-        const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), taskList.name, task.index, task.id);
+        const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), task.id , task.description, task.checkLists, task.comments);
         task.labels.forEach((label) => {
           taskInfo.labelContainer.append(this.createTaskLabel(label));
         });

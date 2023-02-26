@@ -22,7 +22,24 @@ export default class Task {
 
   public checklist: HTMLElement;
 
-  constructor(title: string, onClick: (event: Event) => void, listName: string, index: string, id: string) {
+  public descriptionIcon: HTMLElement;
+
+  private commentsIcon: HTMLElement;
+
+  private checkListsIcon: HTMLElement;
+
+  private containerIcon: HTMLElement;
+  checkListsValue: HTMLElement;
+  commentsValue: HTMLElement;
+
+  constructor(
+    title: string,
+    onClick: (event: Event) => void,
+    id: string,
+    description?: string,
+    checkLists?: [{ checked: number; all: number }],
+    comments?: number
+  ) {
     this.task = Common.createDOMNode('div', ['task']);
     this.task.draggable = true;
     this.title = Common.createDOMNode('span', ['task__title'], title);
@@ -37,13 +54,28 @@ export default class Task {
     this.modal = taskModal;
     this.selectedTask = undefined;
 
+    this.containerIcon = Common.createDOMNode('span', ['task__icon']);
+    this.descriptionIcon = Common.createDOMNode('span', ['task__icon__description']);
+    this.commentsIcon = Common.createDOMNode('span', ['task__icon__comments']);
+    this.commentsValue = Common.createDOMNode('span', ['task__icon__comments-value']);
+    this.checkListsIcon = Common.createDOMNode('span', ['task__icon__checklists']);
+    this.checkListsValue = Common.createDOMNode('span', ['task__icon__checklists-value']);
+
     this.append();
+    this.initIcon(description, checkLists, comments);
     this.addHandlers(onClick);
   }
 
   private append() {
+    this.containerIcon.append(
+      this.descriptionIcon,
+      this.commentsIcon,
+      this.commentsValue,
+      this.checkListsIcon,
+      this.checkListsValue
+    );
     this.taskInfo.append(this.description, this.checklist, this.comments);
-    this.task.append(this.labelContainer, this.title, this.interaction, this.taskInfo);
+    this.task.append(this.labelContainer, this.title, this.interaction, this.taskInfo, this.containerIcon);
   }
 
   private addHandlers(onClick: (event: Event) => void) {
@@ -68,5 +100,28 @@ export default class Task {
       this.modal.removeModalWindow();
       this.selectedTask?.classList.remove('task_selected');
     });
+  }
+
+  initIcon(description?: string, checkLists?: [{ checked: number; all: number }], comments?: number) {
+    description ? this.descriptionIcon.classList.remove('hidden') : this.descriptionIcon.classList.add('hidden');
+    if (checkLists) {
+      console.log(checkLists)
+      if (checkLists[0].all) {
+        this.checkListsValue.textContent = `${checkLists[0].checked}/${checkLists[0].all}`;
+        this.checkListsIcon.classList.remove('hidden');
+        this.checkListsValue.classList.remove('hidden');
+      } else {
+        this.checkListsIcon.classList.add('hidden');
+        this.checkListsValue.classList.add('hidden');
+      }
+    }
+    if (comments) {
+      this.commentsValue.textContent = String(comments);
+      this.commentsIcon.classList.remove('hidden');
+      this.commentsValue.classList.remove('hidden');
+    } else {
+      this.commentsIcon.classList.add('hidden');
+      this.commentsValue.classList.add('hidden');
+    }
   }
 }
