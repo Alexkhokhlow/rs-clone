@@ -103,6 +103,7 @@ export default class TaskInfo {
     });
     this.titleInput.addEventListener('focusout', () => {
       Common.changeTitle(this.header, this.title, this.titleInput);
+      this.server.updateTaskName(this.token, this.id, this.titleInput.value)
     });
   }
 

@@ -282,6 +282,21 @@ export default class Server {
     return json;
   }
 
+  async updateTaskName(token: string, id: string, name: string) {
+    const response = await fetch(`${this.address}/taskName`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, name }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async createComment(token: string, id: string, comment: string) {
     const response = await fetch(`${this.address}/comment`, {
       method: 'POST',

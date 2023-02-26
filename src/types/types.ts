@@ -3,6 +3,7 @@ export default interface IResponseBoard {
   dashboard: IBoard;
   id: string;
   labels: TLabel[];
+  users: TUser[]
 }
 
 export interface IResponseBoards {
