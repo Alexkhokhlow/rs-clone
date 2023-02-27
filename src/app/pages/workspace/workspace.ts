@@ -1,4 +1,3 @@
-import { IResponseBoards } from '../../../types/types';
 import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
@@ -48,7 +47,7 @@ export default class Workspace {
     const text = new Lang();
     if (this.token) {
       try {
-        const dashboards = (await this.server.getDashboards(this.token)) as IResponseBoards;
+        const dashboards = await this.server.getDashboards(this.token);
         const { availableDashboards, createdDashboards } = dashboards;
         this.main.availableBoardsLayout.textContent = availableDashboards ? '' : text.text.workspace.available.info;
         availableDashboards.forEach((dashboard) => {

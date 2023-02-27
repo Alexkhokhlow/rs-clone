@@ -80,9 +80,7 @@ export default class CommentsForm {
       this.input.form.container.classList.add('hidden');
       this.input.form.input.value = '';
       if (this.token) {
-        const { commentInfo } = (await this.server.createComment(this.token, this.id, text)) as {
-          commentInfo: TComment;
-        };
+        const { commentInfo } = await this.server.createComment(this.token, this.id, text);
         this.createComment(text, this.user.name, commentInfo.id, true);
         this.socket.emit('taskInfo', this.path);
       }

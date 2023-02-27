@@ -1,5 +1,4 @@
 import { Socket } from 'socket.io-client';
-import { ITodo } from '../../../../../types/types';
 import Lang from '../../../../common/lang/lang';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
@@ -87,7 +86,7 @@ export default class Checklist {
   private async onSave() {
     if (this.addItemButton.form.input.value.trim()) {
       const text = this.addItemButton.form.input.value;
-      const response = (await this.server.createTodo(this.token, this.id, text)) as { todo: ITodo };
+      const response = await this.server.createTodo(this.token, this.id, text);
       const checkpoint = new Checkpoint(response.todo.id, this.socket, this.path);
       checkpoint.input.value = text;
       this.checkpointsWrapper.append(checkpoint.point);

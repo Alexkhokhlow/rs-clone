@@ -1,4 +1,3 @@
-import { TUser } from '../../../../types/types';
 import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';

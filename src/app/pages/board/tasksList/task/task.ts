@@ -104,7 +104,11 @@ export default class Task {
   }
 
   initIcon(description?: string, checkLists?: [{ all: number; checked: number }], comments?: number) {
-    description ? this.descriptionIcon.classList.remove('hidden') : this.descriptionIcon.classList.add('hidden');
+    if (description) {
+      this.descriptionIcon.classList.remove('hidden');
+    } else {
+      this.descriptionIcon.classList.add('hidden');
+    }
     if (checkLists && checkLists[0].all) {
       this.checkListsValue.textContent = `${checkLists[0].checked}/${checkLists[0].all}`;
       this.checkListsIcon.classList.remove('hidden');

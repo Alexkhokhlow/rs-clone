@@ -45,7 +45,7 @@ export default class UserPage {
 
   server: Server;
 
-  token: string;
+  token: string | null;
 
   creatingBoard: CreatingBoard;
 
@@ -57,7 +57,7 @@ export default class UserPage {
     this.userInfo = Common.createDomNode('div', ['user__info']);
     this.userImg = Common.createDomNode('div', ['user__image']);
     this.userDescription = Common.createDomNode('div', ['user__description']);
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token');
     this.server = new Server();
 
     this.name = Common.createDomNode('p', ['user__name', 'subtitle']);
@@ -78,12 +78,14 @@ export default class UserPage {
   }
 
   async init() {
-    const data: TUser = await this.server.getUserInfo(this.token);
-    this.name.textContent = data.name;
-    this.mail.textContent = data.email;
-    this.inputName.value = data.name;
-    this.bioInput.value = data.info;
-    this.description.textContent = data.info;
+    if (this.token) {
+      const data: TUser = await this.server.getUserInfo(this.token);
+      this.name.textContent = data.name;
+      this.mail.textContent = data.email;
+      this.inputName.value = data.name;
+      this.bioInput.value = data.info;
+      this.description.textContent = data.info;
+    }
   }
 
   public async render() {
@@ -110,14 +112,15 @@ export default class UserPage {
   }
 
   private addHandlers() {
-    this.btnSubmit.addEventListener('click', (e) => {
+    this.btnSubmit.addEventListener('click', async (e) => {
       e.preventDefault();
       this.changeBtnActivity(false, this.btnSubmit);
 
-      this.server.updateUserInfo(this.token, this.inputName.value, this.bioInput.value);
-
       this.name.textContent = this.inputName.value;
       this.description.textContent = this.bioInput.value;
+      if (this.token) {
+        await this.server.updateUserInfo(this.token, this.inputName.value, this.bioInput.value);
+      }
     });
 
     this.inputName.addEventListener('input', () => {
