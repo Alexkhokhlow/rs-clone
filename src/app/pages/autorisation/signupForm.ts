@@ -108,10 +108,10 @@ export default class SignupForm {
               if (this.isValidName(name)) {
                 this.singUp(mail, password, name);
               } else {
-                this.showErrorMessage('Please, enter your name');
+                this.showErrorMessage(this.text.text.login.invalidName);
               }
             } else {
-              this.showErrorMessage('Password must contain at least 4 characters');
+              this.showErrorMessage(this.text.text.login.invalidPass);
             }
           } else {
             this.showErrorMessage();
@@ -135,11 +135,13 @@ export default class SignupForm {
   }
 
   private isValidPassword(password: string) {
-    return password.length > 3;
+    const regExp = /^[a-zA-Z0-9]{4,}$/;
+    return regExp.test(password);
   }
 
   private isValidName(name: string) {
-    return name !== '';
+    const regExp = /^[a-zA-Z0-9]{1,}$/;
+    return regExp.test(name);
   }
 
   private changeActivityofBtn(condition: boolean, btn: HTMLElement) {
@@ -174,7 +176,8 @@ export default class SignupForm {
       await server.checkEmail(mail);
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message !== this.text.text.login.busy) {
+        console.log(error.message);
+        if (error.message !== 'An error has occurred: This mail is busy') {
           this.passwordInput.classList.remove('invisible');
           this.nameInput.classList.remove('invisible');
           (this.btnSubmit as HTMLButtonElement).value = this.text.text.singUp;
@@ -196,7 +199,7 @@ export default class SignupForm {
       this.mailToLocalStorage();
       window.location.href = 'login';
     } catch (error) {
-      this.showErrorMessage('Probably you have already registered');
+      this.showErrorMessage(this.text.text.login.ready);
     }
     this.changeActivityofBtn(true, this.btnSubmit);
   }

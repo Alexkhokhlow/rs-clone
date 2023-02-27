@@ -70,6 +70,8 @@ export interface ILang {
   };
   login: {
     invalid: string;
+    invalidName: string;
+    invalidPass: string;
     password: string;
     email: string;
     sing: string;

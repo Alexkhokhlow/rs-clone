@@ -158,7 +158,9 @@ const eng = {
     already: 'Already have an account? Log In',
     error: 'Invalid email address and/or password and/or name.',
     busy: 'An error has occurred: This mail is busy',
-    ready: 'It looks like you have already registered an account using this email address',
+    ready: 'It looks like you have already registered an account using this email address.',
+    invalidPass: 'Password must contain at least 4 characters.',
+    invalidName: 'Please, enter your name.',
   },
   errorPage: {
     notFound: 'Page not found',
