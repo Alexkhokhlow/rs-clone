@@ -19,7 +19,6 @@ export default class EntryWays {
       if (target.classList.contains('btn_google')) {
         window.location.replace('https://trello-clone-x3tl.onrender.com/api/google');
       }
-      // TODO: добавить авторизацию
     });
     return entryWay;
   }

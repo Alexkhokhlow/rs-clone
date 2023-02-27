@@ -144,8 +144,9 @@ export default class Board {
     this.taskModal.modal.addEventListener('click', async (e) => {
       if ((e.target as HTMLElement).classList.contains('btn-move')) {
         e.stopImmediatePropagation();
-        await this.taskModal.getTasksLists().then((value) => {
-          this.taskModal.createMoveModal(value, this.rewriteTaskList.bind(this));
+        const currentTaskList = (e.target as HTMLElement).closest('.tasks__wrapper') as HTMLElement;
+        this.taskModal.getTasksLists().then((response) => {
+          this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this), currentTaskList);
         });
       }
       if ((e.target as HTMLElement).classList.contains('btn-open')) {

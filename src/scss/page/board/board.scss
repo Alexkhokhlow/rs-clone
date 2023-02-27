@@ -210,8 +210,6 @@
   gap: 0.4rem;
   width: 100%;
   min-height: 2rem;
-  max-height: 52vh;
-  overflow-y: auto;
   padding: 0 0.8rem;
 
   &::-webkit-scrollbar {
@@ -431,4 +429,15 @@
   background: url('../assets/workspace/create/lock.svg') top/contain no-repeat;
   width: 1.8rem;
   height: 2rem;
+}
+
+.way__btn {
+  &:hover {
+    color: #000000;
+  }
+
+  &:disabled {
+    color: #9fa6b396;
+    cursor: auto;
+  }
 }

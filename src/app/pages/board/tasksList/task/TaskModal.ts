@@ -60,6 +60,7 @@ export class TaskModal {
     this.backdrop.remove();
     this.modal.remove();
     this.moveModal?.remove();
+    this.selectedTask?.classList.remove('task_selected');
   }
 
   async getTasksLists() {
@@ -79,12 +80,15 @@ export class TaskModal {
     return taskListsNames;
   }
 
-  createMoveModal(tasksLists: ITaskList[], cb: (taskList: HTMLElement) => void) {
+  createMoveModal(tasksLists: ITaskList[], cb: (taskList: HTMLElement) => void, currentTaskList: HTMLElement) {
     this.moveModal = Common.createDomNode('div', ['move__modal'], 'Move card');
     const subtitle = Common.createDomNode('p', ['modal__title'], 'Select a list');
     this.moveModal.append(subtitle);
     tasksLists.forEach((tasksList) => {
       const way = Common.createDomNode('button', ['way__btn'], `${tasksList.name}`);
+      if (currentTaskList.dataset.id == tasksList.id) {
+        way.setAttribute('disabled', 'disabled');
+      }
 
       way.addEventListener('click', (e) => {
         e.stopPropagation();

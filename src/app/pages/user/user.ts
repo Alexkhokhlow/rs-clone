@@ -21,6 +21,8 @@ export default class UserPage {
 
   mail: HTMLElement;
 
+  description: HTMLElement;
+
   title: HTMLElement;
 
   form: HTMLElement;
@@ -52,15 +54,15 @@ export default class UserPage {
     this.token = localStorage.getItem('token')!;
     this.server = new Server();
 
-    // получать по токену информацию (name, mail);
-    this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
-    this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
+    this.name = Common.createDomNode('p', ['user__name', 'subtitle']);
+    this.mail = Common.createDomNode('p', ['user__mail', 'subtitle']);
+    this.description = Common.createDomNode('p', ['user__bio', 'subtitle']);
 
     this.title = Common.createDomNode('h1', ['title', 'profile__title'], 'Profile');
     this.form = Common.createDomNode('form', ['user__form']);
     this.formNameContainer = Common.createDomNode('div', ['form__container']);
     this.inputNameLabel = Common.createDomNodeLabel('name', 'Username', ['label']);
-    // получать по токену name и вставить в placeholder к this.inputName и получить bio
+
     this.inputName = Common.createDOMNodeInput('name', ['input__name'], 'text');
     this.formBioContainer = Common.createDomNode('div', ['form__container']);
     this.bioLabel = Common.createDomNodeLabel('bio', 'About Me', ['label']);
@@ -76,10 +78,11 @@ export default class UserPage {
     this.mail.textContent = data.email;
     this.inputName.value = data.name;
     this.bioInput.value = data.info;
+    this.description.textContent = data.info;
   }
 
   public async render() {
-    this.main.append(this.header, this.userInfo, this.title, this.form, this.footer);
+    this.main.append(this.header, this.userInfo, this.description, this.title, this.form, this.footer);
     this.userInfo.append(this.userImg, this.userDescription);
     this.userDescription.append(this.name, this.mail);
 
@@ -96,10 +99,28 @@ export default class UserPage {
   private addHandlers() {
     this.btnSubmit.addEventListener('click', (e) => {
       e.preventDefault();
-      this.server.updateUserInfo(this.token, this.inputName.value, this.bioInput.value);
-      this.name.textContent = this.inputName.value;
+      this.changeBtnActivity(false, this.btnSubmit);
 
-      // TODO: залить на сервер изменения и изменить имя на странице (перезагрузить страницу?)
+      this.server.updateUserInfo(this.token, this.inputName.value, this.bioInput.value);
+
+      this.name.textContent = this.inputName.value;
+      this.description.textContent = this.bioInput.value;
     });
+
+    this.inputName.addEventListener('input', () => {
+      this.changeBtnActivity(true, this.btnSubmit);
+    });
+
+    this.bioInput.addEventListener('input', () => {
+      this.changeBtnActivity(true, this.btnSubmit);
+    });
+  }
+
+  private changeBtnActivity(condition: boolean, btn: HTMLElement) {
+    if (condition) {
+      btn.removeAttribute('disabled');
+    } else {
+      btn.setAttribute('disabled', 'disabled');
+    }
   }
 }
