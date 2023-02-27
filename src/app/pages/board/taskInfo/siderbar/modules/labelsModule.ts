@@ -1,8 +1,8 @@
+import { Socket } from 'socket.io-client';
+import { TLabel } from '../../../../../../types/types';
+import Server from '../../../../../server/server';
 import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
-import Server from '../../../../../server/server';
-import { TLabel } from '../../../../../../types/types';
-import { Socket } from 'socket.io-client';
 
 export default class LabelsModule {
   private labels: HTMLElement;
@@ -51,7 +51,7 @@ export default class LabelsModule {
     this.cancel = Common.createDomNodeButton(['button', 'cancel'], 'Cancel');
     this.append();
     this.server = new Server();
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token') as string;
   }
 
   private append() {
@@ -88,9 +88,9 @@ export default class LabelsModule {
 
     editWrapper.addEventListener('click', (event: Event) => {
       const target = event.currentTarget as HTMLElement;
-      const label = target.previousElementSibling as HTMLElement;
+      const prevItem = target.previousElementSibling as HTMLElement;
       this.openLabelTitleEditor();
-      this.wrapper.setAttribute('id', label.getAttribute('id')!);
+      this.wrapper.setAttribute('id', prevItem.getAttribute('id') as string);
     });
   }
 
@@ -110,7 +110,7 @@ export default class LabelsModule {
 
   async onSaveLabel() {
     const text = this.input.value;
-    const id = this.wrapper.getAttribute('id')!;
+    const id = this.wrapper.getAttribute('id') as string;
     const colorLabel = this.labelsContainer.children[Number(id)].children[1] as HTMLInputElement;
     colorLabel.value = text;
     this.closeLabelTitleEditor();

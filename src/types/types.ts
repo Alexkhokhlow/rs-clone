@@ -3,12 +3,14 @@ export default interface IResponseBoard {
   dashboard: IBoard;
   id: string;
   labels: TLabel[];
+  users: TUser[];
 }
 
 export interface IResponseBoards {
   availableDashboards: IBoard[];
   createdDashboards: IBoard[];
 }
+
 export interface IBoard {
   color: string;
   id: string;
@@ -41,30 +43,32 @@ export interface ICommentInfo {
 }
 
 export interface ITaskInfo {
+  checkLists: ICheckList[];
   comments: TComment[];
   labels: TLabel[];
   taskInfo: TTaskInfo;
   user: TUser;
-  checkLists: ICheckList[];
 }
 
 export interface ICheckList {
-  name: string;
   id: string;
-  todo : ITodo[]
+  name: string;
+  todo: ITodo[];
 }
 
-export interface ITodo{
-  text: string;
-  id: string;
+export interface ITodo {
   checked: boolean;
+  id: string;
+  text: string;
 }
 
 export type TUser = {
-  id: string;
-  name: string;
-  info: string;
+  color: string;
   email: string;
+  id: string;
+  info: string;
+  name: string;
+  userName: string;
 };
 
 export type TTaskInfo = {
@@ -79,14 +83,13 @@ export type TLabel = {
   index: string;
   text: string;
   title: string;
-  updatedAt: string;
 };
 
 export type TComment = {
   id: string;
   text: string;
+  userId: string;
   userName: string;
-  userId:string;
 };
 
 export type TTask = {
@@ -94,6 +97,5 @@ export type TTask = {
     id: string;
     index: string;
     name: string;
-    updateAt: string;
   };
 };

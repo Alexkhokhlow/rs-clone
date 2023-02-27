@@ -34,20 +34,20 @@ export default class Checklist {
 
   private socket: Socket;
 
-  constructor(id: string, title: string, path:string, socket:Socket) {
+  constructor(id: string, title: string, path: string, socket: Socket) {
     this.socket = socket;
     this.path = path;
     this.id = id;
     this.checklist = Common.createDomNode('div', ['checklist__info']);
     this.checklistHeader = Common.createDomNode('div', ['checklist__header__wrapper']);
-    this.titleIcon =  Common.createDomNode('div', ['checklist__icon']);
+    this.titleIcon = Common.createDomNode('div', ['checklist__icon']);
     this.checklistTitle = Common.createDomNode('h4', ['checklist__title__info', 'title__info'], title);
-    this.checklistTitleInput = Common.createDomNodeInput('Enter checklist\'s title', '', ['checklist__title__input']);
+    this.checklistTitleInput = Common.createDomNodeInput("Enter checklist's title", '', ['checklist__title__input']);
     this.checklistDelete = Common.createDomNodeButton(['checklist__delete'], 'Delete');
     this.checkpointsWrapper = Common.createDomNode('div', ['checkpoints__wrapper']);
     this.addItemButton = new AddItemButton('Add an item', 'Add an item', 'Add', this.onSave.bind(this));
     this.checkpoints = [];
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token') as string;
     this.server = new Server();
 
     this.append();
@@ -62,7 +62,7 @@ export default class Checklist {
   private bindEvents() {
     this.checklistDelete.addEventListener('click', this.removeChecklist.bind(this));
     this.checklistTitle.addEventListener('click', () => {
-      Common.clickTitle(this.checklistHeader, this.checklistTitle, this.checklistTitleInput)
+      Common.clickTitle(this.checklistHeader, this.checklistTitle, this.checklistTitleInput);
     });
     this.checklistTitleInput.addEventListener('focusout', () => {
       Common.changeTitle(this.checklistHeader, this.checklistTitle, this.checklistTitleInput);
@@ -78,7 +78,7 @@ export default class Checklist {
   private async onSave() {
     if (this.addItemButton.form.input.value.trim()) {
       const text = this.addItemButton.form.input.value;
-      const response: {todo : ITodo} = await this.server.createTodo(this.token, this.id, text);
+      const response = (await this.server.createTodo(this.token, this.id, text)) as { todo: ITodo };
       const checkpoint = new Checkpoint(response.todo.id, this.socket, this.path);
       checkpoint.input.value = text;
       this.checkpointsWrapper.append(checkpoint.point);

@@ -108,4 +108,46 @@ export default class Common {
     title.innerText = input.value;
     parent.replaceChild(title, input);
   }
+
+  public static createUserIcon(id: string, name: string, classEl: string, color?: string) {
+    const abbreviation = Common.getAbbreviation(name);
+    const user = Common.createDomNode('span', ['user__wrapper']);
+    user.classList.add(classEl);
+    user.id = id;
+    user.textContent = abbreviation;
+    if (color) {
+      user.style.background = color;
+    }
+    return user;
+  }
+
+  public static getAbbreviation(name: string) {
+    const nameArr = name.split(' ');
+    let abbreviation = '';
+    if (nameArr.length > 1) {
+      abbreviation = nameArr[0][0] + nameArr[1][0];
+    } else {
+      abbreviation = nameArr[0].slice(0, 1);
+    }
+
+    return abbreviation;
+  }
+
+  public static generateRandomColor() {
+    const colors = [
+      '#45a6cd',
+      '#b755a5',
+      '#492190',
+      '#6fabb7',
+      '#285d70',
+      '#589146',
+      '#68ad85',
+      '#e39a50',
+      '#3d7668',
+      '#ac6e26',
+      '#7b96ac',
+    ];
+    const index = Math.floor(Math.random() * colors.length);
+    return colors[index];
+  }
 }

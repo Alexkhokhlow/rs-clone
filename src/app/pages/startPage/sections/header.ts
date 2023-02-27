@@ -39,15 +39,15 @@ export default class StartPageHeader {
 
   private addHandlers() {
     this.logIn.addEventListener('click', () => {
-      window.location.href = '/login';
+      window.location.pathname = 'login';
     });
 
     this.trelloFree.addEventListener('click', () => {
-      window.location.href = '/signup';
+      window.location.pathname = 'signup';
     });
 
     this.logo.addEventListener('click', () => {
-      window.location.href = '/home';
-    })
+      window.location.pathname = 'home';
+    });
   }
 }

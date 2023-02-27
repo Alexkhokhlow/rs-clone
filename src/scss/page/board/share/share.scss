@@ -30,6 +30,11 @@
   }
 }
 
+.share__wrapper {
+  @include flex;
+  gap: 1rem;
+}
+
 .share__title {
   font-size: 2rem;
   color: $color-create-text;

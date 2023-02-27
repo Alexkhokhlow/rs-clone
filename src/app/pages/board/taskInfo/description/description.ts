@@ -27,11 +27,12 @@ export default class Description {
   private socket: Socket;
 
   public path: string;
+
   constructor(socket: Socket) {
     this.socket = socket;
     this.data = '';
     this.id = '';
-    this.path = ''
+    this.path = '';
     this.description = Common.createDomNode('div', ['description']);
     this.title = Common.createDomNode('span', ['description__title', 'title__info'], 'Description');
     this.container = Common.createDomNode('div', ['description__container']);
@@ -89,7 +90,7 @@ export default class Description {
   }
 
   onClose() {
-    this.data ? this.editButton.classList.add('active') : this.editButton.classList.remove('active');
+    this.editButton.classList.toggle('active');
     this.container.replaceChild(this.detailButton, this.form.form);
   }
 }

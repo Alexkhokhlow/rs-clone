@@ -73,7 +73,7 @@ export default class TasksList {
   private bindEvents() {
     this.deleteButton.addEventListener('click', this.removeList.bind(this));
     this.title.addEventListener('click', () => {
-      Common.clickTitle(this.headerTaskList, this.title, this.titleInput)
+      Common.clickTitle(this.headerTaskList, this.title, this.titleInput);
     });
     this.titleInput.addEventListener('focusout', () => {
       Common.changeTitle(this.headerTaskList, this.title, this.titleInput);
