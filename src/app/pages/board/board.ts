@@ -71,7 +71,7 @@ export default class Board {
     this.share = new Share();
     this.token = localStorage.getItem('token');
     this.path = '';
-    this.socket = io(`http://localhost:3000`);
+    this.socket = io(`https://trello-clone-x3tl.onrender.com`);
     this.taskInfo = new TaskInfo(this.socket);
     this.response = null;
 
