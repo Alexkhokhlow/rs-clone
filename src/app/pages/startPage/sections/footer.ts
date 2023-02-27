@@ -19,6 +19,8 @@ export default class StartPageFooter {
   private trello: HTMLImageElement;
 
   private year: HTMLElement;
+  
+  public lang: HTMLSelectElement;
 
   constructor() {
     this.footer = Common.createDomNode('footer', ['start__footer']);
@@ -28,6 +30,7 @@ export default class StartPageFooter {
     this.rssIcon = Common.createDomNodeImg(['rss__icon'], iconRss);
     this.trello = Common.createDomNodeImg(['trello__footer'], trello);
     this.year = Common.createDomNode('span', ['year'], '2023');
+    this.lang = Common.languageSwitcher();
 
     github.forEach((link) => {
       const linkGit = Common.createDomNodeLink(['github'], link);
@@ -40,7 +43,7 @@ export default class StartPageFooter {
   public append() {
     this.rssLink.append(this.rssIcon);
     this.icons.append(this.rssLink);
-    this.wrapper.append(this.trello, this.year, this.icons);
+    this.wrapper.append(this.trello, this.lang, this.year, this.icons);
     this.footer.append(this.wrapper);
 
     return this.footer;

@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 export default class Using {
@@ -10,12 +11,13 @@ export default class Using {
   private img: HTMLElement;
 
   constructor() {
+    const text = new Lang()
     this.section = Common.createDomNode('section', ['using']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'using__wrapper']);
     this.text = Common.createDomNode(
       'p',
       ['using__text'],
-      'Join over 2,000,000 teams worldwide that are using Trello to get more done.'
+      text.text.using.text
     );
     this.img = Common.createDomNode('div', ['using__img']);
   }

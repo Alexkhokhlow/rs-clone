@@ -104,16 +104,13 @@ export default class Task {
 
   initIcon(description?: string, checkLists?: [{ checked: number; all: number }], comments?: number) {
     description ? this.descriptionIcon.classList.remove('hidden') : this.descriptionIcon.classList.add('hidden');
-    if (checkLists) {
-      console.log(checkLists)
-      if (checkLists[0].all) {
-        this.checkListsValue.textContent = `${checkLists[0].checked}/${checkLists[0].all}`;
-        this.checkListsIcon.classList.remove('hidden');
-        this.checkListsValue.classList.remove('hidden');
-      } else {
-        this.checkListsIcon.classList.add('hidden');
-        this.checkListsValue.classList.add('hidden');
-      }
+    if (checkLists && checkLists[0].all) {
+      this.checkListsValue.textContent = `${checkLists[0].checked}/${checkLists[0].all}`;
+      this.checkListsIcon.classList.remove('hidden');
+      this.checkListsValue.classList.remove('hidden');
+    } else {
+      this.checkListsIcon.classList.add('hidden');
+      this.checkListsValue.classList.add('hidden');
     }
     if (comments) {
       this.commentsValue.textContent = String(comments);

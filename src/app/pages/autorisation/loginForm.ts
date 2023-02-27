@@ -1,3 +1,4 @@
+import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import EntryWays from './entryWays';
@@ -26,35 +27,37 @@ export default class LoginForm {
   entryWays: HTMLElement[];
 
   linkToSingup: HTMLElement;
+  text: Lang;
 
   constructor() {
+    this.text = new Lang()
     this.form = Common.createDomNode('div', ['login__form']);
-    this.formTitle = Common.createDomNode('h1', ['login__title'], 'Log in to Trello');
+    this.formTitle = Common.createDomNode('h1', ['login__title'], this.text.text.login.login);
     this.errorMessage = Common.createDomNode(
       'p',
       ['login__error', 'invisible'],
-      'Invalid email address and/or password.'
+      this.text.text.login.invalid
     );
     this.inputsContainer = Common.createDomNode('div', ['inputs__container']);
-    this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', 'Enter email');
+    this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', this.text.text.login.email);
     this.passwordInput = Common.createDOMNodeInput(
       'password',
       ['input_password', 'invisible'],
       'password',
-      'Enter password'
+      this.text.text.login.password
     );
     this.btnSubmit = Common.createDOMNodeInput('submit', ['input_sublit', 'btn', 'btn_submit'], 'submit');
-    this.seperetor = Common.createDomNode('div', ['form__separator'], 'OR');
+    this.seperetor = Common.createDomNode('div', ['form__separator'],  this.text.text.login.or);
     this.entryWays = LoginForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
     });
-    this.linkToSingup = Common.createDomNodeLink(['form__link'], '/signup', 'Sign up for an account');
+    this.linkToSingup = Common.createDomNodeLink(['form__link'], '/signup', this.text.text.login.sing);
   }
 
   public render() {
     this.form.append(this.formTitle, this.errorMessage, this.inputsContainer, this.seperetor);
     if (this.btnSubmit instanceof HTMLInputElement) {
-      this.btnSubmit.value = 'Continue';
+      this.btnSubmit.value = this.text.text.login.continue;
       this.btnSubmit.setAttribute('disabled', 'disabled');
     }
     this.inputsContainer.append(this.loginInput, this.passwordInput, this.btnSubmit);
@@ -86,7 +89,7 @@ export default class LoginForm {
       e.preventDefault();
       this.mailToLocalStorage();
       if (e.target instanceof HTMLInputElement) {
-        if (e.target.value === 'Continue') {
+        if (e.target.value ===  this.text.text.login.continue) {
           this.openPasswordInput();
         } else {
           this.checkLoginPassword(

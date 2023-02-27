@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 export default class Subheader {
@@ -16,12 +17,13 @@ export default class Subheader {
   public members: HTMLElement;
 
   constructor() {
+    const text = new Lang();
     this.subheader = Common.createDomNode('div', ['subheader']);
     this.wrapper = Common.createDomNode('div', ['subheader__wrapper']);
     this.title = Common.createDomNode('h1', ['board__title']);
     this.visibility = Common.createDomNode('div', ['board__visibility']);
     this.shareWrapper = Common.createDomNode('div', ['share__wrapper']);
-    this.share = Common.createDomNodeButton(['share'], 'Share');
+    this.share = Common.createDomNodeButton(['share'], text.text.share.share);
     this.members = Common.createDOMNode('div', ['share__members']);
 
     this.append();

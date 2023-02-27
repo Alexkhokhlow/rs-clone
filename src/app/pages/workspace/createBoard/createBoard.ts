@@ -1,4 +1,5 @@
 import { IBoard } from '../../../../types/types';
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import { backgrounds } from '../../startPage/constants/constants';
@@ -78,51 +79,68 @@ export default class CreatingBoard {
 
   private token: string | null;
 
+  private text: Lang;
+
   constructor() {
+    this.text = new Lang();
     this.overlay = Common.createDomNode('div', ['overlay', 'hidden']);
     this.section = Common.createDomNode('section', ['create']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'create__wrapper']);
     this.titleWrapper = Common.createDomNode('div', ['create__title__wrapper']);
     this.closeButton = Common.createDomNode('div', ['close__button']);
-    this.title = Common.createDomNode('h3', ['create__title'], 'Create board');
+    this.title = Common.createDomNode('h3', ['create__title'], this.text.text.createBoard.createBoard);
     this.line = Common.createDomNode('hr', ['horizontal__line']);
     this.boardInfo = Common.createDomNode('div', ['board__inform']);
     this.board = Common.createDomNode('div', ['board__background']);
     this.boardImg = Common.createDomNodeImg(['board__icon'], board);
     this.backgroundWrapper = Common.createDomNode('div', ['background__wrapper']);
-    this.backgroundTitle = Common.createDomNode('div', ['create__subtitle'], 'Background');
+    this.backgroundTitle = Common.createDomNode('div', ['create__subtitle'], this.text.text.createBoard.background);
     this.backgrounds = Common.createDomNode('div', ['backgrounds']);
     this.boardTitleWrapper = Common.createDomNode('div', ['board__title__wrapper']);
-    this.boardTitle = Common.createDomNodeLabel('board title', 'Board title', ['create__subtitle']);
+    this.boardTitle = Common.createDomNodeLabel(
+      this.text.text.createBoard.boardTitle,
+      this.text.text.createBoard.boardTitle,
+      ['create__subtitle']
+    );
     this.star = Common.createDomNode('span', ['label__star'], '*');
-    this.boardTitleInput = Common.createDomNodeInput('Enter Title', 'board title', ['board__title__input']);
-    this.boardTitleText = Common.createDomNode('p', ['board__title__text'], 'Board title is required');
+    this.boardTitleInput = Common.createDomNodeInput(
+      this.text.text.createBoard.enter,
+      this.text.text.createBoard.boardTitle,
+      ['board__title__input']
+    );
+    this.boardTitleText = Common.createDomNode('p', ['board__title__text'], this.text.text.createBoard.require);
     this.boardVisibilityWrapper = Common.createDomNode('div', ['board__visibility__wrapper']);
-    this.visibilityTitle = Common.createDomNodeLabel('visibility', 'Visibility', ['create__subtitle']);
+    this.visibilityTitle = Common.createDomNodeLabel(
+      this.text.text.createBoard.visibility,
+      this.text.text.createBoard.visibility,
+      ['create__subtitle']
+    );
     this.dropDownMenu = Common.createDomNode('div', ['dropdown']);
-    this.visibility = Common.createDomNodeInput('Choose visibility', 'visibility', ['visibility']);
+    this.visibility = Common.createDomNodeInput(this.text.text.createBoard.visibilityChoose, 'visibility', [
+      'visibility',
+    ]);
     this.visibility.readOnly = true;
-    this.visibility.value = 'Private';
+    this.visibility.value = this.text.text.private;
     this.options = Common.createDomNode('div', ['options', 'hidden']);
     this.privateWrapper = Common.createDomNode('div', ['option']);
     this.private = Common.createDomNode('div', ['private']);
     this.privateIcon = Common.createDomNode('div', ['private__icon']);
-    this.privateTitle = Common.createDomNode('h3', ['option__title'], 'Private');
+    this.privateTitle = Common.createDomNode('h3', ['option__title'], this.text.text.private);
     this.privateDescription = Common.createDomNode(
       'p',
       ['private__description'],
-      'Only board members can see and edit the board.'
+      this.text.text.createBoard.privateDescription
     );
     this.publicWrapper = Common.createDomNode('div', ['option']);
     this.public = Common.createDomNode('div', ['public']);
     this.publicIcon = Common.createDomNode('div', ['public__icon']);
-    this.publicTitle = Common.createDomNode('h3', ['option__title'], 'Public');
+    this.publicTitle = Common.createDomNode('h3', ['option__title'], this.text.text.public);
     this.publicDescription = Common.createDomNode(
       'p',
       ['public__description'],
-      'Anyone on the internet can see this board. Only members can edit.'
+      this.text.text.createBoard.publicDescription
     );
-    this.createButton = Common.createDomNodeButton(['button', 'create__button'], 'Create');
+    this.createButton = Common.createDomNodeButton(['button', 'create__button'], this.text.text.create);
     this.createButton.disabled = true;
     this.server = new Server();
     this.createBackgrounds();
@@ -210,7 +228,7 @@ export default class CreatingBoard {
       this.overlay.classList.add('hidden');
     }
     this.boardTitleInput.value = '';
-    this.visibility.value = 'Private';
+    this.visibility.value = this.text.text.private;
     if (!this.options.classList.contains('hidden')) {
       this.options.classList.add('hidden');
     }
@@ -237,7 +255,7 @@ export default class CreatingBoard {
     const data = {
       color: this.board.style.background,
       name: this.boardTitleInput.value,
-      access: this.visibility.value === 'Public',
+      access: this.visibility.value === this.text.text.public,
     };
     if (this.token) {
       try {

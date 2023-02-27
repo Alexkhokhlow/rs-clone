@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 const logo = require('../../../../assets/startPage/svg/logo.svg') as string;
@@ -18,13 +19,14 @@ export default class StartPageHeader {
   private trelloFree: HTMLElement;
 
   constructor() {
+    const text = new Lang()
     this.header = Common.createDomNode('header', ['header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'header__wrapper']);
     this.logo = Common.createDomNode('span', ['logo', 'logo__start']);
     this.logoImg = Common.createDomNodeImg(['logo__img'], logo);
     this.links = Common.createDomNode('div', ['links']);
-    this.logIn = Common.createDomNode('span', ['login', 'login__start'], 'Log In');
-    this.trelloFree = Common.createDomNode('span', ['signup__header'], 'Get Trello for free');
+    this.logIn = Common.createDomNode('span', ['login', 'login__start'], text.text.header.logIn);
+    this.trelloFree = Common.createDomNode('span', ['signup__header'], text.text.header.trelloFree);
   }
 
   public append() {

@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 import CreatingBoard from '../createBoard/createBoard';
 import UserModal from './userModal';
@@ -24,13 +25,14 @@ export default class Header {
   private userImg: HTMLElement;
 
   constructor() {
+    const text = new Lang()
     this.header = Common.createDomNode('header', ['header', 'main__header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'wrapper__header']);
     this.logo = Common.createDomNodeLink(['logo', 'header__logo'], '/');
     this.logoImg = Common.createDomNode('div', ['header__logo__img']);
     this.navigation = Common.createDomNode('nav', ['navigation', 'header__navigation']);
-    this.workspace = Common.createDomNodeButton(['header__button'], 'Workspace');
-    this.create = Common.createDomNodeButton(['header__button'], 'Create');
+    this.workspace = Common.createDomNodeButton(['header__button'], text.text.workspaceTitle);
+    this.create = Common.createDomNodeButton(['header__button'], text.text.create);
     this.user = Common.createDomNodeButton(['header__button', 'user__button']);
     this.userImg = Common.createDomNode('div', ['user__image']);
     this.userModal = new UserModal().render();

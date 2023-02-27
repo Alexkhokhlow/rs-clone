@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io-client';
+import Lang from '../../../../../common/lang/lang';
 import Server from '../../../../../server/server';
 import Common from '../../../../../utils/common';
 import AddItemButton from '../../../common/addItemButton';
@@ -31,6 +32,7 @@ export default class Comment {
   path: string;
 
   answer: HTMLButtonElement;
+  text: Lang;
 
   constructor(
     text: string,
@@ -43,6 +45,7 @@ export default class Comment {
     path: string,
     flag: boolean
   ) {
+    this.text = new Lang();
     this.socket = socket;
     this.path = path;
     this.data = text;
@@ -51,10 +54,10 @@ export default class Comment {
     this.userId = { name: '', id: '' };
     this.comment = Common.createDomNode('div', ['comment']);
     this.userName = Common.createDomNode('span', ['comment__user'], userName);
-    this.input = new AddItemButton(text, text, 'save', this.onSave.bind(this));
-    this.edit = Common.createDomNodeButton(['comment__edit'], 'Edit');
-    this.delete = Common.createDomNodeButton(['comment__delete'], 'Delete');
-    this.answer = Common.createDomNodeButton(['comment__answer'], 'Answer');
+    this.input = new AddItemButton(text, text, this.text.text.save, this.onSave.bind(this));
+    this.edit = Common.createDomNodeButton(['comment__edit'], this.text.text.edit);
+    this.delete = Common.createDomNodeButton(['comment__delete'], this.text.text.delete);
+    this.answer = Common.createDomNodeButton(['comment__answer'], this.text.text.answer);
     this.answer.setAttribute('user', userName);
 
     this.edit.addEventListener('click', this.onEdit.bind(this));
@@ -80,7 +83,7 @@ export default class Comment {
       this.data = this.input.form.data;
     } else {
       this.data = '';
-      this.input.button.textContent = 'Add a more detailed description...';
+      this.input.button.textContent = this.text.text.detailed;
     }
     if (this.token) {
       this.server.updateComment(this.token, this.userId.id, this.commentId, this.data);

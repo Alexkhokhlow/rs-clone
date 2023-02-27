@@ -1,5 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import IResponseBoard, { ITaskList, TLabel } from '../../../types/types';
+import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -53,7 +54,10 @@ export default class Board {
 
   private userInfo: UserInfo;
 
+  text: Lang;
+
   constructor(creatingBoard: CreatingBoard) {
+    this.text = new Lang()
     this.taskModal = taskModal;
     this.id = '';
     this.board = Common.createDOMNode('section', ['board']);
@@ -72,9 +76,9 @@ export default class Board {
     this.taskInfo = new TaskInfo(this.socket);
 
     this.addListButton = new AddItemButton(
-      'Add another list',
-      'Enter list title...',
-      'Add list',
+      this.text.text.board.listText,
+      this.text.text.board.lestPlaceholder,
+      this.text.text.board.listValue,
       this.onAddList.bind(this)
     );
     this.listsContainer = Common.createDOMNode('div', ['lists__container', 'hidden']);
@@ -120,12 +124,14 @@ export default class Board {
     this.board.style.background = response.dashboard.color;
     this.header.header.style.background = response.dashboard.color;
     this.footer.footer.style.background = response.dashboard.color;
+    this.footer.lang.style.background = response.dashboard.color;
+
     this.subheader.title.textContent = response.dashboard.name;
     if (response.dashboard.public) {
-      this.subheader.visibility.textContent = `Public`;
+      this.subheader.visibility.textContent = this.text.text.public;
       this.subheader.visibility.classList.add('board__public');
     } else {
-      this.subheader.visibility.textContent = `Private`;
+      this.subheader.visibility.textContent = this.text.text.private;
       this.subheader.visibility.classList.add('board__private');
     }
     this.taskInfo.sidebar.modalLabels.changeLabels(response.labels);

@@ -1,4 +1,5 @@
 import { TUser } from '../../../types/types';
+import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -44,6 +45,7 @@ export default class UserPage {
   token: string;
 
   constructor() {
+    const text = new Lang()
     this.main = Common.createDomNode('section', ['user__page']);
     this.header = new Header().append();
     this.userInfo = Common.createDomNode('div', ['user__info']);
@@ -52,20 +54,18 @@ export default class UserPage {
     this.token = localStorage.getItem('token')!;
     this.server = new Server();
 
-    // получать по токену информацию (name, mail);
     this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
     this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
 
-    this.title = Common.createDomNode('h1', ['title', 'profile__title'], 'Profile');
+    this.title = Common.createDomNode('h1', ['title', 'profile__title'], text.text.profile);
     this.form = Common.createDomNode('form', ['user__form']);
     this.formNameContainer = Common.createDomNode('div', ['form__container']);
-    this.inputNameLabel = Common.createDomNodeLabel('name', 'Username', ['label']);
-    // получать по токену name и вставить в placeholder к this.inputName и получить bio
+    this.inputNameLabel = Common.createDomNodeLabel('name', text.text.userName, ['label']);
     this.inputName = Common.createDOMNodeInput('name', ['input__name'], 'text');
     this.formBioContainer = Common.createDomNode('div', ['form__container']);
-    this.bioLabel = Common.createDomNodeLabel('bio', 'About Me', ['label']);
+    this.bioLabel = Common.createDomNodeLabel('bio', text.text.aboutMe, ['label']);
     this.bioInput = Common.createDomNode('textarea', ['textarea']) as HTMLTextAreaElement;
-    this.btnSubmit = Common.createDomNodeButton(['btn', 'btn-submit'], 'Save', 'submit');
+    this.btnSubmit = Common.createDomNodeButton(['btn', 'btn-submit'], text.text.save, 'submit');
 
     this.footer = new StartPageFooter().append();
   }
@@ -98,8 +98,6 @@ export default class UserPage {
       e.preventDefault();
       this.server.updateUserInfo(this.token, this.inputName.value, this.bioInput.value);
       this.name.textContent = this.inputName.value;
-
-      // TODO: залить на сервер изменения и изменить имя на странице (перезагрузить страницу?)
     });
   }
 }

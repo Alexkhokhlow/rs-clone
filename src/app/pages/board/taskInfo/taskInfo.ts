@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io-client';
 import { ICheckList, TLabel } from '../../../../types/types';
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import Checklist from './checklist/checklist';
@@ -52,16 +53,19 @@ export default class TaskInfo {
 
   private titleInput: HTMLInputElement;
 
+  private text: Lang;
+
   constructor(socket: Socket) {
+    this.text = new Lang();
     this.id = '';
     this.taskId = '';
     this.socket = socket;
     this.dashboardId = '';
     this.path = '';
     this.taskInfo = Common.createDomNode('div', ['task-info']);
-    this.title = Common.createDomNode('h2', ['task-info__title'], 'make new Page');
+    this.title = Common.createDomNode('h2', ['task-info__title']);
     this.titleInput = Common.createDomNodeInput('Enter title', '', ['task-info__title__input']);
-    this.info = Common.createDomNode('h4', ['task-info__info'], 'from list create');
+    this.info = Common.createDomNode('h4', ['task-info__info']);
     this.close = Common.createDomNodeImg(['task-info__close'], closeIcon);
     this.labels = new Labels();
     this.description = new Description(socket);
@@ -101,20 +105,23 @@ export default class TaskInfo {
     this.header.addEventListener('click', () => {
       Common.clickTitle(this.header, this.title, this.titleInput);
     });
-    this.titleInput.addEventListener('focusout', () => {
+    this.titleInput.addEventListener('focusout', async () => {
       Common.changeTitle(this.header, this.title, this.titleInput);
-      this.server.updateTaskName(this.token, this.id, this.titleInput.value)
+      await this.server.updateTaskName(this.token, this.id, this.titleInput.value);
+      this.socket.emit('label', this.path);
     });
   }
 
   private async getTaskInfo() {
     if (this.id) {
       const response = await this.server.getTaskInfo(this.token, this.id);
-      console.log(response.labels);
+      this.title.textContent = response.taskInfo.name;
+      this.info.textContent = `${this.text.text.from} ${response.taskInfo.tasklist}`;
+      this.taskId = response.taskInfo.taskId;
+      this.comment.init(response.user, response.comments, this.id);
+      this.initCheckLists(response.checkLists);
       this.initLabels(response.labels);
       this.initDescription(this.id, response.taskInfo.description);
-      this.initCheckLists(response.checkLists);
-      this.comment.init(response.user, response.comments, this.id);
     }
   }
 
@@ -122,14 +129,7 @@ export default class TaskInfo {
     this.id = id;
     this.sidebar.modalLabels.path = this.path;
     this.dashboardId = dashboardId;
-    const response = await this.server.getTaskInfo(this.token, id);
-    this.title.textContent = response.taskInfo.name;
-    this.info.textContent = `from ${response.taskInfo.tasklist}`;
-    this.taskId = response.taskInfo.taskId;
-    this.comment.init(response.user, response.comments, id);
-    this.initCheckLists(response.checkLists);
-    this.initLabels(response.labels);
-    this.initDescription(id, response.taskInfo.description);
+    await this.getTaskInfo();
     this.taskInfo.classList.add('active');
   }
 
@@ -160,7 +160,7 @@ export default class TaskInfo {
     (Array.from(this.labels.labels.children) as HTMLInputElement[]).forEach((label) => {
       const item = labelsCopy.find((item) => item.title === label.title);
       if (item) {
-        label.value = item.text;
+        label.textContent = item.text;
         labelsCopy = labelsCopy.filter((item1) => item1.title !== item.title);
       } else {
         label.remove();
@@ -192,7 +192,7 @@ export default class TaskInfo {
     const checklist = new Checklist(response.checkList.id, name, this.path, this.socket);
     this.checkListContainer.append(checklist.checklist);
     this.sidebar.modalCheckList.module.onClose();
-    this.sidebar.modalCheckList.inputTitle.value = 'Checklist';
+    this.sidebar.modalCheckList.inputTitle.value = this.text.text.checklistText;
     this.socket.emit('taskInfo', this.path);
   }
 

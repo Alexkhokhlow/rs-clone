@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io-client';
 import { TTask } from '../../../../types/types';
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
@@ -44,6 +45,7 @@ export default class TasksList {
     path: string,
     boardId: string
   ) {
+    const text = new Lang();
     this.id = id;
     this.socket = socket;
     this.path = path;
@@ -60,9 +62,10 @@ export default class TasksList {
 
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
-      'Add a card',
-      'Enter a title for this card...',
-      'Add card',
+      text.text.card.listText,
+      text.text.card.lestPlaceholder,
+      text.text.card.listText,
+
       this.onAddTask.bind(this)
     );
     this.headerTaskList.append(this.title, this.deleteButton);
@@ -73,11 +76,12 @@ export default class TasksList {
   private bindEvents() {
     this.deleteButton.addEventListener('click', this.removeList.bind(this));
     this.title.addEventListener('click', () => {
-      Common.clickTitle(this.headerTaskList, this.title, this.titleInput)
+      Common.clickTitle(this.headerTaskList, this.title, this.titleInput);
     });
-    this.titleInput.addEventListener('focusout', () => {
+    this.titleInput.addEventListener('focusout', async () => {
       Common.changeTitle(this.headerTaskList, this.title, this.titleInput);
-      this.server.updateTaskList(this.token, this.id, this.titleInput.value )
+      await this.server.updateTaskList(this.token, this.id, this.titleInput.value);
+      this.socket.emit('label', this.path);
     });
   }
 

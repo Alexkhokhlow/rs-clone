@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 
@@ -37,20 +38,21 @@ export default class Share {
   public path: string;
 
   constructor() {
+    const text = new Lang();
     this.overlay = Common.createDomNode('div', ['overlay__share']);
     this.modal = Common.createDomNode('div', ['share__modal']);
     this.header = Common.createDomNode('header', ['share__header']);
-    this.title = Common.createDomNode('h3', ['share__title'], 'Share board');
+    this.title = Common.createDomNode('h3', ['share__title'], text.text.share.title);
     this.closeButton = Common.createDomNodeButton(['close__button']);
     this.form = Common.createDomNode('form', ['share__form']);
-    this.input = Common.createDomNodeInput('Email address', '', ['share__input'], 'email');
-    this.submit = Common.createDomNodeButton(['share__submit'], 'Share');
+    this.input = Common.createDomNodeInput(text.text.share.input, '', ['share__input'], 'email');
+    this.submit = Common.createDomNodeButton(['share__submit'], text.text.share.share);
     this.linkWrapper = Common.createDomNode('div', ['share__link__wrapper']);
     this.linkIcon = Common.createDomNode('div', ['share__link__icon']);
     this.linkText = Common.createDomNode('div', ['share__link__text']);
-    this.text = Common.createDomNode('h4', ['share__text'], 'Anyone with the board share link');
-    this.link = Common.createDomNode('span', ['share__link'], 'Copy link');
-    this.copied = Common.createDomNode('div', ['share__copied'], 'Link copied');
+    this.text = Common.createDomNode('h4', ['share__text'], text.text.share.text);
+    this.link = Common.createDomNode('span', ['share__link'], text.text.share.link);
+    this.copied = Common.createDomNode('div', ['share__copied'], text.text.share.copied);
     this.server = new Server();
     this.token = localStorage.getItem('token')!;
     this.path = '';

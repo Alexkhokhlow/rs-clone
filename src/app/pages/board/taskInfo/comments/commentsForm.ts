@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io-client';
 import { TComment, TUser } from '../../../../../types/types';
+import Lang from '../../../../common/lang/lang';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
 import Comment from './comment/comment';
@@ -29,13 +30,14 @@ export default class CommentsForm {
   public path: string;
 
   constructor(socket: Socket) {
+    const text = new Lang();
     this.socket = socket;
     this.id = '';
     this.path = '';
     this.user = { name: '', id: '' };
     this.comments = [];
     this.commentsForm = Common.createDomNode('div', ['comments']);
-    this.title = Common.createDomNode('span', ['comments__title', 'title__info'], 'Comments');
+    this.title = Common.createDomNode('span', ['comments__title', 'title__info'], text.text.comments);
     this.input = new InputComment(this.onSave.bind(this));
     this.container = Common.createDomNode('div', ['comments__container']);
     this.server = new Server();

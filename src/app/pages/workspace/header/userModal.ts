@@ -1,4 +1,5 @@
 import { TUser } from '../../../../types/types';
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 
@@ -28,8 +29,9 @@ export default class UserModal {
   private token: string;
 
   constructor() {
+    const text = new Lang()
     this.modal = Common.createDomNode('div', ['user__modal', 'hidden']);
-    this.title = Common.createDomNode('h2', ['user__title', 'title'], 'Account');
+    this.title = Common.createDomNode('h2', ['user__title', 'title'], text.text.userModal.account);
     this.userInfo = Common.createDomNode('div', ['user__info']);
     this.userImg = Common.createDomNode('div', ['user__image']);
     this.userDescription = Common.createDomNode('div', ['user__description']);
@@ -38,9 +40,9 @@ export default class UserModal {
     this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
     this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
 
-    this.accountSwitcher = Common.createDomNodeButton(['user__btn'], 'Switch account');
-    this.profileBtn = Common.createDomNodeButton(['user__btn'], 'Profile');
-    this.logOutBtn = Common.createDomNodeButton(['user__btn'], 'Log out');
+    this.accountSwitcher = Common.createDomNodeButton(['user__btn'], text.text.userModal.switcher);
+    this.profileBtn = Common.createDomNodeButton(['user__btn'], text.text.profile);
+    this.logOutBtn = Common.createDomNodeButton(['user__btn'], text.text.userModal.logOut);
   }
 
   async init() {
