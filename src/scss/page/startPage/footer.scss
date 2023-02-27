@@ -37,6 +37,10 @@
 .icons__wrapper {
   @include flex($justify: flex-end);
   gap: 1rem;
+
+  @media (max-width: 400px) {
+    display: none;
+  }
 }
 
 .github,
@@ -84,4 +88,8 @@
 
 .year {
   color: $color-background;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
