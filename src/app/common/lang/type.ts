@@ -16,7 +16,6 @@ export interface ILang {
       meetings: { title: string; description: string };
       taskManagement: { title: string; description: string };
       crm: { title: string; description: string };
-      calendar: { title: string; description: string };
     };
   };
   actions: { subtitle: string; title: string };

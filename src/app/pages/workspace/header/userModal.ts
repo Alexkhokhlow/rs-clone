@@ -74,9 +74,4 @@ export default class UserModal {
     localStorage.removeItem('data');
     window.location.pathname = 'login';
   }
-
-  private async createUserIcon() {
-    const response  = await this.server.getUserInfo(this.token);
-    
-  }
 }

@@ -58,11 +58,6 @@ const eng = {
         description:
           "Use Trello as your team's go-to command center for content curation, revisions, handoff, and publishing.",
       },
-      calendar: {
-        title: 'Editorial calendar',
-        description:
-          "Use Trello as your team's go-to command center for content curation, revisions, handoff, and publishing.",
-      },
     },
   },
   actions: {

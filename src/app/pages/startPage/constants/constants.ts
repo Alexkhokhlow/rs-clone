@@ -82,12 +82,6 @@ const actions = [
     title: text.text.constants.actions.crm.title,
     description: text.text.constants.actions.brainstorming.description,
   },
-  {
-    color: 'rgb(135, 119, 217)',
-    icon: calendar,
-    title: text.text.constants.actions.calendar.title,
-    description: text.text.constants.actions.brainstorming.description,
-  },
 ];
 
 const backgrounds = [
