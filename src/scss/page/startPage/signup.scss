@@ -3,6 +3,7 @@
       border-box,
     $color-startPage-main;
   background-blend-mode: normal, normal;
+  padding: 6rem 0;
 
   @media (max-width: 575px) {
     padding: 0 1.5rem;
@@ -89,7 +90,7 @@
 }
 
 .signup__image {
-  margin-top: 6rem;
+  margin-top: 2rem;
   background: url('../assets/startPage/png/TrelloUICollage.png') center center/contain no-repeat;
   width: 60%;
   height: 55.5rem;

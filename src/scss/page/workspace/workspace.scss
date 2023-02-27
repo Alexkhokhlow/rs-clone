@@ -165,8 +165,8 @@
 
 .save,
 .cancel {
-  width: 30%;
-  padding: .5rem 0;
+  width: fit-content;
+  padding: .5rem 1rem;
   border-radius: .5rem;
   transition: .3s;
 
@@ -180,6 +180,8 @@
   background-color: $color-brand;
   color: $color-background;
   transition: .3s;
+  padding-left: .4rem;
+  padding-right: .4rem;
 
   &:hover {
     background-color: $color-brand-hover;

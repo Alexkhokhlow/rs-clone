@@ -8,9 +8,7 @@ export default class UserModal {
 
   private title: HTMLElement;
 
-  private userInfo: HTMLElement;
-
-  private userImg: HTMLElement;
+  userInfo: HTMLElement;
 
   private userDescription: HTMLElement;
 
@@ -33,12 +31,11 @@ export default class UserModal {
     this.modal = Common.createDomNode('div', ['user__modal', 'hidden']);
     this.title = Common.createDomNode('h2', ['user__title', 'title'], text.text.userModal.account);
     this.userInfo = Common.createDomNode('div', ['user__info']);
-    this.userImg = Common.createDomNode('div', ['user__image']);
     this.userDescription = Common.createDomNode('div', ['user__description']);
     this.server = new Server();
-    this.token = localStorage.getItem('token');
-    this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
-    this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
+    this.token = localStorage.getItem('token') as string;
+    this.name = Common.createDomNode('p', ['user__name', 'subtitle']);
+    this.mail = Common.createDomNode('p', ['user__mail', 'subtitle']);
 
     this.accountSwitcher = Common.createDomNodeButton(['user__btn'], text.text.userModal.switcher);
     this.profileBtn = Common.createDomNodeButton(['user__btn'], text.text.profile);
@@ -47,7 +44,9 @@ export default class UserModal {
 
   async init() {
     if (this.token) {
-      const data: TUser = await this.server.getUserInfo(this.token);
+      const data = await this.server.getUserInfo(this.token) as TUser;
+      const user = Common.createUserIcon(data.email, data.name, 'user__image', data.color);
+      this.userInfo.insertBefore(user, this.userDescription);
       this.name.textContent = data.name;
       this.mail.textContent = data.email;
     }
@@ -55,7 +54,7 @@ export default class UserModal {
 
   public render() {
     this.modal.append(this.title, this.userInfo, this.accountSwitcher, this.profileBtn, this.logOutBtn);
-    this.userInfo.append(this.userImg, this.userDescription);
+    this.userInfo.append(this.userDescription);
     this.userDescription.append(this.name, this.mail);
     this.init();
     this.addHandlers();

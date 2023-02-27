@@ -28,7 +28,7 @@ export default class SignupSection {
     this.title = Common.createDomNode('h1', ['signup__title'], text.text.singupSection.title);
     this.subtitle = Common.createDomNode('h3', ['signup__subtitle'], text.text.singupSection.subtitle);
     this.emailWrapper = Common.createDomNode('div', ['signup__form']);
-    this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], text.text.singupSection.email);
+    this.email = Common.createDomNodeInput(text.text.singupSection.email, 'email', ['signup__email'], 'email');
     this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], text.text.singupSection.submit);
     this.image = Common.createDomNode('div', ['signup__image']);
   }

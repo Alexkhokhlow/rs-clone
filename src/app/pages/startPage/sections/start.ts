@@ -20,7 +20,7 @@ export default class Start {
     this.wrapper = Common.createDomNode('div', ['wrapper', 'start__wrapper']);
     this.title = Common.createDomNode('h2', ['start__title'], text.text.start.title);
     this.emailWrapper = Common.createDomNode('div', ['start__form']);
-    this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], text.text.singupSection.email);
+    this.email = Common.createDomNodeInput(text.text.singupSection.email, 'email', ['start__email'], 'email');
     this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], text.text.singupSection.submit);
   }
 
