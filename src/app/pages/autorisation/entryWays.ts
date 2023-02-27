@@ -19,7 +19,7 @@ export default class EntryWays {
       e.preventDefault();
       const target = e.currentTarget as HTMLElement;
       if (target.classList.contains('btn_google')) {
-        window.location.replace('http://localhost:3000/api/google');
+        window.location.replace('https://trello-clone-x3tl.onrender.com/api/google');
       }
     });
     return entryWay;

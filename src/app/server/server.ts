@@ -69,7 +69,7 @@ export default class Server {
   }
 
   async signGoogle() {
-    window.location.replace('https://trello-clone-x3tl.onrender.com/auth/google');
+    window.location.replace('https://trello-clone-x3tl.onrender.com/api/google');
   }
 
   async login(email: string, password: string) {

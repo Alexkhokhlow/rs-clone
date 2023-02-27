@@ -110,6 +110,7 @@ export default class Board {
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.id = response.id;
+      console.log(response)
       this.getSharedUser(
         response.users.creator.email,
         response.users.creator.userName,

@@ -68,7 +68,7 @@ export default class Header {
 
   private async getUser() {
     if (this.token) {
-      const response = (await this.server.getUserInfo(this.token)) as TUser;
+      const response = await this.server.getUserInfo(this.token);
       const user = Common.createUserIcon(response.email, response.name, 'user__header', response.color);
       this.user.append(user);
     }

@@ -83,14 +83,14 @@ export default class LoginForm {
       }
     });
 
-    this.btnSubmit.addEventListener('click', (e) => {
+    this.btnSubmit.addEventListener('click', async (e) => {
       e.preventDefault();
       this.mailToLocalStorage();
       if (e.target instanceof HTMLInputElement) {
         if (e.target.value === this.text.text.login.continue) {
           this.openPasswordInput();
         } else {
-          this.checkLoginPassword(
+          await this.checkLoginPassword(
             (this.loginInput as HTMLInputElement).value.trim(),
             (this.passwordInput as HTMLInputElement).value.trim()
           );
