@@ -21,20 +21,12 @@ export default class SignupSection {
   private image: HTMLElement;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['signup__section']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'signup__wrapper']);
     this.textContainer = Common.createDomNode('div', ['signup__container__text']);
-    this.title = Common.createDomNode(
-      'h1',
-      ['signup__title'],
-      text.text.singupSection.title
-    );
-    this.subtitle = Common.createDomNode(
-      'h3',
-      ['signup__subtitle'],
-      text.text.singupSection.subtitle
-    );
+    this.title = Common.createDomNode('h1', ['signup__title'], text.text.singupSection.title);
+    this.subtitle = Common.createDomNode('h3', ['signup__subtitle'], text.text.singupSection.subtitle);
     this.emailWrapper = Common.createDomNode('div', ['signup__form']);
     this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], text.text.singupSection.email);
     this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], text.text.singupSection.submit);

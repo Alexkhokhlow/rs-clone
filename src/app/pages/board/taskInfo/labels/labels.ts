@@ -9,7 +9,7 @@ export default class Labels {
   public labels: HTMLElement;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.labelsWrapper = Common.createDomNode('div', ['labels__wrapper', 'hidden']);
     this.labelsTitle = Common.createDomNode('h4', ['labels__title', 'sidebar__title'], text.text.labels);
     this.labels = Common.createDomNode('div', ['labels__info']);

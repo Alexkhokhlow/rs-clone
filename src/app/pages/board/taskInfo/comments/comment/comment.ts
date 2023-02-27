@@ -32,6 +32,7 @@ export default class Comment {
   path: string;
 
   answer: HTMLButtonElement;
+
   text: Lang;
 
   constructor(

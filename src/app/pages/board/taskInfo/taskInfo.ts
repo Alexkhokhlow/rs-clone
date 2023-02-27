@@ -125,7 +125,7 @@ export default class TaskInfo {
     }
   }
 
-  public async init(id: string, dashboardId: string, users:  { users: TUser[]; creator: TUser }) {
+  public async init(id: string, dashboardId: string, users: { creator: TUser; users: TUser[] }) {
     this.id = id;
     this.sidebar.modalLabels.path = this.path;
     this.dashboardId = dashboardId;

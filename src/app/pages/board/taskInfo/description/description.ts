@@ -30,6 +30,7 @@ export default class Description {
   public path: string;
 
   text: Lang;
+
   constructor(socket: Socket) {
     this.text = new Lang();
     this.socket = socket;

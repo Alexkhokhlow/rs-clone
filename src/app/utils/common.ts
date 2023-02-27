@@ -134,7 +134,7 @@ export default class Common {
 
     return language;
   }
-  
+
   public static createUserIcon(id: string, name: string, classEl: string, color?: string) {
     const abbreviation = Common.getAbbreviation(name);
     const user = Common.createDomNode('span', ['user__wrapper']);

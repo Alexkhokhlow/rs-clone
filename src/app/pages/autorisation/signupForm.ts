@@ -30,10 +30,11 @@ export default class SignupForm {
   entryWays: HTMLElement[];
 
   linkToLoginPage: HTMLElement;
+
   text: Lang;
 
   constructor() {
-    this.text = new Lang()
+    this.text = new Lang();
     this.form = Common.createDomNode('div', ['login__form']);
     this.formTitle = Common.createDomNode('h1', ['login__title'], this.text.text.login.singUp);
     this.errorMessage = Common.createDOMNode('p', ['login__error', 'invisible']);
@@ -46,7 +47,7 @@ export default class SignupForm {
       this.text.text.login.password
     );
     this.nameInput = Common.createDOMNodeInput('name', ['input_name', 'invisible'], 'text', this.text.text.login.name);
-    this.btnSubmit = Common.createDOMNodeInput('submit', ['input_submit', 'btn', 'btn_submit'], this.text.text.submit);
+    this.btnSubmit = Common.createDOMNodeInput('submit', ['input_submit', 'btn', 'btn_submit'], 'submit');
     this.separator = Common.createDomNode('div', ['form__separator'], this.text.text.login.or);
     this.entryWays = SignupForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
@@ -154,10 +155,9 @@ export default class SignupForm {
       this.errorMessage.innerHTML = text;
     } else if (this.btnSubmit instanceof HTMLInputElement) {
       if (this.btnSubmit.value === this.text.text.singUp) {
-        this.errorMessage.innerHTML = this.text.text.login.error;;
+        this.errorMessage.innerHTML = this.text.text.login.error;
       } else {
-        this.errorMessage.innerHTML =
-          `${this.text.text.login.ready} <a href=/login class="message__link">Log in</a>.`;
+        this.errorMessage.innerHTML = `${this.text.text.login.ready} <a href=/login class="message__link">Log in</a>.`;
       }
     }
 

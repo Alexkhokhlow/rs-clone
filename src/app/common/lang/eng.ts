@@ -116,17 +116,17 @@ const eng = {
   checklistText: 'Checklist',
   continueWith: 'Continue with',
   writeComment: 'Write a comment...',
-  answer : 'Answer',
+  answer: 'Answer',
   edit: 'Edit',
-  detailed : 'Add a more detailed description...',
-  description : 'Description',
-  enterDescription : 'Enter your description...',
-  labels:'Labels',
+  detailed: 'Add a more detailed description...',
+  description: 'Description',
+  enterDescription: 'Enter your description...',
+  labels: 'Labels',
   members: 'Members',
   add: 'Add to card',
-  addCheckList : 'Add checklist',
+  addCheckList: 'Add checklist',
   title: 'Title',
-  enterTitle : 'Enter title',
+  enterTitle: 'Enter title',
   workspace: {
     board: { title: 'Created Boards', info: 'Create new board' },
     available: {
@@ -188,10 +188,10 @@ const eng = {
     addItem: 'Add an item',
     add: 'Add',
   },
-  card : {
+  card: {
     listText: 'Add a task',
-    lestPlaceholder:'Enter a title for new task...',
-  }
+    lestPlaceholder: 'Enter a title for new task...',
+  },
 };
 
 export default eng;

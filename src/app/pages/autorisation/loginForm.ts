@@ -28,17 +28,14 @@ export default class LoginForm {
   entryWays: HTMLElement[];
 
   linkToSingup: HTMLElement;
+
   text: Lang;
 
   constructor() {
-    this.text = new Lang()
+    this.text = new Lang();
     this.form = Common.createDomNode('div', ['login__form']);
     this.formTitle = Common.createDomNode('h1', ['login__title'], this.text.text.login.login);
-    this.errorMessage = Common.createDomNode(
-      'p',
-      ['login__error', 'invisible'],
-      this.text.text.login.invalid
-    );
+    this.errorMessage = Common.createDomNode('p', ['login__error', 'invisible'], this.text.text.login.invalid);
     this.inputsContainer = Common.createDomNode('div', ['inputs__container']);
     this.loginInput = Common.createDOMNodeInput('email', ['input_email'], 'text', this.text.text.login.email);
     this.passwordInput = Common.createDOMNodeInput(
@@ -48,7 +45,7 @@ export default class LoginForm {
       this.text.text.login.password
     );
     this.btnSubmit = Common.createDOMNodeInput('submit', ['input_sublit', 'btn', 'btn_submit'], 'submit');
-    this.seperetor = Common.createDomNode('div', ['form__separator'],  this.text.text.login.or);
+    this.seperetor = Common.createDomNode('div', ['form__separator'], this.text.text.login.or);
     this.entryWays = LoginForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
     });
@@ -90,7 +87,7 @@ export default class LoginForm {
       e.preventDefault();
       this.mailToLocalStorage();
       if (e.target instanceof HTMLInputElement) {
-        if (e.target.value ===  this.text.text.login.continue) {
+        if (e.target.value === this.text.text.login.continue) {
           this.openPasswordInput();
         } else {
           this.checkLoginPassword(

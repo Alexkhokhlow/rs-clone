@@ -19,7 +19,7 @@ export default class StartPageHeader {
   private trelloFree: HTMLElement;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.header = Common.createDomNode('header', ['header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'header__wrapper']);
     this.logo = Common.createDomNode('span', ['logo', 'logo__start']);

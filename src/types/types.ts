@@ -3,7 +3,7 @@ export default interface IResponseBoard {
   dashboard: IBoard;
   id: string;
   labels: TLabel[];
-  users: { users: TUser[]; creator: TUser };
+  users: { creator: TUser; users: TUser[] };
 }
 
 export interface IResponseBoards {
@@ -27,13 +27,13 @@ export interface ITaskList {
 }
 
 export interface ITask {
+  checkLists: [{ all: number; checked: number }];
+  comments: number;
+  description: string;
   id: string;
   index: string;
   labels: TLabel[];
   name: string;
-  description: string;
-  checkLists: [{ checked: number; all: number }];
-  comments: number;
 }
 
 export interface ICommentInfo {

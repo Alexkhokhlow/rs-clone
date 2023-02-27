@@ -18,17 +18,13 @@ export default class More {
   private featuresWrapper: HTMLElement;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['more']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'more__wrapper']);
     this.container = Common.createDomNode('div', ['more__description__wrapper']);
     this.subtitle = Common.createDomNode('h3', ['more__subtitle'], text.text.more.subtitle);
     this.title = Common.createDomNode('h2', ['more__title'], text.text.more.title);
-    this.description = Common.createDomNode(
-      'p',
-      ['more__description'],
-      text.text.more.description
-    );
+    this.description = Common.createDomNode('p', ['more__description'], text.text.more.description);
     this.featuresWrapper = Common.createDomNode('div', ['features']);
   }
 
