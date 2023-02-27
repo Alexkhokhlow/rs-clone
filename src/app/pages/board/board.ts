@@ -110,7 +110,6 @@ export default class Board {
       this.share.path = path;
       const response = await this.server.getDashboard(this.token, path);
       this.id = response.id;
-      console.log(response);
       this.getSharedUser(
         response.users.creator.email,
         response.users.creator.userName,
@@ -285,16 +284,20 @@ export default class Board {
       const parent = target.parentNode as HTMLElement;
       const parentId = parent.dataset.id;
       target.classList.remove('dragging');
-      await Promise.all(
-        [...parent.children].map(async (item, index) => {
-          const element = item as HTMLElement;
-          const { id, title } = element.dataset;
-          if (this.token && id && parentId && title) {
-            this.server.updateTask(this.token, id, parentId, title, String(index));
-          }
-        })
-      );
-      this.socket.emit('board', this.path);
+      const { id, title } = target.dataset;
+
+      const tasks = [...parent.children].map((item, index) => {
+        const element = item as HTMLElement;
+        const id = element.dataset.id as string;
+        return { id, index: String(index) };
+      });
+
+      if (this.token && id && parentId && title) {
+        const task = this.server.updateTask(this.token, id, parentId, title);
+        const tasksPromise = this.server.updateTaskIndex(this.token, tasks);
+        await Promise.all([tasksPromise, task]);
+        this.socket.emit('board', this.path);
+      }
     });
 
     list.addEventListener('dragover', (event) => {
@@ -309,17 +312,19 @@ export default class Board {
     });
   }
 
-  public rewriteTaskList(taskList: HTMLElement) {
+  public async rewriteTaskList(taskList: HTMLElement) {
     const parentId = taskList.dataset.id;
 
-    [...taskList.children].forEach(async (item, index) => {
-      const element = item as HTMLElement;
-      const { id, title } = element.dataset;
-      if (this.token && id && parentId && title) {
-        await this.server.updateTask(this.token, id, parentId, title, String(index));
-        this.socket.emit('message', 'change');
-      }
-    });
+    await Promise.all(
+      [...taskList.children].map(async (item, index) => {
+        const element = item as HTMLElement;
+        const { id, title } = element.dataset;
+        if (this.token && id && parentId && title) {
+          await this.server.updateTask(this.token, id, parentId, title, String(index));
+        }
+      })
+    );
+    this.socket.emit('board', this.path);
   }
 
   private insertAboveTask(list: HTMLElement, mousePosition: number) {
