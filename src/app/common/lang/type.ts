@@ -64,6 +64,8 @@ export interface ILang {
     email: string;
     error: string;
     invalid: string;
+    invalidName: string;
+    invalidPass: string;
     login: string;
     name: string;
     or: string;

@@ -429,6 +429,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  cursor: auto;
 
   & .modal__title {
     border-top: 1px solid #091e4221;

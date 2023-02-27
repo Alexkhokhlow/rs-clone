@@ -104,7 +104,7 @@ export default class LoginForm {
   }
 
   private openPasswordInput() {
-    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = 'Log in';
+    if (this.btnSubmit instanceof HTMLInputElement) this.btnSubmit.value = this.text.text.header.logIn;
     this.passwordInput.classList.remove('invisible');
   }
 
