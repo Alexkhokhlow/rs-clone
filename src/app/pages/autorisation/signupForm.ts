@@ -135,11 +135,13 @@ export default class SignupForm {
   }
 
   private isValidPassword(password: string) {
-    return password.length > 3;
+    const regExp = /^[a-zA-Z0-9]{4,}$/;
+    return regExp.test(password);
   }
 
   private isValidName(name: string) {
-    return name !== '';
+    const regExp = /^[a-zA-Z0-9]{1,}$/;
+    return regExp.test(name);
   }
 
   private changeActivityofBtn(condition: boolean, btn: HTMLElement) {
