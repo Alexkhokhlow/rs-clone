@@ -44,7 +44,7 @@ export default class UserModal {
 
   async init() {
     if (this.token) {
-      const data = await this.server.getUserInfo(this.token) as TUser;
+      const data = await this.server.getUserInfo(this.token);
       const user = Common.createUserIcon(data.email, data.name, 'user__image', data.color);
       this.userInfo.insertBefore(user, this.userDescription);
       this.name.textContent = data.name;
