@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io-client';
 import { TTask } from '../../../../types/types';
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import AddItemButton from '../common/addItemButton';
@@ -16,13 +17,13 @@ export default class TasksList {
 
   private onClick: (event: Event) => void;
 
-  tasksWrapper: HTMLElement;
+  public tasksWrapper: HTMLElement;
 
-  titleText: string;
+  private titleText: string;
 
-  server: Server;
+  private server: Server;
 
-  token: string | null;
+  private token: string;
 
   public deleteButton: HTMLButtonElement;
 
@@ -44,6 +45,7 @@ export default class TasksList {
     path: string,
     boardId: string
   ) {
+    const text = new Lang();
     this.id = id;
     this.socket = socket;
     this.path = path;
@@ -56,13 +58,14 @@ export default class TasksList {
     this.titleInput = Common.createDomNodeInput("Enter task's list title", '', ['tasks-list__title__input']);
     this.deleteButton = Common.createDomNodeButton(['tasks-list__delete']);
     this.server = new Server();
-    this.token = localStorage.getItem('token');
+    this.token = localStorage.getItem('token')!;
 
     this.tasksWrapper = Common.createDomNode('div', ['tasks__wrapper']);
     this.addCardButton = new AddItemButton(
-      'Add a card',
-      'Enter a title for this card...',
-      'Add card',
+      text.text.card.listText,
+      text.text.card.lestPlaceholder,
+      text.text.card.listText,
+
       this.onAddTask.bind(this)
     );
     this.headerTaskList.append(this.title, this.deleteButton);
@@ -75,8 +78,10 @@ export default class TasksList {
     this.title.addEventListener('click', () => {
       Common.clickTitle(this.headerTaskList, this.title, this.titleInput);
     });
-    this.titleInput.addEventListener('focusout', () => {
+    this.titleInput.addEventListener('focusout', async () => {
       Common.changeTitle(this.headerTaskList, this.title, this.titleInput);
+      await this.server.updateTaskList(this.token, this.id, this.titleInput.value);
+      this.socket.emit('label', this.path);
     });
   }
 
@@ -88,7 +93,7 @@ export default class TasksList {
       const { id } = this.tasksWrapper.dataset;
       if (this.token && id) {
         const data = (await this.server.createTask(this.token, id, name, index)) as TTask;
-        const task = new Task(name, this.onClick, this.titleText, index, data.task.id);
+        const task = new Task(name, this.onClick, data.task.id);
         this.socket.emit('board', this.path);
         this.tasksWrapper.append(task.task);
       }

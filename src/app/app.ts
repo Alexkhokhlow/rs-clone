@@ -7,38 +7,38 @@ import Workspace from './pages/workspace/workspace';
 import Server from './server/server';
 
 export default class App {
-  body: HTMLElement;
+  private body: HTMLElement;
 
-  startPage: StartPage;
+  private startPage: StartPage;
 
-  autorisation: Autorisation;
+  private autorisation: Autorisation;
 
-  workspace: Workspace;
+  private workspace: Workspace;
 
-  board: Board;
+  private board: Board;
 
-  errorPage: ErrorPage;
+  private errorPage: ErrorPage;
 
-  user: UserPage;
+  private user: UserPage;
 
-  server: Server;
+  private server: Server;
 
   constructor() {
     this.body = document.body;
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
-    this.user = new UserPage();
+    this.user = new UserPage(this.workspace.creatingBoard);
     this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
     this.server = new Server();
   }
 
-  async start() {
+  public async start() {
     await this.openPage();
   }
 
-  async openPage() {
+  private async openPage() {
     let path = window.location.pathname;
     if (path[path.length - 1] === '/') {
       path = path.slice(0, -1);
@@ -52,6 +52,7 @@ export default class App {
         try {
           this.body.append(await this.board.init(path.replace('/board/', '')));
         } catch (e) {
+          console.log(e);
           this.body.append(this.errorPage.render());
         }
       } else {

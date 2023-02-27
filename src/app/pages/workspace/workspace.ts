@@ -1,4 +1,5 @@
 import { IResponseBoards } from '../../../types/types';
+import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -44,12 +45,17 @@ export default class Workspace {
   }
 
   private async getDashboards() {
+    const text = new Lang();
     if (this.token) {
       try {
         const dashboards = (await this.server.getDashboards(this.token)) as IResponseBoards;
         const { availableDashboards, createdDashboards } = dashboards;
+        this.main.availableBoardsLayout.textContent = availableDashboards ? '' : text.text.workspace.available.info;
+        availableDashboards.forEach((dashboard) => {
+          this.renderBoard(dashboard.name, dashboard.color, dashboard.pathName, this.main.availableBoardsLayout);
+        });
         createdDashboards.forEach((dashboard) => {
-          this.renderBoard(dashboard.name, dashboard.color, dashboard.pathName);
+          this.renderBoard(dashboard.name, dashboard.color, dashboard.pathName, this.main.boardsLayout);
         });
       } catch (error) {
         console.log(error);
@@ -61,13 +67,13 @@ export default class Workspace {
     this.main.createButton.addEventListener('click', this.creatingBoard.openModal.bind(this.creatingBoard));
   }
 
-  private renderBoard(name: string, color: string, pathName: string) {
+  private renderBoard(name: string, color: string, pathName: string, container: HTMLElement) {
     const boardPreview = Common.createDomNode('div', ['board__preview']);
     boardPreview.setAttribute('data-pathName', pathName);
     boardPreview.style.background = color;
     const boardTitle = Common.createDOMNode('h3', ['board__preview__title'], name);
     boardPreview.append(boardTitle);
-    this.main.boardsLayout.append(boardPreview);
+    container.append(boardPreview);
     boardPreview.addEventListener('click', this.onOpenBoard.bind(this));
   }
 

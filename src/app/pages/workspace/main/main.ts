@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 export default class MainWorkspace {
@@ -43,7 +44,14 @@ export default class MainWorkspace {
 
   private cancelButton: HTMLButtonElement;
 
+  public availableBoardsLayout: HTMLElement;
+
+  private availableBoardsTitle: HTMLElement;
+  
+  private availableBoards: HTMLElement;
+
   constructor() {
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['workspace__main']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'workspace__wrapper']);
     this.titleWrapper = Common.createDomNode('div', ['workspace__title__wrapper']);
@@ -56,16 +64,19 @@ export default class MainWorkspace {
     this.titleText = Common.createDomNode('h3', ['workspace__title__text'], 'W');
     this.line = Common.createDomNode('hr', ['horizontal__line']);
     this.boards = Common.createDomNode('div', ['workspace__boards']);
-    this.boardsTitle = Common.createDomNode('h2', ['boards__title'], 'Boards');
+    this.boardsTitle = Common.createDomNode('h2', ['boards__title'], text.text.workspace.board.title);
     this.boardsLayout = Common.createDomNode('div', ['boards__layout']);
-    this.createButton = Common.createDomNodeButton(['button', 'board__button'], 'Create new board');
+    this.createButton = Common.createDomNodeButton(['button', 'board__button'], text.text.workspace.board.info);
     this.nameWrapper = Common.createDomNode('div', ['name__wrapper', 'hidden']);
-    this.nameLabel = Common.createDomNodeLabel('workspace__name', 'Name', ['workspace__name__label']);
+    this.nameLabel = Common.createDomNodeLabel('workspace__name', text.text.name, ['workspace__name__label']);
     this.star = Common.createDomNode('span', ['label__star'], '*');
-    this.name = Common.createDomNodeInput('Enter Name', 'workspace__name', ['workspace__name']);
+    this.name = Common.createDomNodeInput(text.text.enterName, 'workspace__name', ['workspace__name']);
     this.buttons = Common.createDomNode('div', ['edit__buttons']);
-    this.saveButton = Common.createDomNodeButton(['button', 'save'], 'Save');
-    this.cancelButton = Common.createDomNodeButton(['button', 'cancel'], 'Cancel');
+    this.saveButton = Common.createDomNodeButton(['button', 'save'], text.text.cancel);
+    this.cancelButton = Common.createDomNodeButton(['button', 'cancel'], text.text.cancel);
+    this.availableBoards = Common.createDomNode('div', ['workspace__boards']);
+    this.availableBoardsTitle = Common.createDomNode('h2', ['boards__title'], text.text.workspace.available.title);
+    this.availableBoardsLayout = Common.createDomNode('div', ['boards__layout']);
   }
 
   public append() {
@@ -78,7 +89,8 @@ export default class MainWorkspace {
     this.titleWrapper.append(this.showedTitle, this.nameWrapper);
     this.boardsLayout.append(this.createButton);
     this.boards.append(this.boardsTitle, this.boardsLayout);
-    this.wrapper.append(this.titleWrapper, this.line, this.boards);
+    this.availableBoards.append(this.availableBoardsTitle, this.availableBoardsLayout);
+    this.wrapper.append(this.titleWrapper, this.line, this.boards, this.availableBoards);
     this.section.append(this.wrapper);
     this.edit.addEventListener('click', this.openEditForm.bind(this));
     this.cancelButton.addEventListener('click', this.openEditForm.bind(this));

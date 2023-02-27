@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 import { actions } from '../constants/constants';
 
@@ -17,10 +18,11 @@ export default class Action {
   private swiperPagination: HTMLElement;
 
   constructor() {
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['action']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'action__wrapper']);
-    this.subtitle = Common.createDomNode('h3', ['subtitle', 'action__subtitle'], 'TRELLO IN ACTION');
-    this.title = Common.createDomNode('h2', ['title', 'action__title'], 'Workflows for any project, big or small');
+    this.subtitle = Common.createDomNode('h3', ['subtitle', 'action__subtitle'], text.text.actions.subtitle);
+    this.title = Common.createDomNode('h2', ['title', 'action__title'], text.text.actions.title);
     this.swiper = Common.createDomNode('div', ['action__swiper']);
     this.swiperWrapper = Common.createDomNode('div', ['swiper-wrapper']);
     this.swiperPagination = Common.createDomNode('div', ['swiper-pagination']);

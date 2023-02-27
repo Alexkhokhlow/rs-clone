@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io-client';
+import Lang from '../../../../common/lang/lang';
 import Common from '../../../../utils/common';
 import CheckListModule from './modules/checkListModule';
 import LabelsModule from './modules/labelsModule';
@@ -24,12 +25,13 @@ export default class Sidebar {
   checkList: HTMLButtonElement;
 
   constructor(socket: Socket) {
+    const text = new Lang();
     this.sidebar = Common.createDomNode('sidebar', ['sidebar']);
-    this.title = Common.createDomNode('span', ['sidebar__title'], 'Add to card');
+    this.title = Common.createDomNode('span', ['sidebar__title'], text.text.add);
     this.modules = Common.createDomNode('div', ['sidebar__modules']);
-    this.members = Common.createDomNodeButton(['sidebar__modules__members', 'module__button'], 'Members');
-    this.labels = Common.createDomNodeButton(['sidebar__modules__labels', 'module__button'], 'Labels');
-    this.checkList = Common.createDomNodeButton(['sidebar__modules__check', 'module__button'], 'Checklist');
+    this.members = Common.createDomNodeButton(['sidebar__modules__members', 'module__button'], text.text.members);
+    this.labels = Common.createDomNodeButton(['sidebar__modules__labels', 'module__button'], text.text.labels);
+    this.checkList = Common.createDomNodeButton(['sidebar__modules__check', 'module__button'], text.text. checklistText);
     this.modalMembers = new MembersModule();
     this.modalLabels = new LabelsModule(socket);
     this.modalCheckList = new CheckListModule();

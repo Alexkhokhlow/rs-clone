@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 export default class Form {
@@ -14,12 +15,13 @@ export default class Form {
   data: string;
 
   constructor(inputValue: string, buttonText: string, onClick: (event: Event) => void, close: (event: Event) => void) {
+    const text = new Lang()
     this.data = '';
     this.form = Common.createDOMNode('div', ['add-item__form']);
     this.input = Common.createDOMNodeInput('1', ['add-item__form__input'], 'text', inputValue);
     this.container = Common.createDOMNode('div', ['add-item__form__container']);
     this.button = Common.createDomNodeButton(['add-item__form__container__button'], buttonText);
-    this.closeIcon = Common.createDomNodeButton(['add-item__form__container__close'], 'Cancel');
+    this.closeIcon = Common.createDomNodeButton(['add-item__form__container__close'], text.text.cancel);
 
     this.container.append(this.button, this.closeIcon);
     this.form.append(this.input, this.container);

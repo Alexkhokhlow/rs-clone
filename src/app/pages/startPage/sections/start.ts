@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 export default class Start {
@@ -14,12 +15,13 @@ export default class Start {
   private submit: HTMLButtonElement;
 
   constructor() {
+    const text = new Lang()
     this.section = Common.createDomNode('section', ['start']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'start__wrapper']);
-    this.title = Common.createDomNode('h2', ['start__title'], 'Get started with Trello today');
+    this.title = Common.createDomNode('h2', ['start__title'], text.text.start.title);
     this.emailWrapper = Common.createDomNode('div', ['start__form']);
-    this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], 'email');
-    this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], "Sign up - it's free!");
+    this.email = Common.createDomNodeInput('Email', 'email', ['start__email'], text.text.singupSection.email);
+    this.submit = Common.createDomNodeButton(['button', 'start__submit', 'submit'], text.text.singupSection.submit);
   }
 
   public append() {

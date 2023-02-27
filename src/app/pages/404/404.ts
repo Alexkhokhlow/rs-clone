@@ -1,3 +1,4 @@
+import Lang from '../../common/lang/lang';
 import Common from '../../utils/common';
 import Footer from '../autorisation/footer';
 import StartPageHeader from '../startPage/sections/header';
@@ -18,23 +19,24 @@ export default class ErrorPage {
   creatingBoard: CreatingBoard;
 
   constructor(creatingBoard: CreatingBoard) {
+    const text = new Lang();
     this.creatingBoard = creatingBoard;
     this.main = Common.createDomNode('section', ['error__page']);
-    this.title = Common.createDomNode('h2', ['error__title'], 'Page not found.');
+    this.title = Common.createDomNode('h2', ['error__title'], text.text.errorPage.notFound);
 
     if (this.isAuthorized()) {
       this.header = new Header().append(creatingBoard);
       this.errorMessage = Common.createDomNode(
         'p',
         ['error__message'],
-        'Perhaps this is a private page. Ask the person who shared the link to share the board or invite you to the workspace.'
+        text.text.errorPage.private
       );
     } else {
       this.header = new StartPageHeader().append();
       this.errorMessage = Common.createDOMNode(
         'p',
         ['error__message'],
-        'Perhaps this is a private page. You could see it <a href=/signup class="message__link">by signing in</a>.'
+        `${text.text.errorPage.sign} <a href=/signup class="message__link">${text.text.singUp}</a>.`
       );
     }
 

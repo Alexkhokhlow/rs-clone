@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 import { cardsDescription } from '../constants/constants';
 
@@ -25,16 +26,13 @@ export default class Powerhouse {
   private swiperScrollBar: HTMLElement;
 
   constructor() {
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['powerhouse']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'powerhouse__wrapper']);
     this.container = Common.createDomNode('div', ['powerhouse__description__wrapper']);
-    this.subtitle = Common.createDomNode('h3', ['powerhouse__subtitle'], 'Trello 101');
-    this.title = Common.createDomNode('h2', ['powerhouse__title'], 'A productivity powerhouse');
-    this.description = Common.createDomNode(
-      'p',
-      ['powerhouse__description'],
-      "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who's doing what and what needs to get done."
-    );
+    this.subtitle = Common.createDomNode('h3', ['powerhouse__subtitle'], text.text.powerhouse.subtitle);
+    this.title = Common.createDomNode('h2', ['powerhouse__title'], text.text.powerhouse.title);
+    this.description = Common.createDomNode('p', ['powerhouse__description'], text.text.powerhouse.description);
     this.swiperWrapper = Common.createDomNode('div', ['swiper__wrapper']);
     this.swiper = Common.createDomNode('div', ['swiper']);
     this.cardsWrapper = Common.createDomNode('div', ['cards__wrapper', 'swiper-pagination']);

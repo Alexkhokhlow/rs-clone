@@ -3,7 +3,6 @@ import { ITaskInfo } from '../../types/types';
 
 export default class Server {
   private address: string;
-
   constructor() {
     this.address = 'https://trello-clone-x3tl.onrender.com/api';
   }
@@ -24,13 +23,13 @@ export default class Server {
     }
   }
 
-  async signUp(email: string, password: string, userName: string) {
+  async signUp(email: string, password: string, userName: string, color: string) {
     const response = await fetch(`${this.address}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userName, email, password }),
+      body: JSON.stringify({ userName, email, password, color }),
     });
 
     await this.checkError(response);
@@ -177,6 +176,21 @@ export default class Server {
     return json;
   }
 
+  async updateTaskList(token: string, id: string, name: string) {
+    const response = await fetch(`${this.address}/tasklist`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, name }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async deleteTaskList(token: string, id: string, boardId: string) {
     const response = await fetch(`${this.address}/tasklist`, {
       method: 'DELETE',
@@ -222,6 +236,21 @@ export default class Server {
     return json;
   }
 
+  async deleteTask(token: string, id: string) {
+    const response = await fetch(`${this.address}/task`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
   async getTaskInfo(token: string, id: string) {
     const response = await fetch(`${this.address}/taskInfo`, {
       method: 'POST',
@@ -244,6 +273,21 @@ export default class Server {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token, id, description }),
+    });
+
+    await this.checkError(response);
+
+    const json = await response.json();
+    return json;
+  }
+
+  async updateTaskName(token: string, id: string, name: string) {
+    const response = await fetch(`${this.address}/taskName`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, id, name }),
     });
 
     await this.checkError(response);
