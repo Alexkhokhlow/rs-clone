@@ -197,7 +197,7 @@ export default class TaskInfo {
   private async createCheckList(event: Event) {
     event.preventDefault();
     const name = this.sidebar.modalCheckList.inputTitle.value;
-    const response = (await this.server.createCheckList(this.token, this.id, name)) as { checkList: { id: string } };
+    const response = await this.server.createCheckList(this.token, this.id, name);
     const checklist = new Checklist(response.checkList.id, name, this.path, this.socket);
     this.checkListContainer.append(checklist.checklist);
     this.sidebar.modalCheckList.module.onClose();

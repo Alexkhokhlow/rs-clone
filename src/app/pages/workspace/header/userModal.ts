@@ -26,7 +26,7 @@ export default class UserModal {
 
   private server: Server;
 
-  private token: string;
+  private token: string | null;
 
   constructor() {
     const text = new Lang();
@@ -36,7 +36,7 @@ export default class UserModal {
     this.userImg = Common.createDomNode('div', ['user__image']);
     this.userDescription = Common.createDomNode('div', ['user__description']);
     this.server = new Server();
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token');
     this.name = Common.createDomNode('p', ['user__name', 'subtitle'], 'Name');
     this.mail = Common.createDomNode('p', ['user__mail', 'subtitle'], 'mail@mail.ru');
 
@@ -46,9 +46,11 @@ export default class UserModal {
   }
 
   async init() {
-    const data: TUser = await this.server.getUserInfo(this.token);
-    this.name.textContent = data.name;
-    this.mail.textContent = data.email;
+    if (this.token) {
+      const data: TUser = await this.server.getUserInfo(this.token);
+      this.name.textContent = data.name;
+      this.mail.textContent = data.email;
+    }
   }
 
   public render() {
