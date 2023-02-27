@@ -1,5 +1,5 @@
-import Lang from '../../../common/lang/lang';
 import { TUser } from '../../../../types/types';
+import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import UserInfo from '../userInfo/userInfo';
@@ -42,7 +42,7 @@ export default class Subheader {
     this.wrapper.append(this.title, this.visibility);
     this.shareWrapper.append(this.members, this.share);
     this.subheader.append(this.wrapper, this.shareWrapper);
-   // await this.getUser();
+    // await this.getUser();
   }
 
   // private async getUser() {

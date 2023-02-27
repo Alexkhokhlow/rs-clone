@@ -29,7 +29,7 @@ export default class UserModal {
   private token: string;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.modal = Common.createDomNode('div', ['user__modal', 'hidden']);
     this.title = Common.createDomNode('h2', ['user__title', 'title'], text.text.userModal.account);
     this.userInfo = Common.createDomNode('div', ['user__info']);

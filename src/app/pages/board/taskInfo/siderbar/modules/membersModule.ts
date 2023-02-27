@@ -15,22 +15,22 @@ export default class MembersModule {
     this.module = new ModuleForm();
     this.members = Common.createDomNode('div', ['members']);
     this.title = Common.createDomNode('span', ['members__title'], 'Board members');
-    this.userContainer = Common.createDOMNode('div', [])
+    this.userContainer = Common.createDOMNode('div', []);
     this.members.append(this.title, this.userContainer);
     this.module.init('Members', this.members);
   }
 
-  init(users: { users: TUser[]; creator: TUser }){
-    this.createUser(users.creator)
-    users.users.forEach((user)=>{
-      this.createUser(user)
-    })
+  init(users: { creator: TUser; users: TUser[] }) {
+    this.createUser(users.creator);
+    users.users.forEach((user) => {
+      this.createUser(user);
+    });
   }
 
-  createUser(user:TUser){
-    const userWrapper = Common.createDomNode('div',['members__user']);
+  createUser(user: TUser) {
+    const userWrapper = Common.createDomNode('div', ['members__user']);
     const userIcon = Common.createUserIcon(user.email, user.userName, 'user__subheader', user.color);
-    const name = Common.createDomNode('span',[], user.userName);
+    const name = Common.createDomNode('span', [], user.userName);
     userWrapper.append(userIcon, name);
     this.userContainer.append(userWrapper);
   }

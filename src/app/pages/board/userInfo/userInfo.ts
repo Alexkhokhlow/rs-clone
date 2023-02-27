@@ -21,7 +21,7 @@ export default class UserInfo {
 
   public wrapper: HTMLElement;
 
-  constructor(name: string, email: string, description: string, color:string) {
+  constructor(name: string, email: string, description: string, color: string) {
     this.wrapper = Common.createDomNode('div', ['about_user__wrapper']);
     this.container = Common.createDomNode('div', ['about_user']);
     this.closeButton = Common.createDomNode('div', ['close__button__wrapper']);

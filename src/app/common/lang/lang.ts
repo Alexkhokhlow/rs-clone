@@ -2,7 +2,6 @@ import eng from './eng';
 import rus from './rus';
 import { ILang } from './type';
 
-
 export default class Lang {
   text: ILang;
 

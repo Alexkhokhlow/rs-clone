@@ -31,7 +31,7 @@ export default class Sidebar {
     this.modules = Common.createDomNode('div', ['sidebar__modules']);
     this.members = Common.createDomNodeButton(['sidebar__modules__members', 'module__button'], text.text.members);
     this.labels = Common.createDomNodeButton(['sidebar__modules__labels', 'module__button'], text.text.labels);
-    this.checkList = Common.createDomNodeButton(['sidebar__modules__check', 'module__button'], text.text. checklistText);
+    this.checkList = Common.createDomNodeButton(['sidebar__modules__check', 'module__button'], text.text.checklistText);
     this.modalMembers = new MembersModule();
     this.modalLabels = new LabelsModule(socket);
     this.modalCheckList = new CheckListModule();

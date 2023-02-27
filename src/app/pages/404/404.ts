@@ -26,11 +26,7 @@ export default class ErrorPage {
 
     if (this.isAuthorized()) {
       this.header = new Header().append(creatingBoard);
-      this.errorMessage = Common.createDomNode(
-        'p',
-        ['error__message'],
-        text.text.errorPage.private
-      );
+      this.errorMessage = Common.createDomNode('p', ['error__message'], text.text.errorPage.private);
     } else {
       this.header = new StartPageHeader().append();
       this.errorMessage = Common.createDOMNode(

@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
-import Lang from '../../common/lang/lang';
 import IResponseBoard, { ITaskList, TLabel, TUser } from '../../../types/types';
+import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -73,7 +73,7 @@ export default class Board {
     this.path = '';
     this.socket = io(`https://trello-clone-x3tl.onrender.com`);
     this.taskInfo = new TaskInfo(this.socket);
-    this.response = null
+    this.response = null;
 
     this.addListButton = new AddItemButton(
       this.text.text.board.listText,
@@ -110,6 +110,7 @@ export default class Board {
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.id = response.id;
+      console.log(response)
       this.getSharedUser(
         response.users.creator.email,
         response.users.creator.userName,
@@ -163,8 +164,8 @@ export default class Board {
       }
       if ((e.target as HTMLElement).classList.contains('btn-open')) {
         if (this.taskModal.selectedTask?.dataset.id) {
-          if(this.response){
-          await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id, this.response.users);
+          if (this.response) {
+            await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id, this.response.users);
           }
         }
         document.body.append(this.taskInfo.taskInfo);

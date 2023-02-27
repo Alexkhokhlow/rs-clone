@@ -47,7 +47,7 @@ export default class MainWorkspace {
   public availableBoardsLayout: HTMLElement;
 
   private availableBoardsTitle: HTMLElement;
-  
+
   private availableBoards: HTMLElement;
 
   constructor() {

@@ -11,14 +11,10 @@ export default class Using {
   private img: HTMLElement;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['using']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'using__wrapper']);
-    this.text = Common.createDomNode(
-      'p',
-      ['using__text'],
-      text.text.using.text
-    );
+    this.text = Common.createDomNode('p', ['using__text'], text.text.using.text);
     this.img = Common.createDomNode('div', ['using__img']);
   }
 
