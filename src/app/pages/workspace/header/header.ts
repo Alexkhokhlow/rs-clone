@@ -1,8 +1,8 @@
+import { TUser } from '../../../../types/types';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import CreatingBoard from '../createBoard/createBoard';
 import UserModal from './userModal';
-
 
 export default class Header {
   public header: HTMLElement;
@@ -56,7 +56,7 @@ export default class Header {
 
   private addHandlers() {
     this.workspace.addEventListener('click', () => {
-      window.location.href = '/workspace';
+      window.location.pathname = 'workspace';
     });
 
     this.user.addEventListener('click', () => {
@@ -66,9 +66,9 @@ export default class Header {
 
   private async getUser() {
     if (this.token) {
-      const response = await this.server.getUserInfo(this.token);
-      Common.createUserIcon(this.user, response.name);
-      (this.user.firstChild as HTMLElement).classList.add('user__header');
+      const response = (await this.server.getUserInfo(this.token)) as TUser;
+      const user = Common.createUserIcon(response.email, response.name, 'user__header', Common.generateRandomColor());
+      this.user.append(user);
     }
   }
 }

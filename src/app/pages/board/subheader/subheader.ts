@@ -1,5 +1,7 @@
-import Common from '../../../utils/common';
+import { TUser } from '../../../../types/types';
 import Server from '../../../server/server';
+import Common from '../../../utils/common';
+import UserInfo from '../userInfo/userInfo';
 
 export default class Subheader {
   public subheader: HTMLElement;
@@ -34,18 +36,26 @@ export default class Subheader {
     this.append();
   }
 
-  private append() {
+  private async append() {
     this.wrapper.append(this.title, this.visibility);
     this.shareWrapper.append(this.members, this.share);
     this.subheader.append(this.wrapper, this.shareWrapper);
-    this.getUser();
+    await this.getUser();
   }
 
   private async getUser() {
     if (this.token) {
-      const response = await this.server.getUserInfo(this.token);
-      Common.createUserIcon(this.members, response.name);
-      (this.members.firstChild as HTMLElement).classList.add('user__subheader');
+      const response = (await this.server.getUserInfo(this.token)) as TUser;
+      const user = Common.createUserIcon(response.email, response.name, 'user__you');
+      this.members.append(user);
+      user.addEventListener('click', () => {
+        this.showInfo(response);
+      });
     }
+  }
+
+  private showInfo(response: Partial<TUser>) {
+    const userInfo = new UserInfo(response.name as string, response.email as string, response.info as string);
+    userInfo.openModal(this.members);
   }
 }

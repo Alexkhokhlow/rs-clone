@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import IResponseBoard, { ITaskList, TLabel } from '../../../types/types';
+import IResponseBoard, { ITaskList, TLabel, TUser } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -51,8 +51,6 @@ export default class Board {
 
   taskModal: TaskModal;
 
-  private userInfo: UserInfo;
-
   constructor(creatingBoard: CreatingBoard) {
     this.taskModal = taskModal;
     this.id = '';
@@ -65,7 +63,6 @@ export default class Board {
     this.tasksListArray = [];
     this.server = new Server();
     this.share = new Share();
-    this.userInfo = new UserInfo();
     this.token = localStorage.getItem('token');
     this.path = '';
     this.socket = io(`https://trello-clone-x3tl.onrender.com`);
@@ -96,7 +93,7 @@ export default class Board {
       this.socket.on('board', async () => {
         if (this.token) {
           const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
-          this.printBoard(response);
+          await this.printBoard(response);
         }
       });
       this.path = path;
@@ -106,11 +103,14 @@ export default class Board {
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.id = response.id;
-      response.users.forEach(user => {
-      this.getSharedUser(user.userName, user.color!);
-      })
-      this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
+      response.users.forEach(async (user) => {
+        await this.getSharedUser(user.email, user.userName, user.color);
+      });
+      await this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);
+      this.subheader.members.addEventListener('click', (event: Event) => {
+        this.openUserInfo(event, response);
+      });
     } else {
       window.location.pathname = 'error';
     }
@@ -131,7 +131,7 @@ export default class Board {
       this.subheader.visibility.textContent = `Private`;
       this.subheader.visibility.classList.add('board__private');
     }
-    this.taskInfo.sidebar.modalLabels.changeLabels(response.labels);
+    await this.taskInfo.sidebar.modalLabels.changeLabels(response.labels);
     if (!response.access) {
       this.share.submit.disabled = true;
       this.addListButton.button.disabled = true;
@@ -141,16 +141,16 @@ export default class Board {
       this.renderTaskList(response);
     }
 
-    this.taskModal.modal.addEventListener('click', (e) => {
+    this.taskModal.modal.addEventListener('click', async (e) => {
       if ((e.target as HTMLElement).classList.contains('btn-move')) {
         e.stopImmediatePropagation();
-        this.taskModal.getTasksLists().then((response) => {
-          this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this));
+        await this.taskModal.getTasksLists().then((value) => {
+          this.taskModal.createMoveModal(value, this.rewriteTaskList.bind(this));
         });
       }
       if ((e.target as HTMLElement).classList.contains('btn-open')) {
         if (this.taskModal.selectedTask?.dataset.id) {
-          this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id);
+          await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id);
         }
         document.body.append(this.taskInfo.taskInfo);
 
@@ -185,8 +185,12 @@ export default class Board {
 
     labelElement.addEventListener('click', (event: Event) => {
       event.stopPropagation();
-      const info = localStorage.getItem('label_view');
-      info ? localStorage.removeItem('label_view') : localStorage.setItem('label_view', 'true');
+      const infoLabel = localStorage.getItem('label_view');
+      if (infoLabel) {
+        localStorage.removeItem('label_view');
+      } else {
+        localStorage.setItem('label_view', 'true');
+      }
       const labels = document.querySelectorAll('.task__label');
       labels.forEach((data) => {
         data.textContent = data.textContent ? '' : data.getAttribute('text');
@@ -221,20 +225,27 @@ export default class Board {
     return list;
   }
 
-  onShowTaskInfo(event: Event) {
+  async onShowTaskInfo(event: Event) {
     const target = event.currentTarget as HTMLElement;
     const { id } = target.dataset;
     if (id) {
-      this.taskInfo.init(id, this.id);
+      await this.taskInfo.init(id, this.id);
     }
   }
 
-  private async getSharedUser(name: string, color: string) {
+  private async getSharedUser(id: string, name: string, color: string) {
     if (this.token) {
-      const abbreviation = Common.getAbbreviation(name);
-      const user = Common.createDomNode('div', ['user__wrapper', 'user__subheader'], abbreviation);
-      user.style.background = color;
+      const user = Common.createUserIcon(id, name, 'user__subheader', color);
       this.subheader.members.append(user);
+    }
+  }
+
+  private openUserInfo(event: Event, response: IResponseBoard) {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('user__subheader')) {
+      const user = response.users.find((item) => item.email === target.id) as TUser;
+      const userInfo = new UserInfo(user.userName, user.email, user.info);
+      userInfo.openModal(target);
     }
   }
 
@@ -257,7 +268,7 @@ export default class Board {
         const element = item as HTMLElement;
         const { id, title } = element.dataset;
         if (this.token && id && parentId && title) {
-          await this.server.updateTask(this.token, id, parentId, title, String(index));
+          this.server.updateTask(this.token, id, parentId, title, String(index));
         }
       }
       this.socket.emit('board', this.path);

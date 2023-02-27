@@ -88,9 +88,11 @@
 
 .share__members {
   @include flex;
+  position: relative;
 }
 
-.user__subheader {
+.user__subheader,
+.user__you {
   width: 2.8rem;
   height: 2.8rem;
   cursor: pointer;
@@ -255,6 +257,7 @@
     clear: both;
     max-width: 85%;
     display: block;
+    font-size: 1.4rem;
   }
 
   & .task__interaction {
