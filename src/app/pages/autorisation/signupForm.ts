@@ -177,7 +177,7 @@ export default class SignupForm {
         if (error.message !== this.text.text.login.busy) {
           this.passwordInput.classList.remove('invisible');
           this.nameInput.classList.remove('invisible');
-          (this.btnSubmit as HTMLButtonElement).value = 'Sign up';
+          (this.btnSubmit as HTMLButtonElement).value = this.text.text.singUp;
           this.deleteErrorMessage();
         } else {
           this.showErrorMessage();
@@ -191,7 +191,7 @@ export default class SignupForm {
   private async singUp(mail: string, password: string, name: string) {
     this.changeActivityofBtn(false, this.btnSubmit);
     try {
-      await server.signUp(mail, password, name);
+      await server.signUp(mail, password, name, Common.generateRandomColor());
       this.deleteErrorMessage();
       this.mailToLocalStorage();
       window.location.href = 'login';

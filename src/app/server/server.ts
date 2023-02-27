@@ -24,13 +24,13 @@ export default class Server {
     }
   }
 
-  async signUp(email: string, password: string, userName: string) {
+  async signUp(email: string, password: string, userName: string, color: string) {
     const response = await fetch(`${this.address}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userName, email, password }),
+      body: JSON.stringify({ userName, email, password, color }),
     });
 
     await this.checkError(response);

@@ -43,7 +43,7 @@ export default class Header {
     this.server = new Server();
   }
 
-  public append(creatingBoard?: CreatingBoard) {
+  public append(creatingBoard: CreatingBoard) {
     this.logo.append(this.logoImg);
     this.navigation.append(this.logo, this.workspace, this.create);
     this.wrapper.append(this.navigation, this.user);
@@ -69,7 +69,7 @@ export default class Header {
   private async getUser() {
     if (this.token) {
       const response = (await this.server.getUserInfo(this.token)) as TUser;
-      const user = Common.createUserIcon(response.email, response.name, 'user__header', Common.generateRandomColor());
+      const user = Common.createUserIcon(response.email, response.name, 'user__header', response.color);
       this.user.append(user);
     }
   }

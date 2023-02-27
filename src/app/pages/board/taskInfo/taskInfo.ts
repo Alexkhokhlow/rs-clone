@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io-client';
-import { ICheckList, TLabel } from '../../../../types/types';
+import { ICheckList, TLabel, TUser } from '../../../../types/types';
 import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
@@ -125,10 +125,11 @@ export default class TaskInfo {
     }
   }
 
-  public async init(id: string, dashboardId: string) {
+  public async init(id: string, dashboardId: string, users:  { users: TUser[]; creator: TUser }) {
     this.id = id;
     this.sidebar.modalLabels.path = this.path;
     this.dashboardId = dashboardId;
+    this.sidebar.modalMembers.init(users);
     await this.getTaskInfo();
     this.taskInfo.classList.add('active');
   }

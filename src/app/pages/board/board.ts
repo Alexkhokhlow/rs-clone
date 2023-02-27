@@ -54,8 +54,10 @@ export default class Board {
 
   text: Lang;
 
+  response: IResponseBoard | null;
+
   constructor(creatingBoard: CreatingBoard) {
-    this.text = new Lang()
+    this.text = new Lang();
     this.taskModal = taskModal;
     this.id = '';
     this.board = Common.createDOMNode('section', ['board']);
@@ -71,6 +73,7 @@ export default class Board {
     this.path = '';
     this.socket = io(`http://localhost:3000`);
     this.taskInfo = new TaskInfo(this.socket);
+    this.response = null
 
     this.addListButton = new AddItemButton(
       this.text.text.board.listText,
@@ -107,14 +110,17 @@ export default class Board {
       this.share.path = path;
       const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
       this.id = response.id;
-      response.users.forEach(async (user) => {
-        await this.getSharedUser(user.email, user.userName, user.color);
+      this.getSharedUser(
+        response.users.creator.email,
+        response.users.creator.userName,
+        response.users.creator.color,
+        response.users.creator.info
+      );
+      response.users.users.forEach((user) => {
+        this.getSharedUser(user.email, user.userName, user.color, user.info);
       });
       await this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);
-      this.subheader.members.addEventListener('click', (event: Event) => {
-        this.openUserInfo(event, response);
-      });
     } else {
       window.location.pathname = 'error';
     }
@@ -123,11 +129,11 @@ export default class Board {
   }
 
   async printBoard(response: IResponseBoard) {
+    this.response = response;
     this.listsContainer.innerHTML = '';
     this.board.style.background = response.dashboard.color;
     this.header.header.style.background = response.dashboard.color;
     this.footer.footer.style.background = response.dashboard.color;
-    this.footer.lang.style.background = response.dashboard.color;
 
     this.subheader.title.textContent = response.dashboard.name;
     if (response.dashboard.public) {
@@ -157,7 +163,9 @@ export default class Board {
       }
       if ((e.target as HTMLElement).classList.contains('btn-open')) {
         if (this.taskModal.selectedTask?.dataset.id) {
-          await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id);
+          if(this.response){
+          await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id, this.response.users);
+          }
         }
         document.body.append(this.taskInfo.taskInfo);
 
@@ -173,7 +181,14 @@ export default class Board {
       list.addCardButton.button.disabled = !response.access;
       list.deleteButton.disabled = !response.access;
       taskList.tasks.forEach((task) => {
-        const taskInfo = new Task(task.name, this.onShowTaskInfo.bind(this), task.id , task.description, task.checkLists, task.comments);
+        const taskInfo = new Task(
+          task.name,
+          this.onShowTaskInfo.bind(this),
+          task.id,
+          task.description,
+          task.checkLists,
+          task.comments
+        );
         task.labels.forEach((label) => {
           taskInfo.labelContainer.append(this.createTaskLabel(label));
         });
@@ -235,24 +250,23 @@ export default class Board {
   async onShowTaskInfo(event: Event) {
     const target = event.currentTarget as HTMLElement;
     const { id } = target.dataset;
-    if (id) {
-      await this.taskInfo.init(id, this.id);
+    if (id && this.response) {
+      await this.taskInfo.init(id, this.id, this.response.users);
     }
   }
 
-  private async getSharedUser(id: string, name: string, color: string) {
+  private getSharedUser(email: string, name: string, color: string, info: string) {
     if (this.token) {
-      const user = Common.createUserIcon(id, name, 'user__subheader', color);
+      const user = Common.createUserIcon(email, name, 'user__subheader', color);
       this.subheader.members.append(user);
-    }
-  }
 
-  private openUserInfo(event: Event, response: IResponseBoard) {
-    const target = event.target as HTMLElement;
-    if (target.classList.contains('user__subheader')) {
-      const user = response.users.find((item) => item.email === target.id) as TUser;
-      const userInfo = new UserInfo(user.userName, user.email, user.info);
-      userInfo.openModal(target);
+      user.addEventListener('click', (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains('user__subheader')) {
+          const userInfo = new UserInfo(name, email, info, color);
+          userInfo.openModal(target);
+        }
+      });
     }
   }
 

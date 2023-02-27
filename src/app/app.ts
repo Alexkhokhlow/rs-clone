@@ -28,7 +28,7 @@ export default class App {
     this.startPage = new StartPage();
     this.autorisation = new Autorisation();
     this.workspace = new Workspace();
-    this.user = new UserPage();
+    this.user = new UserPage(this.workspace.creatingBoard);
     this.errorPage = new ErrorPage(this.workspace.creatingBoard);
     this.board = new Board(this.workspace.creatingBoard);
     this.server = new Server();
@@ -52,6 +52,7 @@ export default class App {
         try {
           this.body.append(await this.board.init(path.replace('/board/', '')));
         } catch (e) {
+          console.log(e);
           this.body.append(this.errorPage.render());
         }
       } else {

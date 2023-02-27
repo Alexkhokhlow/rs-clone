@@ -3,7 +3,7 @@ export default interface IResponseBoard {
   dashboard: IBoard;
   id: string;
   labels: TLabel[];
-  users: TUser[];
+  users: { users: TUser[]; creator: TUser };
 }
 
 export interface IResponseBoards {
@@ -32,7 +32,7 @@ export interface ITask {
   labels: TLabel[];
   name: string;
   description: string;
-  checkLists : [{checked: number, all: number}]
+  checkLists: [{ checked: number; all: number }];
   comments: number;
 }
 

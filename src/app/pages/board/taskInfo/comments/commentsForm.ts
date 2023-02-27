@@ -66,8 +66,9 @@ export default class CommentsForm {
   init(user: TUser, comments: TComment[], id: string) {
     this.user = user;
     this.container.innerHTML = '';
+
     comments.forEach((data) => {
-      this.createComment(data.text, data.userName, data.id, data.userId === user.id);
+      this.createComment(data.text, data.userName, data.id, String(data.userId) === String(user.id));
     });
     this.id = id;
   }
