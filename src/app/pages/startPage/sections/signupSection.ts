@@ -1,3 +1,4 @@
+import Lang from '../../../common/lang/lang';
 import Common from '../../../utils/common';
 
 export default class SignupSection {
@@ -20,22 +21,23 @@ export default class SignupSection {
   private image: HTMLElement;
 
   constructor() {
+    const text = new Lang()
     this.section = Common.createDomNode('section', ['signup__section']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'signup__wrapper']);
     this.textContainer = Common.createDomNode('div', ['signup__container__text']);
     this.title = Common.createDomNode(
       'h1',
       ['signup__title'],
-      'Trello brings all your tasks, teammates, and tools together'
+      text.text.singupSection.title
     );
     this.subtitle = Common.createDomNode(
       'h3',
       ['signup__subtitle'],
-      "Keep everything in the same place — even if your team isn't."
+      text.text.singupSection.subtitle
     );
     this.emailWrapper = Common.createDomNode('div', ['signup__form']);
-    this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], 'email');
-    this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], "Sign up - it's free!");
+    this.email = Common.createDomNodeInput('Email', 'email', ['signup__email'], text.text.singupSection.email);
+    this.submit = Common.createDomNodeButton(['button', 'signup__submit', 'submit'], text.text.singupSection.submit);
     this.image = Common.createDomNode('div', ['signup__image']);
   }
 

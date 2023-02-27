@@ -21,7 +21,7 @@ export default class UserInfo {
 
   public wrapper: HTMLElement;
 
-  constructor(name: string, email: string, description: string) {
+  constructor(name: string, email: string, description: string, color:string) {
     this.wrapper = Common.createDomNode('div', ['about_user__wrapper']);
     this.container = Common.createDomNode('div', ['about_user']);
     this.closeButton = Common.createDomNode('div', ['close__button__wrapper']);
@@ -32,7 +32,7 @@ export default class UserInfo {
     this.name = Common.createDomNode('h3', ['user__name'], name);
     this.email = Common.createDomNode('h4', ['user__email'], email);
     this.description = Common.createDomNode('p', ['user__description'], description);
-
+    this.icon.style.background = color;
     this.append();
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
   }

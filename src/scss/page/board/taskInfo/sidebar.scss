@@ -211,3 +211,12 @@
   padding: .6rem;
   border: .05rem solid $color-border-comment;
 }
+
+.members{
+
+  &__user{
+    @include flex($justify:flex-start);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+}

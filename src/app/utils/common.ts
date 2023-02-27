@@ -109,6 +109,32 @@ export default class Common {
     parent.replaceChild(title, input);
   }
 
+  public static languageSwitcher() {
+    const language = document.createElement('select');
+    language.classList.add('lang');
+    const russian = document.createElement('option');
+    russian.classList.add('option');
+    russian.textContent = 'Русский';
+    russian.setAttribute('value', 'rus');
+    const english = document.createElement('option');
+    english.classList.add('option');
+    english.textContent = 'English';
+    english.setAttribute('value', 'eng');
+    language.append(russian, english);
+    const data = localStorage.getItem('lang');
+    if (data) {
+      language.value = data;
+    }
+
+    language.addEventListener('change', (event: Event) => {
+      const target = event.target as HTMLOptionElement;
+      localStorage.setItem('lang', target.value);
+      window.location.reload();
+    });
+
+    return language;
+  }
+  
   public static createUserIcon(id: string, name: string, classEl: string, color?: string) {
     const abbreviation = Common.getAbbreviation(name);
     const user = Common.createDomNode('span', ['user__wrapper']);

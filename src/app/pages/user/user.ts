@@ -1,7 +1,9 @@
 import { TUser } from '../../../types/types';
+import Lang from '../../common/lang/lang';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
+import CreatingBoard from '../workspace/createBoard/createBoard';
 import Header from '../workspace/header/header';
 
 export default class UserPage {
@@ -45,9 +47,13 @@ export default class UserPage {
 
   token: string;
 
-  constructor() {
+  creatingBoard: CreatingBoard;
+
+  constructor(creatingBoard: CreatingBoard) {
+    this.creatingBoard = creatingBoard;
+    const text = new Lang();
     this.main = Common.createDomNode('section', ['user__page']);
-    this.header = new Header().append();
+    this.header = new Header().append(this.creatingBoard);
     this.userInfo = Common.createDomNode('div', ['user__info']);
     this.userImg = Common.createDomNode('div', ['user__image']);
     this.userDescription = Common.createDomNode('div', ['user__description']);
@@ -58,16 +64,15 @@ export default class UserPage {
     this.mail = Common.createDomNode('p', ['user__mail', 'subtitle']);
     this.description = Common.createDomNode('p', ['user__bio', 'subtitle']);
 
-    this.title = Common.createDomNode('h1', ['title', 'profile__title'], 'Profile');
+    this.title = Common.createDomNode('h1', ['title', 'profile__title'], text.text.profile);
     this.form = Common.createDomNode('form', ['user__form']);
     this.formNameContainer = Common.createDomNode('div', ['form__container']);
-    this.inputNameLabel = Common.createDomNodeLabel('name', 'Username', ['label']);
-
+    this.inputNameLabel = Common.createDomNodeLabel('name', text.text.userName, ['label']);
     this.inputName = Common.createDOMNodeInput('name', ['input__name'], 'text');
     this.formBioContainer = Common.createDomNode('div', ['form__container']);
-    this.bioLabel = Common.createDomNodeLabel('bio', 'About Me', ['label']);
+    this.bioLabel = Common.createDomNodeLabel('bio', text.text.aboutMe, ['label']);
     this.bioInput = Common.createDomNode('textarea', ['textarea']) as HTMLTextAreaElement;
-    this.btnSubmit = Common.createDomNodeButton(['btn', 'btn-submit'], 'Save', 'submit');
+    this.btnSubmit = Common.createDomNodeButton(['btn', 'btn-submit'], text.text.save, 'submit');
 
     this.footer = new StartPageFooter().append();
   }
@@ -82,7 +87,15 @@ export default class UserPage {
   }
 
   public async render() {
-    this.main.append(this.header, this.userInfo, this.description, this.title, this.form, this.footer);
+    this.main.append(
+      this.header,
+      this.userInfo,
+      this.description,
+      this.title,
+      this.form,
+      this.creatingBoard.append(),
+      this.footer
+    );
     this.userInfo.append(this.userImg, this.userDescription);
     this.userDescription.append(this.name, this.mail);
 

@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io-client';
 import { TLabel } from '../../../../../../types/types';
+import Lang from '../../../../../common/lang/lang';
 import Server from '../../../../../server/server';
 import Common from '../../../../../utils/common';
 import ModuleForm from './moduleForm';
@@ -35,20 +36,23 @@ export default class LabelsModule {
 
   public path: string;
 
+  private text: Lang;
+
   constructor(socket: Socket) {
+    this.text = new Lang();
     this.socket = socket;
     this.dashboardId = '';
     this.path = '';
     this.module = new ModuleForm();
     this.labels = Common.createDomNode('div', ['labels']);
-    this.title = Common.createDomNode('span', ['labels__title'], 'Labels');
+    this.title = Common.createDomNode('span', ['labels__title'], this.text.text.labels);
     this.labelsContainer = Common.createDomNode('ul', ['labels__container']);
     this.wrapper = Common.createDomNode('div', ['label__title__wrapper', 'hidden']);
-    this.label = Common.createDomNodeLabel('title', 'Title', ['labels__title']);
-    this.input = Common.createDomNodeInput('Enter title', 'title', ['label__input']);
+    this.label = Common.createDomNodeLabel('title', this.text.text.title, ['labels__title']);
+    this.input = Common.createDomNodeInput(this.text.text.enterTitle, 'title', ['label__input']);
     this.buttons = Common.createDomNode('div', ['buttons']);
-    this.save = Common.createDomNodeButton(['button', 'save'], 'Save');
-    this.cancel = Common.createDomNodeButton(['button', 'cancel'], 'Cancel');
+    this.save = Common.createDomNodeButton(['button', 'save'], this.text.text.save);
+    this.cancel = Common.createDomNodeButton(['button', 'cancel'], this.text.text.cancel);
     this.append();
     this.server = new Server();
     this.token = localStorage.getItem('token') as string;
@@ -58,7 +62,7 @@ export default class LabelsModule {
     this.buttons.append(this.save, this.cancel);
     this.wrapper.append(this.label, this.input, this.buttons);
     this.labels.append(this.title, this.wrapper, this.labelsContainer);
-    this.module.init('Labels', this.labels);
+    this.module.init(this.text.text.labels, this.labels);
     this.bindEvents();
   }
 
@@ -112,7 +116,7 @@ export default class LabelsModule {
     const text = this.input.value;
     const id = this.wrapper.getAttribute('id') as string;
     const colorLabel = this.labelsContainer.children[Number(id)].children[1] as HTMLInputElement;
-    colorLabel.value = text;
+    colorLabel.textContent = text;
     this.closeLabelTitleEditor();
     this.input.value = '';
     if (this.token) {

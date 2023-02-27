@@ -110,7 +110,7 @@ export class TaskModal {
 
   async deleteTask(id: string) {
     if (this.token && id) {
-      // await server.deleteTask(this.token, id);
+       await server.deleteTask(this.token, id);
     }
   }
 }
