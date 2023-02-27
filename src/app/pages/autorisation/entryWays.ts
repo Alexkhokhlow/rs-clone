@@ -12,14 +12,14 @@ export default class EntryWays {
   }
 
   render() {
-    const text = new Lang()
+    const text = new Lang();
     const content = `<span id="${this.elem}__icon" class="icon"></span> <span class="label" data-analytics-button="loginWith${this.elem}Button">${text.text.continueWith} ${this.name}</span>`;
     const entryWay = Common.createDOMNode('a', [`btn_${this.elem}`, 'btn_way'], content);
     entryWay.addEventListener('click', (e) => {
       e.preventDefault();
       const target = e.currentTarget as HTMLElement;
       if (target.classList.contains('btn_google')) {
-        window.location.replace('http://localhost:3000/api/google');
+        window.location.replace('https://trello-clone-x3tl.onrender.com/api/google');
       }
     });
     return entryWay;

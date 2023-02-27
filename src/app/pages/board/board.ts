@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
+import IResponseBoard, { TLabel } from '../../../types/types';
 import Lang from '../../common/lang/lang';
-import IResponseBoard, { ITaskList, TLabel, TUser } from '../../../types/types';
 import Server from '../../server/server';
 import Common from '../../utils/common';
 import StartPageFooter from '../startPage/sections/footer';
@@ -73,7 +73,7 @@ export default class Board {
     this.path = '';
     this.socket = io(`https://trello-clone-x3tl.onrender.com`);
     this.taskInfo = new TaskInfo(this.socket);
-    this.response = null
+    this.response = null;
 
     this.addListButton = new AddItemButton(
       this.text.text.board.listText,
@@ -99,7 +99,7 @@ export default class Board {
       this.socket.emit('boardConnection', path);
       this.socket.on('board', async () => {
         if (this.token) {
-          const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
+          const response = await this.server.getDashboard(this.token, path);
           await this.printBoard(response);
         }
       });
@@ -108,8 +108,9 @@ export default class Board {
       this.taskInfo.description.path = path;
       this.taskInfo.comment.path = path;
       this.share.path = path;
-      const response = (await this.server.getDashboard(this.token, path)) as IResponseBoard;
+      const response = await this.server.getDashboard(this.token, path);
       this.id = response.id;
+      console.log(response);
       this.getSharedUser(
         response.users.creator.email,
         response.users.creator.userName,
@@ -157,14 +158,13 @@ export default class Board {
       if ((e.target as HTMLElement).classList.contains('btn-move')) {
         e.stopImmediatePropagation();
         const currentTaskList = (e.target as HTMLElement).closest('.tasks__wrapper') as HTMLElement;
-        this.taskModal.getTasksLists().then((response) => {
-          this.taskModal.createMoveModal(response, this.rewriteTaskList.bind(this), currentTaskList);
-        });
+        const responseInfo = await this.taskModal.getTasksLists();
+        this.taskModal.createMoveModal(responseInfo, this.rewriteTaskList.bind(this), currentTaskList);
       }
       if ((e.target as HTMLElement).classList.contains('btn-open')) {
         if (this.taskModal.selectedTask?.dataset.id) {
-          if(this.response){
-          await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id, this.response.users);
+          if (this.response) {
+            await this.taskInfo.init(this.taskModal.selectedTask?.dataset.id, this.id, this.response.users);
           }
         }
         document.body.append(this.taskInfo.taskInfo);
@@ -226,7 +226,7 @@ export default class Board {
     const name = this.addListButton.form.data;
     if (this.token) {
       target.disabled = true;
-      const data = (await this.server.createTaskList(this.token, name, this.path)) as ITaskList;
+      const data = await this.server.createTaskList(this.token, name, this.path);
       this.createTaskList(name, data.id);
       this.socket.emit('board', this.path);
       target.disabled = false;
@@ -284,17 +284,17 @@ export default class Board {
       draggedEl = null;
       const parent = target.parentNode as HTMLElement;
       const parentId = parent.dataset.id;
-
-      for (const [index, item] of [...parent.children].entries()) {
-        const element = item as HTMLElement;
-        const { id, title } = element.dataset;
-        if (this.token && id && parentId && title) {
-          this.server.updateTask(this.token, id, parentId, title, String(index));
-        }
-      }
-      this.socket.emit('board', this.path);
-
       target.classList.remove('dragging');
+      await Promise.all(
+        [...parent.children].map(async (item, index) => {
+          const element = item as HTMLElement;
+          const { id, title } = element.dataset;
+          if (this.token && id && parentId && title) {
+            this.server.updateTask(this.token, id, parentId, title, String(index));
+          }
+        })
+      );
+      this.socket.emit('board', this.path);
     });
 
     list.addEventListener('dragover', (event) => {

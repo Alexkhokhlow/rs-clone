@@ -24,10 +24,10 @@ export default class UserModal {
 
   private server: Server;
 
-  private token: string;
+  private token: string | null;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.modal = Common.createDomNode('div', ['user__modal', 'hidden']);
     this.title = Common.createDomNode('h2', ['user__title', 'title'], text.text.userModal.account);
     this.userInfo = Common.createDomNode('div', ['user__info']);
@@ -44,11 +44,13 @@ export default class UserModal {
   }
 
   async init() {
-    const data = await this.server.getUserInfo(this.token) as TUser;
-    const user = Common.createUserIcon(data.email, data.name, 'user__image', data.color);
-    this.userInfo.insertBefore(user, this.userDescription);
-    this.name.textContent = data.name;
-    this.mail.textContent = data.email;
+    if (this.token) {
+      const data = await this.server.getUserInfo(this.token) as TUser;
+      const user = Common.createUserIcon(data.email, data.name, 'user__image', data.color);
+      this.userInfo.insertBefore(user, this.userDescription);
+      this.name.textContent = data.name;
+      this.mail.textContent = data.email;
+    }
   }
 
   public render() {

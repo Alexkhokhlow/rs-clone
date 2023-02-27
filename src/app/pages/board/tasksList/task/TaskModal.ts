@@ -1,4 +1,4 @@
-import IResponseBoard, { ITaskList } from '../../../../../types/types';
+import { ITaskList } from '../../../../../types/types';
 import Server from '../../../../server/server';
 import Common from '../../../../utils/common';
 
@@ -42,11 +42,13 @@ export class TaskModal {
   }
 
   addHandlers() {
-    this.btnDelete.addEventListener('click', (e) => {
+    this.btnDelete.addEventListener('click', async (e) => {
       e.stopImmediatePropagation();
 
       this.selectedTask?.remove();
-      if (this.selectedTask?.dataset.id) this.deleteTask(this.selectedTask?.dataset.id);
+      if (this.selectedTask?.dataset.id) {
+        await this.deleteTask(this.selectedTask?.dataset.id);
+      }
 
       this.removeModalWindow();
     });
@@ -68,7 +70,7 @@ export class TaskModal {
     const path = window.location.pathname.replace('/board/', '');
 
     if (this.token) {
-      const response = (await server.getDashboard(this.token, path)) as IResponseBoard;
+      const response = await server.getDashboard(this.token, path);
 
       if (response.dashboard.tasklists) {
         response.dashboard.tasklists.forEach((taskList) => {
@@ -86,7 +88,7 @@ export class TaskModal {
     this.moveModal.append(subtitle);
     tasksLists.forEach((tasksList) => {
       const way = Common.createDomNode('button', ['way__btn'], `${tasksList.name}`);
-      if (currentTaskList.dataset.id == tasksList.id) {
+      if (String(currentTaskList.dataset.id) === String(tasksList.id)) {
         way.setAttribute('disabled', 'disabled');
       }
 
@@ -110,7 +112,7 @@ export class TaskModal {
 
   async deleteTask(id: string) {
     if (this.token && id) {
-       await server.deleteTask(this.token, id);
+      await server.deleteTask(this.token, id);
     }
   }
 }

@@ -15,7 +15,7 @@ export default class Form {
   data: string;
 
   constructor(inputValue: string, buttonText: string, onClick: (event: Event) => void, close: (event: Event) => void) {
-    const text = new Lang()
+    const text = new Lang();
     this.data = '';
     this.form = Common.createDOMNode('div', ['add-item__form']);
     this.input = Common.createDOMNodeInput('1', ['add-item__form__input'], 'text', inputValue);

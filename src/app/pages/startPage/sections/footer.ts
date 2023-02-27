@@ -19,7 +19,7 @@ export default class StartPageFooter {
   private trello: HTMLImageElement;
 
   private year: HTMLElement;
-  
+
   public lang: HTMLSelectElement;
 
   constructor() {

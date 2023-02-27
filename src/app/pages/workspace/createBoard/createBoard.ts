@@ -1,4 +1,3 @@
-import { IBoard } from '../../../../types/types';
 import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
@@ -259,7 +258,7 @@ export default class CreatingBoard {
     };
     if (this.token) {
       try {
-        const dashboard = (await this.server.createDashboard(this.token, data.name, data.color, data.access)) as IBoard;
+        const dashboard = await this.server.createDashboard(this.token, data.name, data.color, data.access);
         this.closeModal(event);
         this.boardTitleInput.value = '';
         window.location.pathname = `board/${dashboard.pathName}`;

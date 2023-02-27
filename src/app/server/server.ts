@@ -1,26 +1,21 @@
-import { io, Socket } from 'socket.io-client';
-import { ITaskInfo } from '../../types/types';
+import IResponseBoard, {
+  TUser,
+  IBoard,
+  IResponseBoards,
+  TTask,
+  ITaskList,
+  TComment,
+  ICheckList,
+  ITodo,
+  TLabel,
+  ITaskInfo,
+} from '../../types/types';
 
 export default class Server {
   private address: string;
+
   constructor() {
     this.address = 'https://trello-clone-x3tl.onrender.com/api';
-  }
-
-  async checkToken(token: string) {
-    const response = await fetch(`${this.address}/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token }),
-    });
-    try {
-      await this.checkError(response);
-      return true;
-    } catch (e) {
-      return false;
-    }
   }
 
   async signUp(email: string, password: string, userName: string, color: string) {
@@ -48,7 +43,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TUser;
     return json;
   }
 
@@ -63,7 +58,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TUser;
     return json;
   }
 
@@ -82,7 +77,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as { token: string };
     return json;
   }
 
@@ -97,7 +92,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as boolean;
     return json;
   }
 
@@ -112,7 +107,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as IBoard;
     return json;
   }
 
@@ -127,7 +122,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as IResponseBoards;
     return json;
   }
 
@@ -142,7 +137,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as IResponseBoard;
     return json;
   }
 
@@ -157,7 +152,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TUser[];
     return json;
   }
 
@@ -172,7 +167,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITaskList;
     return json;
   }
 
@@ -187,7 +182,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITaskList;
     return json;
   }
 
@@ -202,7 +197,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITaskList;
     return json;
   }
 
@@ -217,7 +212,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TTask;
     return json;
   }
 
@@ -232,7 +227,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TTask;
     return json;
   }
 
@@ -247,7 +242,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TTask;
     return json;
   }
 
@@ -262,7 +257,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json: ITaskInfo = await response.json();
+    const json = (await response.json()) as ITaskInfo;
     return json;
   }
 
@@ -277,7 +272,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITaskInfo;
     return json;
   }
 
@@ -292,7 +287,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITaskInfo;
     return json;
   }
 
@@ -307,7 +302,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as {commentInfo : TComment};
     return json;
   }
 
@@ -322,7 +317,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TComment;
     return json;
   }
 
@@ -337,7 +332,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TComment;
     return json;
   }
 
@@ -352,7 +347,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as { checkList: ICheckList };
     return json;
   }
 
@@ -367,7 +362,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ICheckList;
     return json;
   }
 
@@ -382,7 +377,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ICheckList;
     return json;
   }
 
@@ -397,7 +392,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as { todo: ITodo };
     return json;
   }
 
@@ -412,7 +407,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITodo;
     return json;
   }
 
@@ -427,7 +422,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as ITodo;
     return json;
   }
 
@@ -442,7 +437,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TLabel;
     return json;
   }
 
@@ -457,7 +452,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TLabel[];
     return json;
   }
 
@@ -472,7 +467,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TLabel;
     return json;
   }
 
@@ -487,7 +482,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TLabel;
     return json;
   }
 
@@ -503,7 +498,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = await response.json();
+    const json = (await response.json()) as TLabel;
     return json;
   }
 

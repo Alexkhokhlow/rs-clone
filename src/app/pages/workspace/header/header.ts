@@ -1,5 +1,4 @@
 import Lang from '../../../common/lang/lang';
-import { TUser } from '../../../../types/types';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
 import CreatingBoard from '../createBoard/createBoard';
@@ -29,7 +28,7 @@ export default class Header {
   token: string | null;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.token = localStorage.getItem('token');
     this.header = Common.createDomNode('header', ['header', 'main__header']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'wrapper__header']);
@@ -68,7 +67,7 @@ export default class Header {
 
   private async getUser() {
     if (this.token) {
-      const response = (await this.server.getUserInfo(this.token)) as TUser;
+      const response = await this.server.getUserInfo(this.token);
       const user = Common.createUserIcon(response.email, response.name, 'user__header', response.color);
       this.user.append(user);
     }

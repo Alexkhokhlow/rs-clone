@@ -15,7 +15,7 @@ export default class Start {
   private submit: HTMLButtonElement;
 
   constructor() {
-    const text = new Lang()
+    const text = new Lang();
     this.section = Common.createDomNode('section', ['start']);
     this.wrapper = Common.createDomNode('div', ['wrapper', 'start__wrapper']);
     this.title = Common.createDomNode('h2', ['start__title'], text.text.start.title);

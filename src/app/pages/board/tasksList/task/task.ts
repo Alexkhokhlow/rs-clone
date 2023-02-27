@@ -29,7 +29,9 @@ export default class Task {
   private checkListsIcon: HTMLElement;
 
   private containerIcon: HTMLElement;
+
   checkListsValue: HTMLElement;
+
   commentsValue: HTMLElement;
 
   constructor(
@@ -37,7 +39,7 @@ export default class Task {
     onClick: (event: Event) => void,
     id: string,
     description?: string,
-    checkLists?: [{ checked: number; all: number }],
+    checkLists?: [{ all: number; checked: number }],
     comments?: number
   ) {
     this.task = Common.createDOMNode('div', ['task']);
@@ -101,8 +103,12 @@ export default class Task {
     });
   }
 
-  initIcon(description?: string, checkLists?: [{ checked: number; all: number }], comments?: number) {
-    description ? this.descriptionIcon.classList.remove('hidden') : this.descriptionIcon.classList.add('hidden');
+  initIcon(description?: string, checkLists?: [{ all: number; checked: number }], comments?: number) {
+    if (description) {
+      this.descriptionIcon.classList.remove('hidden');
+    } else {
+      this.descriptionIcon.classList.add('hidden');
+    }
     if (checkLists && checkLists[0].all) {
       this.checkListsValue.textContent = `${checkLists[0].checked}/${checkLists[0].all}`;
       this.checkListsIcon.classList.remove('hidden');
