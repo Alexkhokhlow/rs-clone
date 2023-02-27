@@ -302,7 +302,7 @@ export default class Server {
 
     await this.checkError(response);
 
-    const json = (await response.json()) as {commentInfo : TComment};
+    const json = (await response.json()) as { commentInfo: TComment };
     return json;
   }
 
