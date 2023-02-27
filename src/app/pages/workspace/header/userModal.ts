@@ -31,7 +31,6 @@ export default class UserModal {
     this.modal = Common.createDomNode('div', ['user__modal', 'hidden']);
     this.title = Common.createDomNode('h2', ['user__title', 'title'], text.text.userModal.account);
     this.userInfo = Common.createDomNode('div', ['user__info']);
-    // this.userImg = Common.createDomNode('div', ['user__image']);
     this.userDescription = Common.createDomNode('div', ['user__description']);
     this.server = new Server();
     this.token = localStorage.getItem('token') as string;
