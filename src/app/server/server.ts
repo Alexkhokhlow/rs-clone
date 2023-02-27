@@ -3,6 +3,7 @@ import { ITaskInfo } from '../../types/types';
 
 export default class Server {
   private address: string;
+
   constructor() {
     this.address = 'https://trello-clone-x3tl.onrender.com/api';
   }

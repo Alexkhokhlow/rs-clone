@@ -47,7 +47,7 @@ export default class SignupForm {
       this.text.text.login.password
     );
     this.nameInput = Common.createDOMNodeInput('name', ['input_name', 'invisible'], 'text', this.text.text.login.name);
-    this.btnSubmit = Common.createDOMNodeInput('submit', ['input_submit', 'btn', 'btn_submit'], this.text.text.submit);
+    this.btnSubmit = Common.createDOMNodeInput('submit', ['input_submit', 'btn', 'btn_submit'], 'submit');
     this.separator = Common.createDomNode('div', ['form__separator'], this.text.text.login.or);
     this.entryWays = SignupForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
