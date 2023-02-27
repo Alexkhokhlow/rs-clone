@@ -95,7 +95,7 @@ export default class Description {
   }
 
   onClose() {
-    this.data ? this.editButton.classList.add('active') : this.editButton.classList.remove('active');
+    this.editButton.classList.toggle('active');
     this.container.replaceChild(this.detailButton, this.form.form);
   }
 }

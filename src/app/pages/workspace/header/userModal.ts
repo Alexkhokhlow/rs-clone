@@ -55,7 +55,7 @@ export default class UserModal {
     this.modal.append(this.title, this.userInfo, this.accountSwitcher, this.profileBtn, this.logOutBtn);
     this.userInfo.append(this.userImg, this.userDescription);
     this.userDescription.append(this.name, this.mail);
-    this.init()
+    this.init();
     this.addHandlers();
     return this.modal;
   }

@@ -6,7 +6,8 @@ import EntryWays from './entryWays';
 const server = new Server();
 
 export default class LoginForm {
-  static otherEntryWays = ['Google', 'msft', 'Apple', 'Slack'];
+  static otherEntryWays = ['Google'];
+  // static otherEntryWays = ['Google', 'msft', 'Apple', 'Slack'];
 
   form: HTMLElement;
 

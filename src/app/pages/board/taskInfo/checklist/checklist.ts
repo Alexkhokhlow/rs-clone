@@ -54,7 +54,7 @@ export default class Checklist {
       this.onSave.bind(this)
     );
     this.checkpoints = [];
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token') as string;
     this.server = new Server();
 
     this.append();
@@ -87,7 +87,7 @@ export default class Checklist {
   private async onSave() {
     if (this.addItemButton.form.input.value.trim()) {
       const text = this.addItemButton.form.input.value;
-      const response: { todo: ITodo } = await this.server.createTodo(this.token, this.id, text);
+      const response = (await this.server.createTodo(this.token, this.id, text)) as { todo: ITodo };
       const checkpoint = new Checkpoint(response.todo.id, this.socket, this.path);
       checkpoint.input.value = text;
       this.checkpointsWrapper.append(checkpoint.point);

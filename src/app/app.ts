@@ -1,4 +1,3 @@
-import { io } from 'socket.io-client';
 import ErrorPage from './pages/404/404';
 import Autorisation from './pages/autorisation/autorisation';
 import Board from './pages/board/board';
@@ -106,7 +105,7 @@ export default class App {
       if (flag) {
         switch (path) {
           case '': {
-            const hash = window.location.hash;
+            const { hash } = window.location;
             if (hash.includes('token=')) {
               localStorage.setItem('token', hash.replace(/#token=/, ''));
               window.location.hash = '';

@@ -54,7 +54,7 @@ export default class Share {
     this.link = Common.createDomNode('span', ['share__link'], text.text.share.link);
     this.copied = Common.createDomNode('div', ['share__copied'], text.text.share.copied);
     this.server = new Server();
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token') as string;
     this.path = '';
   }
 
@@ -82,7 +82,7 @@ export default class Share {
 
   private async copyLink() {
     const link = `${window.location.href}`;
-    navigator.clipboard.writeText(link);
+    await navigator.clipboard.writeText(link);
     this.header.insertBefore(this.copied, this.closeButton);
     setTimeout(() => {
       this.copied.remove();

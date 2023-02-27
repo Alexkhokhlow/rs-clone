@@ -21,11 +21,11 @@ export default class Checkpoint {
 
   private server: Server;
 
-  private socket:Socket;
+  private socket: Socket;
 
   private path: string;
 
-  constructor(id: string, socket:Socket, path: string) {
+  constructor(id: string, socket: Socket, path: string) {
     this.id = id;
     this.socket = socket;
     this.path = path;
@@ -37,7 +37,7 @@ export default class Checkpoint {
     this.edit = Common.createDomNodeButton(['checkpoint__edit']);
     this.delete = Common.createDomNodeButton(['checkpoint__delete']);
     this.server = new Server();
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token') as string;
 
     this.append();
   }

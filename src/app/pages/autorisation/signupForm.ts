@@ -6,7 +6,8 @@ import EntryWays from './entryWays';
 const server = new Server();
 
 export default class SignupForm {
-  static otherEntryWays = ['Google', 'msft', 'Apple', 'Slack'];
+  static otherEntryWays = ['Google'];
+  // static otherEntryWays = ['Google', 'msft', 'Apple', 'Slack'];
 
   form: HTMLElement;
 
@@ -24,7 +25,7 @@ export default class SignupForm {
 
   btnSubmit: HTMLElement;
 
-  seperetor: HTMLElement;
+  separator: HTMLElement;
 
   entryWays: HTMLElement[];
 
@@ -46,7 +47,7 @@ export default class SignupForm {
     );
     this.nameInput = Common.createDOMNodeInput('name', ['input_name', 'invisible'], 'text', this.text.text.login.name);
     this.btnSubmit = Common.createDOMNodeInput('submit', ['input_submit', 'btn', 'btn_submit'], this.text.text.submit);
-    this.seperetor = Common.createDomNode('div', ['form__separator'], this.text.text.login.or);
+    this.separator = Common.createDomNode('div', ['form__separator'], this.text.text.login.or);
     this.entryWays = SignupForm.otherEntryWays.map((elem) => {
       return new EntryWays(elem).render();
     });
@@ -54,7 +55,7 @@ export default class SignupForm {
   }
 
   public render() {
-    this.form.append(this.formTitle, this.errorMessage, this.inputsContainer, this.seperetor);
+    this.form.append(this.formTitle, this.errorMessage, this.inputsContainer, this.separator);
 
     if (this.btnSubmit instanceof HTMLInputElement) {
       this.btnSubmit.value = this.text.text.login.continue;
@@ -101,8 +102,16 @@ export default class SignupForm {
           const mail = this.loginInput.value.trim();
           const password = this.passwordInput.value.trim();
           const name = this.nameInput.value.trim();
-          if (this.isValidMail(mail) && password !== '' && name !== '') {
-            this.singUp(mail, password, name);
+          if (this.isValidMail(mail)) {
+            if (this.isValidPassword(password)) {
+              if (this.isValidName(name)) {
+                this.singUp(mail, password, name);
+              } else {
+                this.showErrorMessage('Please, enter your name');
+              }
+            } else {
+              this.showErrorMessage('Password must contain at least 4 characters');
+            }
           } else {
             this.showErrorMessage();
           }
@@ -124,6 +133,14 @@ export default class SignupForm {
     return regExp.test(mail);
   }
 
+  private isValidPassword(password: string) {
+    return password.length > 3;
+  }
+
+  private isValidName(name: string) {
+    return name !== '';
+  }
+
   private changeActivityofBtn(condition: boolean, btn: HTMLElement) {
     if (condition) {
       btn.removeAttribute('disabled');
@@ -132,10 +149,12 @@ export default class SignupForm {
     }
   }
 
-  private showErrorMessage() {
-    if (this.btnSubmit instanceof HTMLInputElement) {
+  private showErrorMessage(text?: string) {
+    if (text) {
+      this.errorMessage.innerHTML = text;
+    } else if (this.btnSubmit instanceof HTMLInputElement) {
       if (this.btnSubmit.value === this.text.text.singUp) {
-        this.errorMessage.innerHTML = this.text.text.login.error;
+        this.errorMessage.innerHTML = this.text.text.login.error;;
       } else {
         this.errorMessage.innerHTML =
           `${this.text.text.login.ready} <a href=/login class="message__link">Log in</a>.`;
@@ -177,7 +196,7 @@ export default class SignupForm {
       this.mailToLocalStorage();
       window.location.href = 'login';
     } catch (error) {
-      this.showErrorMessage();
+      this.showErrorMessage('Probably you have already registered');
     }
     this.changeActivityofBtn(true, this.btnSubmit);
   }

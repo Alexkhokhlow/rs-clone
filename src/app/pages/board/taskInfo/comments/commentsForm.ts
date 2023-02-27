@@ -46,7 +46,7 @@ export default class CommentsForm {
     this.commentsForm.append(this.title, this.input.container, this.container);
   }
 
-  createComment(text: string, userName: string, id: string, flag:boolean) {
+  createComment(text: string, userName: string, id: string, flag: boolean) {
     const comment = new Comment(
       text,
       userName,
@@ -67,7 +67,7 @@ export default class CommentsForm {
     this.user = user;
     this.container.innerHTML = '';
     comments.forEach((data) => {
-      this.createComment(data.text, data.userName, data.id, data.userId == user.id);
+      this.createComment(data.text, data.userName, data.id, data.userId === user.id);
     });
     this.id = id;
   }
@@ -79,7 +79,9 @@ export default class CommentsForm {
       this.input.form.container.classList.add('hidden');
       this.input.form.input.value = '';
       if (this.token) {
-        const { commentInfo } = await this.server.createComment(this.token, this.id, text);
+        const { commentInfo } = (await this.server.createComment(this.token, this.id, text)) as {
+          commentInfo: TComment;
+        };
         this.createComment(text, this.user.name, commentInfo.id, true);
         this.socket.emit('taskInfo', this.path);
       }

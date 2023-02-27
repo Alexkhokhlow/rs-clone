@@ -86,7 +86,7 @@ export default class Comment {
       this.input.button.textContent = this.text.text.detailed;
     }
     if (this.token) {
-      this.server.updateComment(this.token, this.userId.id, this.commentId, this.data);
+      await this.server.updateComment(this.token, this.userId.id, this.commentId, this.data);
       this.socket.emit('taskInfo', this.path);
     }
 

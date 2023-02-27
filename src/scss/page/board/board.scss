@@ -86,6 +86,18 @@
   @include flex($justify: flex-start);
 }
 
+.share__members {
+  @include flex;
+  position: relative;
+}
+
+.user__subheader,
+.user__you {
+  width: 2.8rem;
+  height: 2.8rem;
+  cursor: pointer;
+}
+
 .share {
   @include flex;
   background: $color-background;
@@ -459,4 +471,15 @@
   background: url('../assets/workspace/create/lock.svg') top/contain no-repeat;
   width: 1.8rem;
   height: 2rem;
+}
+
+.way__btn {
+  &:hover {
+    color: #000000;
+  }
+
+  &:disabled {
+    color: #9fa6b396;
+    cursor: auto;
+  }
 }

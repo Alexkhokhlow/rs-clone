@@ -38,6 +38,23 @@
     margin-bottom: 2rem;
   }
 
+  &__title {
+    font-size: 2.5rem;
+    margin-right: 2rem;
+    min-height: 3.5rem;
+
+    &__input {
+      box-shadow: $color-border-input;
+      font-size: 2.5rem;
+      width: calc(100% - 4.4rem);
+
+      &::placeholder {
+        padding-left: 1rem;
+        font-size: 2.5rem;
+      }
+    }
+  }
+
   &__main {
     width: 100%;
   }

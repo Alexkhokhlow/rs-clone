@@ -77,13 +77,13 @@ export default class TaskInfo {
     this.checkListContainer = Common.createDOMNode('div', ['task-info__checkList']);
 
     this.server = new Server();
-    this.token = localStorage.getItem('token')!;
+    this.token = localStorage.getItem('token') as string;
     this.append();
-    this.socket.on('label', (data) => {
-      this.getTaskInfo();
+    this.socket.on('label', async () => {
+      await this.getTaskInfo();
     });
-    this.socket.on('taskInfo', (data) => {
-      this.getTaskInfo();
+    this.socket.on('taskInfo', async () => {
+      await this.getTaskInfo();
     });
   }
 
@@ -102,7 +102,7 @@ export default class TaskInfo {
       this.sidebar.onOpenModule(this.sidebar.modalLabels.module.module);
     });
     this.sidebar.modalCheckList.add.addEventListener('click', this.createCheckList.bind(this));
-    this.header.addEventListener('click', () => {
+    this.title.addEventListener('click', () => {
       Common.clickTitle(this.header, this.title, this.titleInput);
     });
     this.titleInput.addEventListener('focusout', async () => {
@@ -152,13 +152,17 @@ export default class TaskInfo {
 
   private initDescription(id: string, description: string) {
     this.description.id = id;
-    description ? this.description.init(description) : this.description.init('');
+    if (description) {
+      this.description.init(description);
+    } else {
+      this.description.init('');
+    }
   }
 
   private async initLabels(labels: TLabel[]) {
     let labelsCopy = labels.slice();
     (Array.from(this.labels.labels.children) as HTMLInputElement[]).forEach((label) => {
-      const item = labelsCopy.find((item) => item.title === label.title);
+      const item = labelsCopy.find((el) => el.title === label.title);
       if (item) {
         label.textContent = item.text;
         labelsCopy = labelsCopy.filter((item1) => item1.title !== item.title);
@@ -167,7 +171,11 @@ export default class TaskInfo {
       }
     });
 
-    labels.length ? this.showLabels() : this.hideLabels();
+    if (labels.length) {
+      this.showLabels();
+    } else {
+      this.hideLabels();
+    }
 
     labelsCopy.forEach((data) => {
       this.showLabels();
@@ -188,7 +196,7 @@ export default class TaskInfo {
   private async createCheckList(event: Event) {
     event.preventDefault();
     const name = this.sidebar.modalCheckList.inputTitle.value;
-    const response: { checkList: { id: string } } = await this.server.createCheckList(this.token, this.id, name);
+    const response = (await this.server.createCheckList(this.token, this.id, name)) as { checkList: { id: string } };
     const checklist = new Checklist(response.checkList.id, name, this.path, this.socket);
     this.checkListContainer.append(checklist.checklist);
     this.sidebar.modalCheckList.module.onClose();
@@ -213,7 +221,11 @@ export default class TaskInfo {
 
     if (targetCheck) {
       const elementColor = targetCheck.nextElementSibling as HTMLInputElement;
-      targetCheck.checked ? await this.addLabel(elementColor) : await this.removeLabel(elementColor);
+      if (targetCheck.checked) {
+        await this.addLabel(elementColor);
+      } else {
+        await this.removeLabel(elementColor);
+      }
       this.socket.emit('taskInfo', this.path);
     }
   }
@@ -221,20 +233,29 @@ export default class TaskInfo {
   async addLabel(element: HTMLInputElement) {
     this.showLabels();
     const copyElement = element.cloneNode(true) as HTMLElement;
-    const id = element.getAttribute('id')!;
+    const id = element.getAttribute('id') as string;
     copyElement.setAttribute('id', id);
     await this.server.addLabel(this.token, this.taskId, id, this.dashboardId);
     const item = (Array.from(this.labels.labels.children) as HTMLElement[]).find((child) => {
-      return Number(child.getAttribute('id')!) > Number(id);
+      return Number(child.getAttribute('id') as string) > Number(id);
     });
-    item ? this.labels.labels.insertBefore(copyElement, item) : this.labels.labels.append(copyElement);
+    if (item) {
+      this.labels.labels.insertBefore(copyElement, item);
+    } else {
+      this.labels.labels.append(copyElement);
+    }
   }
 
   async removeLabel(element: HTMLInputElement) {
     await Promise.all(
       (Array.from(this.labels.labels.children) as HTMLElement[]).map(async (child) => {
         if (child.title === element.title) {
-          await this.server.deleteLabel(this.token, this.taskId, element.getAttribute('id')!, this.dashboardId);
+          await this.server.deleteLabel(
+            this.token,
+            this.taskId,
+            element.getAttribute('id') as string,
+            this.dashboardId
+          );
           child.remove();
         }
       })
