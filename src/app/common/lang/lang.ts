@@ -8,13 +8,13 @@ export default class Lang {
   constructor() {
     const info = localStorage.getItem('lang');
     switch (info) {
-      case 'eng': {
-        this.text = eng;
+      case 'rus': {
+        this.text = rus;
         break;
       }
-      case 'rus':
+      case 'eng':
       default: {
-        this.text = rus;
+        this.text = eng;
         break;
       }
     }

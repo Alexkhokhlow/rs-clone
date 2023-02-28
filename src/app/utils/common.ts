@@ -120,7 +120,7 @@ export default class Common {
     english.classList.add('option');
     english.textContent = 'English';
     english.setAttribute('value', 'eng');
-    language.append(russian, english);
+    language.append(english, russian);
     const data = localStorage.getItem('lang');
     if (data) {
       language.value = data;
