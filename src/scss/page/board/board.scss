@@ -2,6 +2,7 @@
   @include flex($align: stretch);
   flex-direction: column;
   min-height: 100vh;
+  overflow-y: auto;
 
   .add-item {
     &__button {
@@ -471,15 +472,4 @@
   background: url('../assets/workspace/create/lock.svg') top/contain no-repeat;
   width: 1.8rem;
   height: 2rem;
-}
-
-.way__btn {
-  &:hover {
-    color: #000000;
-  }
-
-  &:disabled {
-    color: #9fa6b396;
-    cursor: auto;
-  }
 }

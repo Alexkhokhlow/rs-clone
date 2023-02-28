@@ -58,11 +58,6 @@ const eng = {
         description:
           "Use Trello as your team's go-to command center for content curation, revisions, handoff, and publishing.",
       },
-      calendar: {
-        title: 'Editorial calendar',
-        description:
-          "Use Trello as your team's go-to command center for content curation, revisions, handoff, and publishing.",
-      },
     },
   },
   actions: {
@@ -147,7 +142,7 @@ const eng = {
     require: 'Board title is required',
     visibility: 'Visibility',
     visibilityChoose: 'Choose visibility',
-    publicDescription: 'Anyone on the internet can see this board. Only members can edit.',
+    publicDescription: 'Any registered member can see this board. Only members can edit.',
     privateDescription: 'Only board members can see and edit the board.',
   },
   login: {
