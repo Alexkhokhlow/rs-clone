@@ -21,6 +21,7 @@ export default class MembersModule {
   }
 
   init(users: { creator: TUser; users: TUser[] }) {
+    this.userContainer.innerHTML = '';
     this.createUser(users.creator);
     users.users.forEach((user) => {
       this.createUser(user);
