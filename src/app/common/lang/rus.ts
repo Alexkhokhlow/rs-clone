@@ -192,6 +192,7 @@ const rus = {
     listText: 'Добавить задачу',
     lestPlaceholder: 'Введите название задачи...',
   },
+  nameError: 'Неверное имя'
 };
 
 export default rus;

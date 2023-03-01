@@ -216,13 +216,28 @@ export default class Server {
     return json;
   }
 
-  async updateTask(token: string, id: string, taskListId: string, name: string, index: string) {
+  async updateTask(token: string, id: string, taskListId: string, name: string, index?: string) {
     const response = await fetch(`${this.address}/task`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token, id, taskListId, name, index }),
+    });
+
+    await this.checkError(response);
+
+    const json = (await response.json()) as TTask;
+    return json;
+  }
+
+  async updateTaskIndex(token: string, tasks: { id: string; index: string }[]) {
+    const response = await fetch(`${this.address}/taskIndex`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, tasks }),
     });
 
     await this.checkError(response);
@@ -487,7 +502,6 @@ export default class Server {
   }
 
   async deleteLabel(token: string, taskId: string, labelId: string, dashboardId: string) {
-    console.log('delete');
     const response = await fetch(`${this.address}/label`, {
       method: 'DELETE',
       headers: {

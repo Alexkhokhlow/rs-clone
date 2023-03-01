@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io-client';
 import Lang from '../../../common/lang/lang';
 import Server from '../../../server/server';
 import Common from '../../../utils/common';
@@ -37,7 +38,10 @@ export default class Share {
 
   public path: string;
 
-  constructor() {
+  private socket: Socket;
+
+  constructor(socket: Socket) {
+    this.socket = socket;
     const text = new Lang();
     this.overlay = Common.createDomNode('div', ['overlay__share']);
     this.modal = Common.createDomNode('div', ['share__modal']);
@@ -95,6 +99,7 @@ export default class Share {
     if (email) {
       try {
         await this.server.addUserToDashboard(this.token, email, this.path);
+        this.socket.emit('label', this.path);
         this.overlay.remove();
       } catch (e) {
         console.log(e);

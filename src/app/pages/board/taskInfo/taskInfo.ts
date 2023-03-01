@@ -177,7 +177,6 @@ export default class TaskInfo {
     } else {
       this.hideLabels();
     }
-
     labelsCopy.forEach((data) => {
       this.showLabels();
       this.labels.labels.append(this.sidebar.modalLabels.createLabelColor(data));

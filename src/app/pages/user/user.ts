@@ -49,6 +49,8 @@ export default class UserPage {
 
   creatingBoard: CreatingBoard;
 
+  errorMessage: HTMLElement;
+
   constructor(creatingBoard: CreatingBoard) {
     this.creatingBoard = creatingBoard;
     const text = new Lang();
@@ -73,6 +75,7 @@ export default class UserPage {
     this.bioLabel = Common.createDomNodeLabel('bio', text.text.aboutMe, ['label']);
     this.bioInput = Common.createDomNode('textarea', ['textarea']) as HTMLTextAreaElement;
     this.btnSubmit = Common.createDomNodeButton(['btn', 'btn-submit'], text.text.save, 'submit');
+    this.errorMessage = Common.createDomNode('span', ['form__error', 'invisible'], text.text.nameError);
 
     this.footer = new StartPageFooter().append();
   }
@@ -101,7 +104,7 @@ export default class UserPage {
     this.userInfo.append(this.userImg, this.userDescription);
     this.userDescription.append(this.name, this.mail);
 
-    this.form.append(this.formNameContainer, this.formBioContainer, this.btnSubmit);
+    this.form.append(this.formNameContainer, this.errorMessage, this.formBioContainer, this.btnSubmit);
     this.formNameContainer.append(this.inputNameLabel, this.inputName);
     this.formBioContainer.append(this.bioLabel, this.bioInput);
     this.bioInput.setAttribute('id', 'bio');
@@ -116,14 +119,18 @@ export default class UserPage {
       e.preventDefault();
       this.changeBtnActivity(false, this.btnSubmit);
 
-      this.name.textContent = this.inputName.value;
-      this.description.textContent = this.bioInput.value;
-      if (this.token) {
+      const regExp = /^[a-zA-Z0-9\s]{1,}$/;
+      if (regExp.test(this.inputName.value) && this.token) {
+        this.name.textContent = this.inputName.value;
+        this.description.textContent = this.bioInput.value;
         await this.server.updateUserInfo(this.token, this.inputName.value, this.bioInput.value);
+      } else {
+        this.errorMessage.classList.remove('invisible');
       }
     });
 
     this.inputName.addEventListener('input', () => {
+      this.errorMessage.classList.add('invisible');
       this.changeBtnActivity(true, this.btnSubmit);
     });
 

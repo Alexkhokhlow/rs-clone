@@ -83,6 +83,7 @@ export type TTaskInfo = {
 
 export type TLabel = {
   color: string;
+  id: string;
   index: string;
   text: string;
   title: string;

@@ -68,10 +68,10 @@ export default class Board {
     this.footer = new StartPageFooter();
     this.tasksListArray = [];
     this.server = new Server();
-    this.share = new Share();
     this.token = localStorage.getItem('token');
     this.path = '';
     this.socket = io(`https://trello-clone-x3tl.onrender.com`);
+    this.share = new Share(this.socket);
     this.taskInfo = new TaskInfo(this.socket);
     this.response = null;
 
@@ -109,17 +109,7 @@ export default class Board {
       this.taskInfo.comment.path = path;
       this.share.path = path;
       const response = await this.server.getDashboard(this.token, path);
-      this.id = response.id;
-      console.log(response);
-      this.getSharedUser(
-        response.users.creator.email,
-        response.users.creator.userName,
-        response.users.creator.color,
-        response.users.creator.info
-      );
-      response.users.users.forEach((user) => {
-        this.getSharedUser(user.email, user.userName, user.color, user.info);
-      });
+      this.id = response.id;    
       await this.taskInfo.sidebar.modalLabels.createLabels(response.labels, this.id);
       await this.printBoard(response);
     } else {
@@ -153,6 +143,16 @@ export default class Board {
     if (response.dashboard.tasklists) {
       this.renderTaskList(response);
     }
+    this.subheader.members.innerHTML = '';
+    this.getSharedUser(
+      response.users.creator.email,
+      response.users.creator.userName,
+      response.users.creator.color,
+      response.users.creator.info
+    );
+    response.users.users.forEach((user) => {
+      this.getSharedUser(user.email, user.userName, user.color, user.info);
+    });
 
     this.taskModal.modal.addEventListener('click', async (e) => {
       if ((e.target as HTMLElement).classList.contains('btn-move')) {
@@ -285,16 +285,20 @@ export default class Board {
       const parent = target.parentNode as HTMLElement;
       const parentId = parent.dataset.id;
       target.classList.remove('dragging');
-      await Promise.all(
-        [...parent.children].map(async (item, index) => {
-          const element = item as HTMLElement;
-          const { id, title } = element.dataset;
-          if (this.token && id && parentId && title) {
-            this.server.updateTask(this.token, id, parentId, title, String(index));
-          }
-        })
-      );
-      this.socket.emit('board', this.path);
+      const { id, title } = target.dataset;
+
+      const tasks = [...parent.children].map((item, index) => {
+        const element = item as HTMLElement;
+        const id = element.dataset.id as string;
+        return { id, index: String(index) };
+      });
+
+      if (this.token && id && parentId && title) {
+        const task = this.server.updateTask(this.token, id, parentId, title);
+        const tasksPromise = this.server.updateTaskIndex(this.token, tasks);
+        await Promise.all([tasksPromise, task]);
+        this.socket.emit('board', this.path);
+      }
     });
 
     list.addEventListener('dragover', (event) => {
@@ -309,17 +313,19 @@ export default class Board {
     });
   }
 
-  public rewriteTaskList(taskList: HTMLElement) {
+  public async rewriteTaskList(taskList: HTMLElement) {
     const parentId = taskList.dataset.id;
 
-    [...taskList.children].forEach(async (item, index) => {
-      const element = item as HTMLElement;
-      const { id, title } = element.dataset;
-      if (this.token && id && parentId && title) {
-        await this.server.updateTask(this.token, id, parentId, title, String(index));
-        this.socket.emit('message', 'change');
-      }
-    });
+    await Promise.all(
+      [...taskList.children].map(async (item, index) => {
+        const element = item as HTMLElement;
+        const { id, title } = element.dataset;
+        if (this.token && id && parentId && title) {
+          await this.server.updateTask(this.token, id, parentId, title, String(index));
+        }
+      })
+    );
+    this.socket.emit('board', this.path);
   }
 
   private insertAboveTask(list: HTMLElement, mousePosition: number) {

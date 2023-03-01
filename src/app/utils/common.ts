@@ -120,7 +120,7 @@ export default class Common {
     english.classList.add('option');
     english.textContent = 'English';
     english.setAttribute('value', 'eng');
-    language.append(russian, english);
+    language.append(english, russian);
     const data = localStorage.getItem('lang');
     if (data) {
       language.value = data;
@@ -148,7 +148,7 @@ export default class Common {
   }
 
   public static getAbbreviation(name: string) {
-    const nameArr = name.split(' ');
+    const nameArr = name.split(' ').filter((string) => string !== '');
     let abbreviation = '';
     if (nameArr.length > 1) {
       abbreviation = nameArr[0][0] + nameArr[1][0];
