@@ -189,7 +189,7 @@ const eng = {
     listText: 'Add a task',
     lestPlaceholder: 'Enter a title for new task...',
   },
-  nameError: 'Name must be one word',
+  nameError: 'Invalid name',
 };
 
 export default eng;

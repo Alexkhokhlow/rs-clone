@@ -119,7 +119,7 @@ export default class UserPage {
       e.preventDefault();
       this.changeBtnActivity(false, this.btnSubmit);
 
-      const regExp = /^[a-zA-Z0-9]{1,}$/;
+      const regExp = /^[a-zA-Z0-9\s]{1,}$/;
       if (regExp.test(this.inputName.value) && this.token) {
         this.name.textContent = this.inputName.value;
         this.description.textContent = this.bioInput.value;
