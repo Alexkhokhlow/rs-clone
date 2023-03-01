@@ -140,7 +140,7 @@ export default class SignupForm {
   }
 
   private isValidName(name: string) {
-    const regExp = /^[a-zA-Z0-9]{1,}$/;
+    const regExp = /^[-\w+\s]{1,}$/;
     return regExp.test(name);
   }
 
