@@ -11,7 +11,6 @@ const brainstorming = require('../../../../assets/startPage/svg/slider/Brainstor
 const meetings = require('../../../../assets/startPage/svg/slider/Meetings.svg') as string;
 const taskManagement = require('../../../../assets/startPage/svg/slider/TaskManagement.svg') as string;
 const crm = require('../../../../assets/startPage/svg/slider/id.svg') as string;
-const calendar = require('../../../../assets/startPage/svg/slider/calendar.svg') as string;
 
 const text = new Lang();
 
