@@ -88,6 +88,11 @@
     }
 }
 
+.form__error{
+    color: red
+    
+}
+
 .user__info {
     @include flex;
     justify-content: flex-start;
