@@ -188,6 +188,7 @@ const rus = {
     listText: 'Добавить задачу',
     lestPlaceholder: 'Введите название задачи...',
   },
+  nameError: 'Имя дожно быть одно слово'
 };
 
 export default rus;

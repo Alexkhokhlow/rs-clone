@@ -93,4 +93,5 @@ export interface ILang {
     listText: string;
     lestPlaceholder: string;
   };
+  nameError: string;
 }
