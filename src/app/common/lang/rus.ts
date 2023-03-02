@@ -188,7 +188,9 @@ const rus = {
     listText: 'Добавить задачу',
     lestPlaceholder: 'Введите название задачи...',
   },
-  nameError: 'Неверное имя'
+  nameError: 'Неверное имя',
+  emailError: `Пользователь не существует`
+
 };
 
 export default rus;

@@ -94,4 +94,5 @@ export interface ILang {
     lestPlaceholder: string;
   };
   nameError: string;
+  emailError: string
 }

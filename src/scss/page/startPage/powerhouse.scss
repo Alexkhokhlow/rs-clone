@@ -41,6 +41,10 @@
   }
 }
 
+.slider__image{
+  cursor: pointer;
+}
+
 .swiper__wrapper {
   @include flex($align: flex-start);
   width: 100%;

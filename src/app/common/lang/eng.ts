@@ -190,6 +190,7 @@ const eng = {
     lestPlaceholder: 'Enter a title for new task...',
   },
   nameError: 'Invalid name',
+  emailError: `User doesn't exist`
 };
 
 export default eng;
