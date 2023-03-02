@@ -1,0 +1,92 @@
+.action {
+  padding: 7rem 0 4rem;
+
+  @media (max-width: 780px) {
+    padding: 4rem 0 0;
+  }
+
+  @media (max-width: 575px) {
+    padding: 4rem 1.5rem 0;
+  }
+}
+
+.action__title {
+  margin: 1rem 0 1.5rem;
+}
+
+.action__subtitle {
+  text-transform: uppercase;
+}
+
+.action__swiper {
+  width: 100%;
+  margin-top: 3rem;
+
+  & .swiper-wrapper {
+    @include flex($align: stretch);
+    margin-bottom: 3rem;
+  }
+
+  & .swiper-slide {
+    @include flex($justify: flex-start);
+    flex-direction: column;
+    border-radius: 0.5rem;
+    height: auto;
+    box-shadow: $color-box-shadow;
+    overflow: hidden;
+    text-align: left;
+    flex: 0 0 auto;
+  }
+
+  & .swiper-pagination {
+    @include flex($justify: center);
+    position: relative;
+    height: 2rem;
+    transition: .3s opacity;
+    transform: translate3d(0,0,0);
+    z-index: 10;
+    gap: .5rem;
+  }
+
+  .swiper-pagination-bullet {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    border-radius: .3rem;
+    background-color: $color-pagination;
+
+      &-active {
+      background-color: $color-pagination-active;
+    }
+  }
+}
+
+.action__color {
+  height: 3rem;
+  width: 100%;
+}
+
+.action__description__wrapper {
+  padding: 4rem 1.8rem 2.5rem;
+  position: relative;
+}
+
+.action__icon {
+  border: .8rem solid $color-background;
+  border-radius: 0.5rem;
+  height: 4rem;
+  left: 1rem;
+  position: absolute;
+  top: -1.5rem;
+  width: 4rem;
+}
+
+.action__card__title {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: .5rem;
+
+  @media (max-width: 890px) {
+    font-size: 1.7rem;
+  }
+}

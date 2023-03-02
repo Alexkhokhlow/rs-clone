@@ -1,0 +1,67 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: $color-background;
+  box-shadow: $color-box-shadow;
+}
+
+.wrapper {
+  max-width: 114rem;
+  width: 90%;
+  margin: 0 auto;
+
+  @media (max-width: 660px) {
+    max-width: 54rem;
+  }
+
+  @media (max-width: 575px) {
+    width: 100%;
+    max-width: 57.5rem;
+  }
+}
+
+.header__wrapper {
+  @include flex;
+  max-width: 140rem;
+  width: 100%;
+}
+
+.links {
+  @include flex;
+  gap: 1rem;
+  height: 100%;
+}
+
+.logo__start {
+  display: block;
+  padding: 0 1rem;
+  width: 35%;
+  cursor: pointer;
+}
+
+.logo__img {
+  height: 3.5rem;
+  vertical-align: middle;
+
+  @media (max-width: 890px) {
+    height: 2.5rem;
+  }
+}
+
+.login__start,
+.signup__header {
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+}
+
+.signup__header {
+  background-color: $color-brand;
+  color: $color-background;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-brand-hover;
+  }
+}

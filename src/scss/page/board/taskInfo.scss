@@ -1,0 +1,260 @@
+.task-info {
+  width: 90%;
+  z-index: 1000;
+  height: 90vh;
+  box-shadow: 0 0 0 1000px rgb(0 0 0 / 60%);
+  display: none;
+  position: absolute;
+  border: .3rem;
+  left: 0;
+  right: 0;
+  top: 2rem;
+  margin: 0 auto;
+  background-color: $color-background-feature;
+  padding: .5rem 1.5rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: $color-background-feature;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 4px;
+    background-color: $color-create-button;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 4px;
+    height: 3rem;
+    background-color: $color-background-feature;
+  }
+
+  &__header {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    margin-right: 2rem;
+    min-height: 3.5rem;
+
+    &__input {
+      box-shadow: $color-border-input;
+      font-size: 2.5rem;
+      width: calc(100% - 4.4rem);
+
+      &::placeholder {
+        padding-left: 1rem;
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  &__main {
+    width: 100%;
+  }
+
+  &__container {
+    @include flex($align: flex-start);
+    margin-top: 20px;
+    position: relative;
+    flex-wrap: nowrap;
+    gap: 2rem;
+
+    @media (max-width: 500px) {
+      flex-direction: column;
+      margin-top: 20px;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  .description {
+    width: 100%;
+    margin: 0 0 2rem;
+    padding-left: .8rem;
+
+    .description__title::before {
+      content: url('../assets/board/taskInfo/description.svg');
+    }
+
+    &__edit {
+      background-color: #e6e9ef;
+      padding: 4px 12px;
+      font-size: 14px;
+      border-radius: 3px;
+      margin-left: 1rem;
+      transition: .3s;
+
+      &:hover {
+        background: $color-pagination;
+      }
+    }
+
+    &__container {
+      width: 100%;
+
+      &__button {
+        width: 100%;
+        min-height: 60px;
+        padding-bottom: 15px;
+        padding-left: 10px;
+        text-align: start;
+        background-color: transparent;
+        margin-left: 2.6rem;
+      }
+    }
+
+    .add-item__form {
+      width: 100%;
+      background: $color-button-taskInfo;
+    }
+  }
+
+  .comments {
+    margin-top: 20px;
+    width: 100%;
+    padding-left: 1rem;
+
+    .add-item {
+      width: 100%;
+    }
+
+    &__title {
+      position: relative;
+      padding-left: 3rem;
+
+      &::before {
+        content: url('../assets/board/taskInfo/comment.png');
+        position: absolute;
+        top: -.3rem;
+        left: 0;
+      }
+    }
+
+    .add-item__button{
+      color:black;
+      border: .05rem solid $color-border-comment;
+      width: 100%;
+      background-color: $color-background;
+      padding: 0.5rem;
+
+      &::before{
+        content: '';
+      }
+    }
+
+    &__container {
+      @include flex($align: stretch);
+      flex-direction: column;
+      margin-top: 1rem;
+      gap: 1rem;
+
+      .add-item__form {
+        width: 100%;
+      }
+    }
+
+    .add-item__form {
+      padding: 1px;
+
+      @media (max-width: 500px) {
+        width: 85%;
+      }
+
+      &__container {
+        background-color: $color-background;
+        margin: 0;
+        padding: 8px;
+      }
+
+      &__input {
+        box-shadow: none;
+      }
+    }
+
+    .input-comment {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 0.5rem;
+
+      &__user{
+        @include flex($justify: center);
+        background: green;
+        border-radius: 50%;
+        color: $color-background;
+        margin-right: 5px;
+        width: 3.6rem;
+        height: 3.6rem;
+      }
+
+      .add-item__form {
+        width: calc(100% - 4.1rem);
+      }
+    }
+
+    .comment__edit {
+      margin-right: 0.5rem;
+    }
+
+    .comment__edit,
+    .comment__delete,
+    .comment__answer {
+      background: transparent;
+      text-decoration: underline;
+      font-size: 1.2rem;
+      color: $color-pagination;
+
+      &:hover {
+        color: $color-pagination-active;
+      }
+    }
+  }
+}
+
+.labels__wrapper {
+  margin-left: 3.8rem;
+}
+
+.labels__info {
+  @include flex($justify: flex-start);
+  flex-wrap: wrap;
+  width: 100%;
+  gap:.4rem;
+
+  .label__color {
+    @include flex;
+    min-width: 5rem;
+    max-width: 100%;
+    height: 2.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: .5rem;
+    padding: 0 1rem;
+  }
+}
+
+.labels__add {
+  width: 3.5rem;
+  font-size: 2rem;
+  border-radius: .3rem;
+  height: 2.7rem;
+  color: $color-create-text;
+}
+
+.title__info {
+  color: $color-create-text;
+  font-weight: bold;
+}
+

@@ -1,0 +1,211 @@
+.workspace__page {
+  @include flex($align: stretch);
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.workspace__main {
+  padding: 5rem 0;
+  flex: auto;
+
+  @media(max-width: 575px) {
+    padding: 3rem 1.5rem;
+  }
+}
+
+.workspace__wrapper {
+  @include flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  @media (max-width: 350px) {
+    gap: 2rem;
+  }
+}
+
+.workspace__title__wrapper {
+  width: 70%;
+  @include flex($align: flex-start, $justify: flex-start);
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 650px) {
+    width: 100%;
+  }
+}
+
+.title__showed {
+  @include flex($align: flex-start, $justify: flex-start);
+  gap: 1.5rem;
+}
+
+.workspace__title__icon {
+  @include flex($justify: center);
+  background: $color-workspace;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1rem;
+
+  @media (max-width: 350px) {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.workspace__title__text {
+  color: $color-background;
+  font-size: 3rem;
+  font-weight: bold;
+
+  @media (max-width: 350px) {
+    font-size: 2.5rem;
+  }
+}
+
+.workspace__title,
+.boards__title {
+  font-size: 2.6rem;
+
+  @media (max-width: 350px) {
+    font-size: 2.2rem;
+  }
+
+}
+
+.horizontal__line {
+  margin: auto;
+  width: 100%;
+  height: 1px;
+  background-color: $color-hr;
+}
+
+.workspace__boards {
+  @include flex($align: flex-start);
+  flex-direction: column;
+  width: 100%;
+  gap: 3rem;
+}
+
+.boards__layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: .7rem;
+  grid-column-gap: .7rem;
+  width: 100%;
+
+  @media (max-width: 650px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 470px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.board__button {
+  height: 9.5rem;
+  border-radius: .3rem;
+  background-color: $color-hr;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-pagination;
+  }
+}
+
+.title__edit__wrapper {
+  @include flex;
+  gap: 1rem;
+}
+
+.title__edit {
+  background: url('../assets/workspace/main/pencil.svg') center center/cover no-repeat;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: .5rem;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-hr;
+  }
+
+  @media (max-width: 350px) {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+}
+
+.name__wrapper {
+  @include flex($align: flex-start);
+  flex-direction: column;
+  width: 50%;
+
+  @media (max-width: 450px) {
+    width: 70%;
+  }
+}
+
+.label__star {
+  color: $color-star;
+}
+
+.workspace__name {
+  padding: .8rem;
+  box-shadow: $color-border-input;
+  width: 100%;
+}
+
+.edit__buttons {
+  @include flex($justify: flex-start);
+  gap: .7rem;
+  width: 100%;
+  margin-top: 0.7rem;
+}
+
+.save,
+.cancel {
+  width: fit-content;
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  transition: .3s;
+
+  &:hover {
+    background-color: $color-pagination;
+  }
+}
+
+.save,
+.create__button {
+  background-color: $color-brand;
+  color: $color-background;
+  transition: .3s;
+  padding-left: .4rem;
+  padding-right: .4rem;
+
+  &:hover {
+    background-color: $color-brand-hover;
+  }
+}
+
+.board__preview {
+  height: 9.5rem;
+  border-radius: .3rem;
+  padding: .6rem .8rem;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    background: $color-header-board-hover;
+  }
+}
+
+.board__preview__title {
+  color: $color-background;
+  font-weight: bold;
+  font-size: 1.8rem;
+
+  @media (max-width: 890px) {
+    font-size: 1.4rem;
+  }
+}

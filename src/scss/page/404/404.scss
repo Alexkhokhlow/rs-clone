@@ -1,0 +1,51 @@
+.error__page {
+    position: relative;
+
+    & .header {
+        position: relative;
+    }
+
+    & .error__title {
+        @include flex;
+        flex-direction: column;
+        margin: 75px auto;
+        text-align: center;
+        max-width: 600px;
+        gap: 25px;
+        color: #6B778C;
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    & .error__title p {
+        color: #6B778C;
+        font-size: 18px;
+    }
+
+    & .message__link {
+        font-size: 18px;
+        text-decoration: underline;
+        color: #172b4d;
+    }
+
+    & .footer {
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        margin: 20px auto;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        width: 100%;
+
+        & .rss-logo {
+            height: 25px;
+        }
+
+        & .footer__list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    }
+}

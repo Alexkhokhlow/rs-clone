@@ -1,0 +1,52 @@
+.start {
+  padding: 7rem 0;
+  background: url('../assets/startPage/svg/start/BigSwingFooterHeroGraphic__Left.svg') left center / contain no-repeat
+      scroll padding-box border-box,
+    url('../assets/startPage/svg/start/BigSwingFooterHeroGraphic__Right.svg') right center / contain no-repeat scroll
+      padding-box border-box,
+    $color-startPage-main;
+
+  @media (max-width: 780px) {
+    padding: 4rem 0;
+    background: $color-startPage-main;
+  }
+
+  @media (max-width: 575px) {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.start__wrapper {
+  @include flex($justify: center);
+  flex-direction: column;
+  gap: 2.5rem;
+
+  @media (max-width: 660px) {
+    gap: 1.5rem;
+  }
+}
+
+.start__title {
+  color: $color-background;
+
+  @media (max-width: 660px) {
+    text-align: center;
+    font-size: 2rem;
+  }
+}
+
+.start__form {
+  @include flex($justify: center);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.start__email {
+  width: 30%;
+  padding: 1rem;
+  border-radius: .5rem;
+
+  @media (max-width: 660px) {
+    display: none;
+  }
+}
