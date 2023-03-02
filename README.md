@@ -15,4 +15,4 @@ Trello — это простой и удобный таск-трекер. Он �
 - BE: Node.js / Exspress 
 - Database: Postgresql
 
-Swiper, JWT, passport, assport-google-oauth, socket.io, sequelize, bcrypt, pg
+Swiper, JWT, passport, passport-google-oauth, socket.io, sequelize, bcrypt, pg
