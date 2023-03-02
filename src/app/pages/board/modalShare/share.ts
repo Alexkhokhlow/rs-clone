@@ -39,6 +39,8 @@ export default class Share {
   public path: string;
 
   private socket: Socket;
+  
+  private errorMessage: HTMLElement;
 
   constructor(socket: Socket) {
     this.socket = socket;
@@ -57,6 +59,7 @@ export default class Share {
     this.text = Common.createDomNode('h4', ['share__text'], text.text.share.text);
     this.link = Common.createDomNode('span', ['share__link'], text.text.share.link);
     this.copied = Common.createDomNode('div', ['share__copied'], text.text.share.copied);
+    this.errorMessage = Common.createDomNode('span', ['form__error', 'invisible'], text.text.emailError);
     this.server = new Server();
     this.token = localStorage.getItem('token') as string;
     this.path = '';
@@ -67,7 +70,7 @@ export default class Share {
     this.form.append(this.input, this.submit);
     this.linkText.append(this.text, this.link);
     this.linkWrapper.append(this.linkIcon, this.linkText);
-    this.modal.append(this.header, this.form, this.linkWrapper);
+    this.modal.append(this.header, this.form, this.errorMessage, this.linkWrapper);
     this.overlay.append(this.modal);
     this.openModal();
     this.bindEvents();
@@ -78,6 +81,9 @@ export default class Share {
     this.submit.addEventListener('click', this.sendToEmail.bind(this));
     this.closeButton.addEventListener('click', this.closeModal.bind(this));
     this.overlay.addEventListener('click', this.closeModal.bind(this));
+    this.input.addEventListener('input', ()=>{
+      this.errorMessage.classList.add('invisible');
+    })
   }
 
   private openModal() {
@@ -102,7 +108,7 @@ export default class Share {
         this.socket.emit('label', this.path);
         this.overlay.remove();
       } catch (e) {
-        console.log(e);
+        this.errorMessage.classList.remove('invisible');
       }
     }
   }

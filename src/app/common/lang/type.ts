@@ -77,6 +77,7 @@ export interface ILang {
   more: { description: string; subtitle: string; title: string };
   name: string;
   nameError: string;
+  emailError: string
   powerhouse: { description: string; subtitle: string; title: string };
   private: string;
   profile: string;
