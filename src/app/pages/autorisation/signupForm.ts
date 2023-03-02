@@ -89,12 +89,12 @@ export default class SignupForm {
       }
     });
 
-    this.btnSubmit.addEventListener('click', (e) => {
+    this.btnSubmit.addEventListener('click', async (e) => {
       e.preventDefault();
       if (this.loginInput instanceof HTMLInputElement && this.btnSubmit instanceof HTMLInputElement) {
         if (this.btnSubmit.value === this.text.text.login.continue) {
           const mail = this.loginInput.value.trim();
-          this.checkMail(mail);
+          await this.checkMail(mail);
         } else if (
           this.btnSubmit.value === this.text.text.singUp &&
           this.passwordInput instanceof HTMLInputElement &&
@@ -106,7 +106,7 @@ export default class SignupForm {
           if (this.isValidMail(mail)) {
             if (this.isValidPassword(password)) {
               if (this.isValidName(name)) {
-                this.singUp(mail, password, name);
+                await this.singUp(mail, password, name);
               } else {
                 this.showErrorMessage(this.text.text.login.invalidName);
               }
@@ -140,7 +140,7 @@ export default class SignupForm {
   }
 
   private isValidName(name: string) {
-    const regExp = /^[a-zA-Z0-9]{1,}$/;
+    const regExp = /^[-\w+\s]{1,}$/;
     return regExp.test(name);
   }
 
