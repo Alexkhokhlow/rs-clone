@@ -70,7 +70,7 @@ export default class Board {
     this.server = new Server();
     this.token = localStorage.getItem('token');
     this.path = '';
-    this.socket = io(`https://trello-clone-x3tl.onrender.com`);
+    this.socket = io(`https://trello-clone-kz9j.onrender.com`);
     this.share = new Share(this.socket);
     this.taskInfo = new TaskInfo(this.socket);
     this.response = null;
