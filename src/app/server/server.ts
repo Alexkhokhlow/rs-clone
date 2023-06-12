@@ -15,7 +15,7 @@ export default class Server {
   private address: string;
 
   constructor() {
-    this.address = 'https://trello-clone-x3tl.onrender.com/api';
+    this.address = 'https://trello-clone-kz9j.onrender.com/api';
   }
 
   async signUp(email: string, password: string, userName: string, color: string) {
