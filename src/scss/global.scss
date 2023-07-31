@@ -1,0 +1,45 @@
+// abstracts
+@import './abstracts/constants';
+@import './abstracts/mixins';
+
+// base
+@import './base/base.scss';
+@import './page/404/404.scss';
+
+// board
+@import './page/board/board.scss';
+
+//share
+@import './page/board/share/share.scss';
+
+//taskInfo
+@import './page/board/taskInfo.scss';
+@import './page/board/taskInfo/sidebar.scss';
+@import './page/board/taskInfo/checklist.scss';
+
+//authorization
+@import './page/autorisation.scss';
+@import './page/user/user.scss';
+@import './page/user/userOnBoard.scss';
+
+// Start page
+@import './page/startPage/startPage.scss';
+@import './page/startPage/header.scss';
+@import './page/startPage/signup.scss';
+@import './page/startPage/powerhouse.scss';
+@import './page/startPage/action.scss';
+@import './page/startPage/using.scss';
+@import './page/startPage/more.scss';
+@import './page/startPage/start.scss';
+@import './page/startPage/footer.scss';
+
+// Workspace
+@import './page/workspace/header.scss';
+@import './page/workspace/workspace.scss';
+@import './page/workspace/userModal.scss';
+
+//create board
+@import './page/createBoard/createBoard.scss';
+
+//hide
+@import './base/hide.scss';

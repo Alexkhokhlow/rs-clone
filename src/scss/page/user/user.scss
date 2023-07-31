@@ -1,0 +1,129 @@
+.user__page {
+
+    font-size: 1.4rem;
+
+    & .user__image {
+        background-image: url(https://trello-members.s3.amazonaws.com/62440c451b440688be97692d/5c04054d88efa27515429f2c2eb65b5a/50.png);
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        background-size: 40px;
+    }
+
+    & .profile__title {
+        padding: 8px 30px 8px 0;
+        border-bottom: 2px solid #dfe1e6;
+        color: #0c66e4;
+        cursor: default;
+        font-weight: 700;
+        margin: 35px 0 0 30px;
+        position: relative;
+        font-size: 1.4rem;
+
+        &::after {
+            background-color: #0c66e4;
+            content: " ";
+            display: block;
+            height: 2px;
+            width: 10%;
+            position: absolute;
+            top: 35px;
+            z-index: 10;
+        }
+
+    }
+
+    & footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    & form {
+        @include flex;
+        flex-direction: column;
+        margin: 20px auto;
+        max-width: 355px;
+        align-items: flex-start;
+
+        & .btn-submit {
+            width: 100%;
+            background-color: #0079bf;
+            color: #ffffff;
+            border-radius: 3px;
+            padding: 6px 12px;
+            transition: background-color 0.3s;
+            font-weight: 400;
+
+            &:hover {
+                background-color: #026aa7;
+            }
+
+            &:disabled {
+                background-color: rgb(9 30 66 / 52%);
+                cursor: auto;
+            }
+        }
+    }
+
+    & .form__container {
+        width: 100%;
+
+        & label {
+            color: #172b4d;
+            font-weight: 600;
+        }
+
+        & input,
+        & textarea {
+            border-radius: 3px;
+            padding: 8px 12px;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            background-color: #fafbfc;
+            width: 100%;
+            resize: vertical;
+            margin: 10px 0 20px;
+        }
+
+    }
+}
+
+.form__error{
+    color: red
+    
+}
+
+.user__info {
+    @include flex;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 30px 30px 0 30px;
+    width: 100%;
+}
+
+.user__mail {
+    color: #B3BAC5;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user__bio {
+    padding: 10px 30px 0 30px;
+    overflow-y: auto;
+    max-width: 600px;
+    max-height: 59px;
+}
+
+.user__description {
+    width: 75%;
+    padding-left: 3px;
+
+    & .subtitle{
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+    }
+}
+
+
+

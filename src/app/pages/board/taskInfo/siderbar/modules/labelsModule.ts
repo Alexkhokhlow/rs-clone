@@ -1,0 +1,135 @@
+import { Socket } from 'socket.io-client';
+import { TLabel } from '../../../../../../types/types';
+import Lang from '../../../../../common/lang/lang';
+import Server from '../../../../../server/server';
+import Common from '../../../../../utils/common';
+import ModuleForm from './moduleForm';
+
+export default class LabelsModule {
+  private labels: HTMLElement;
+
+  private title: HTMLElement;
+
+  public module: ModuleForm;
+
+  public labelsContainer: HTMLElement;
+
+  private wrapper: HTMLElement;
+
+  private label: HTMLLabelElement;
+
+  private input: HTMLInputElement;
+
+  private buttons: HTMLElement;
+
+  private save: HTMLButtonElement;
+
+  private cancel: HTMLButtonElement;
+
+  private token: string;
+
+  private server: Server;
+
+  private dashboardId: string;
+
+  private socket: Socket;
+
+  public path: string;
+
+  private text: Lang;
+
+  constructor(socket: Socket) {
+    this.text = new Lang();
+    this.socket = socket;
+    this.dashboardId = '';
+    this.path = '';
+    this.module = new ModuleForm();
+    this.labels = Common.createDomNode('div', ['labels']);
+    this.title = Common.createDomNode('span', ['labels__title'], this.text.text.labels);
+    this.labelsContainer = Common.createDomNode('ul', ['labels__container']);
+    this.wrapper = Common.createDomNode('div', ['label__title__wrapper', 'hidden']);
+    this.label = Common.createDomNodeLabel('title', this.text.text.title, ['labels__title']);
+    this.input = Common.createDomNodeInput(this.text.text.enterTitle, 'title', ['label__input']);
+    this.buttons = Common.createDomNode('div', ['buttons']);
+    this.save = Common.createDomNodeButton(['button', 'save'], this.text.text.save);
+    this.cancel = Common.createDomNodeButton(['button', 'cancel'], this.text.text.cancel);
+    this.append();
+    this.server = new Server();
+    this.token = localStorage.getItem('token') as string;
+  }
+
+  private append() {
+    this.buttons.append(this.save, this.cancel);
+    this.wrapper.append(this.label, this.input, this.buttons);
+    this.labels.append(this.title, this.wrapper, this.labelsContainer);
+    this.module.init(this.text.text.labels, this.labels);
+    this.bindEvents();
+  }
+
+  public async createLabels(labels: TLabel[], dashboardId: string) {
+    this.dashboardId = dashboardId;
+    labels.forEach((label) => {
+      this.createLabel(label);
+    });
+  }
+
+  public async changeLabels(labels: TLabel[]) {
+    (Array.from(this.labelsContainer.children) as HTMLInputElement[]).forEach((label, index) => {
+      const colorInput = label.children[1] as HTMLInputElement;
+      colorInput.value = labels[index].text;
+    });
+  }
+
+  private createLabel(label: TLabel) {
+    const labelLi = Common.createDomNode('li', ['label']);
+    const checkbox = Common.createDomNodeInput('', '', ['label__checkbox'], 'checkbox');
+    const editWrapper = Common.createDomNode('div', ['label__edit__wrapper']);
+    const labelColor = this.createLabelColor(label);
+    const edit = Common.createDomNode('div', ['label__edit']);
+    editWrapper.append(edit);
+    labelLi.append(checkbox, labelColor, editWrapper);
+    this.labelsContainer.append(labelLi);
+
+    editWrapper.addEventListener('click', (event: Event) => {
+      const target = event.currentTarget as HTMLElement;
+      const prevItem = target.previousElementSibling as HTMLElement;
+      this.openLabelTitleEditor();
+      this.wrapper.setAttribute('id', prevItem.getAttribute('id') as string);
+    });
+  }
+
+  public createLabelColor(label: TLabel) {
+    const labelColor = Common.createDomNode('span', ['label__color']);
+    labelColor.style.background = `${label.color}`;
+    labelColor.title = label.title;
+    labelColor.textContent = label.text;
+    labelColor.setAttribute('id', String(label.index));
+    return labelColor;
+  }
+
+  private bindEvents() {
+    this.save.addEventListener('click', this.onSaveLabel.bind(this));
+    this.cancel.addEventListener('click', this.closeLabelTitleEditor.bind(this));
+  }
+
+  async onSaveLabel() {
+    const text = this.input.value;
+    const id = this.wrapper.getAttribute('id') as string;
+    const colorLabel = this.labelsContainer.children[Number(id)].children[1] as HTMLInputElement;
+    colorLabel.textContent = text;
+    this.closeLabelTitleEditor();
+    this.input.value = '';
+    if (this.token) {
+      await this.server.updateLabel(this.token, id, text, this.dashboardId);
+      this.socket.emit('label', this.path);
+    }
+  }
+
+  private openLabelTitleEditor() {
+    this.wrapper.classList.remove('hidden');
+  }
+
+  private closeLabelTitleEditor() {
+    this.wrapper.classList.add('hidden');
+  }
+}

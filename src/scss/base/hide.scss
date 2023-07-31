@@ -1,0 +1,11 @@
+.hidden {
+  display: none !important;
+}
+
+.hovered {
+  background-color: $color-background-feature;
+}
+
+.dragging {
+  opacity: .5;
+}
